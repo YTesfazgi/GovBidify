@@ -1,0 +1,17 @@
+<div>
+  <h1>GovBidify</h1>
+
+  <form phx-submit="search">
+    <input type="text" name="query" value={@query} placeholder="Search...">
+    <button type="submit">Search</button>
+  </form>
+
+  <div>
+    <%= if @results != [] do %>
+      <h2>Results for "<%= @query %>":</h2>
+      <ul>
+        <li :for={result <- @results}><%= result.title %></li>
+      </ul>
+    <% end %>
+  </div>
+</div>
