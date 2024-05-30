@@ -29,6 +29,9 @@ config :gov_bidify, GovBidifyWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :gov_bidify, GovBidify.Mailer, adapter: Swoosh.Adapters.Local
 
+config :gov_bidify, sam_api_key: "OHeWlE35lxgbbYlXgkVVHesZ7GkJw8aruymLAatT"
+config :gov_bidify, sam_api_url: "https://api.sam.gov/prod/opportunities/v2/search?limit=1&api_key="
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
