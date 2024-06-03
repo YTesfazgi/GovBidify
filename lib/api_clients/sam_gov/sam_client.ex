@@ -13,7 +13,7 @@ defmodule SamClient do
 
   ## Example
 
-    iex> SamClient.search(%{"postedFrom" => "01/01/2018", "postedTo" => "05/10/2018", "ptype" => "a", "deptname" => "general"})
+    SamClient.search(%{"postedFrom" => "01/01/2018", "postedTo" => "05/10/2018", "ptype" => "a", "deptname" => "general"})
     {:ok,
       %{
         "limit" => 10,
