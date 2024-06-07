@@ -23,8 +23,6 @@ config :gov_bidify, GovBidifyWeb.Endpoint,
 # In test we don't send emails.
 config :gov_bidify, GovBidify.Mailer, adapter: Swoosh.Adapters.Test
 
-config :gov_bidify, sam_api_url: "https://alpha.sam.gov/prodlike/opportunities/v2/search?limit=1&api_key="
-
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
 
