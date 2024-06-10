@@ -4,9 +4,8 @@ defmodule GovBidify.Opportunities do
   """
 
   import Ecto.Query, warn: false
+  alias GovBidify.Opportunities.{SAMOpportunity}
   alias GovBidify.Repo
-
-  alias GovBidify.Opportunities.SAMOpportunity
 
   @doc """
   Returns the list of sam_opportunities.
@@ -100,5 +99,23 @@ defmodule GovBidify.Opportunities do
   """
   def change_sam_opportunity(%SAMOpportunity{} = sam_opportunity, attrs \\ %{}) do
     SAMOpportunity.changeset(sam_opportunity, attrs)
+  end
+
+  @doc """
+  Returns all sam_opportunities containing the search_term in their title or description.
+
+  ## Examples
+
+      iex> search_sam_opportunities_by_title_and_description(search_term)
+      [%SAMOpportunity{}, ...]
+  """
+  def search_sam_opportunities_by_title_and_description(search_term) when is_binary(search_term) do
+    pattern = "%#{search_term}%"
+
+    query = from o in SAMOpportunity,
+            where: ilike(o.title, ^pattern) or ilike(o.description, ^pattern),
+            select: o
+
+    Repo.all(query)
   end
 end

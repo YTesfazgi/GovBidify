@@ -147,5 +147,10 @@ defmodule GovBidify.OpportunitiesTest do
       sam_opportunity = sam_opportunity_fixture()
       assert %Ecto.Changeset{} = Opportunities.change_sam_opportunity(sam_opportunity)
     end
+
+    test "search_sam_opportunities_by_title_and_description/1 returns a list of sam_opportunities" do
+      sam_opportunity = sam_opportunity_fixture()
+      assert Opportunities.search_sam_opportunities_by_title_and_description("some") == [sam_opportunity]
+    end
   end
 end
