@@ -51,7 +51,8 @@ defmodule GovBidify.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:ex_machina, "~> 2.7.0"},
-      {:faker, "~> 0.18"}
+      {:faker, "~> 0.18"},
+      {:mox, "~> 1.1.0", only: :test}
     ]
   end
 
