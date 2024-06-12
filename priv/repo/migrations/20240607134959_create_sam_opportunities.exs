@@ -1,8 +1,8 @@
-defmodule GovBidify.Repo.Migrations.CreateSamOpportunities do
+defmodule GovBidify.Repo.Migrations.CreateOpportunities do
   use Ecto.Migration
 
   def change do
-    create table(:sam_opportunities) do
+    create table(:opportunities) do
       add :notice_id, :string
       add :title, :text
       add :sol, :string
@@ -12,14 +12,14 @@ defmodule GovBidify.Repo.Migrations.CreateSamOpportunities do
       add :fpds_code, :string
       add :office, :string
       add :aac_code, :string
-      add :posted_date, :string
+      add :posted_date, :date
       add :type, :string
       add :base_type, :string
       add :archive_type, :string
-      add :archive_date, :string
+      add :archive_date, :date
       add :set_aside_code, :string
       add :set_aside, :string
-      add :response_deadline, :string
+      add :response_deadline, :utc_datetime
       add :naics_code, :string
       add :classification_code, :string
       add :pop_street_address, :string
@@ -29,7 +29,7 @@ defmodule GovBidify.Repo.Migrations.CreateSamOpportunities do
       add :pop_country, :string
       add :active, :string
       add :award_number, :string
-      add :award_date, :string
+      add :award_date, :date
       add :award, :string
       add :awardee, :string
       add :primary_contact_title, :string

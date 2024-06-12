@@ -4,115 +4,115 @@ defmodule GovBidify.Opportunities do
   """
 
   import Ecto.Query, warn: false
-  alias GovBidify.Opportunities.{SAMOpportunity}
+  alias GovBidify.Opportunities.{Opportunity}
   alias GovBidify.Repo
 
   @doc """
-  Returns the list of sam_opportunities.
+  Returns the list of opportunities.
 
   ## Examples
 
-      iex> list_sam_opportunities()
-      [%SAMOpportunity{}, ...]
+      iex> list_opportunities()
+      [%Opportunity{}, ...]
 
   """
-  def list_sam_opportunities do
-    Repo.all(SAMOpportunity)
+  def list_opportunities do
+    Repo.all(Opportunity)
   end
 
   @doc """
-  Gets a single sam_opportunity.
+  Gets a single opportunity.
 
-  Raises `Ecto.NoResultsError` if the Sam opportunity does not exist.
+  Raises `Ecto.NoResultsError` if the opportunity does not exist.
 
   ## Examples
 
-      iex> get_sam_opportunity!(123)
-      %SAMOpportunity{}
+      iex> get_opportunity!(123)
+      %Opportunity{}
 
-      iex> get_sam_opportunity!(456)
+      iex> get_opportunity!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_sam_opportunity!(id), do: Repo.get!(SAMOpportunity, id)
+  def get_opportunity!(id), do: Repo.get!(Opportunity, id)
 
   @doc """
-  Creates a sam_opportunity.
+  Creates an opportunity.
 
   ## Examples
 
-      iex> create_sam_opportunity(%{field: value})
-      {:ok, %SAMOpportunity{}}
+      iex> create_opportunity(%{field: value})
+      {:ok, %Opportunity{}}
 
-      iex> create_sam_opportunity(%{field: bad_value})
+      iex> create_opportunity(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_sam_opportunity(attrs \\ %{}) do
-    %SAMOpportunity{}
-    |> SAMOpportunity.changeset(attrs)
+  def create_opportunity(attrs \\ %{}) do
+    %Opportunity{}
+    |> Opportunity.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a sam_opportunity.
+  Updates an opportunity.
 
   ## Examples
 
-      iex> update_sam_opportunity(sam_opportunity, %{field: new_value})
-      {:ok, %SAMOpportunity{}}
+      iex> update_opportunity(opportunity, %{field: new_value})
+      {:ok, %Opportunity{}}
 
-      iex> update_sam_opportunity(sam_opportunity, %{field: bad_value})
+      iex> update_opportunity(opportunity, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_sam_opportunity(%SAMOpportunity{} = sam_opportunity, attrs) do
-    sam_opportunity
-    |> SAMOpportunity.changeset(attrs)
+  def update_opportunity(%Opportunity{} = opportunity, attrs) do
+    opportunity
+    |> Opportunity.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a sam_opportunity.
+  Deletes an opportunity.
 
   ## Examples
 
-      iex> delete_sam_opportunity(sam_opportunity)
-      {:ok, %SAMOpportunity{}}
+      iex> delete_opportunity(opportunity)
+      {:ok, %Opportunity{}}
 
-      iex> delete_sam_opportunity(sam_opportunity)
+      iex> delete_opportunity(opportunity)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_sam_opportunity(%SAMOpportunity{} = sam_opportunity) do
-    Repo.delete(sam_opportunity)
+  def delete_opportunity(%Opportunity{} = opportunity) do
+    Repo.delete(opportunity)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking sam_opportunity changes.
+  Returns an `%Ecto.Changeset{}` for tracking opportunity changes.
 
   ## Examples
 
-      iex> change_sam_opportunity(sam_opportunity)
-      %Ecto.Changeset{data: %SAMOpportunity{}}
+      iex> change_opportunity(opportunity)
+      %Ecto.Changeset{data: %Opportunity{}}
 
   """
-  def change_sam_opportunity(%SAMOpportunity{} = sam_opportunity, attrs \\ %{}) do
-    SAMOpportunity.changeset(sam_opportunity, attrs)
+  def change_opportunity(%Opportunity{} = opportunity, attrs \\ %{}) do
+    Opportunity.changeset(opportunity, attrs)
   end
 
   @doc """
-  Returns all sam_opportunities containing the search_term in their title or description.
+  Returns all opportunities containing the search_term in their title or description.
 
   ## Examples
 
-      iex> search_sam_opportunities_by_title_and_description(search_term)
-      [%SAMOpportunity{}, ...]
+      iex> search_opportunities_by_title_and_description(search_term)
+      [%Opportunity{}, ...]
   """
-  def search_sam_opportunities_by_title_and_description(search_term) when is_binary(search_term) do
+  def search_opportunities_by_title_and_description(search_term) when is_binary(search_term) do
     pattern = "%#{search_term}%"
 
-    query = from o in SAMOpportunity,
+    query = from o in Opportunity,
             where: ilike(o.title, ^pattern) or ilike(o.description, ^pattern),
             select: o
 

@@ -5,19 +5,19 @@ defmodule GovBidify.OpportunitiesFixtures do
   """
 
   @doc """
-  Generate a sam_opportunity.
+  Generate an opportunity.
   """
-  def sam_opportunity_fixture(attrs \\ %{}) do
-    {:ok, sam_opportunity} =
+  def opportunity_fixture(attrs \\ %{}) do
+    {:ok, opportunity} =
       attrs
       |> Enum.into(%{
         aac_code: "some aac_code",
         active: "some active",
         additional_info_link: "some additional_info_link",
-        archive_date: "some archive_date",
+        archive_date: ~D[2024-06-10],
         archive_type: "some archive_type",
         award: "some award",
-        award_date: "some award_date",
+        award_date: ~D[2024-06-10],
         award_number: "some award_number",
         awardee: "some awardee",
         base_type: "some base_type",
@@ -38,13 +38,13 @@ defmodule GovBidify.OpportunitiesFixtures do
         pop_state: "some pop_state",
         pop_street_address: "some pop_street_address",
         pop_zip: "some pop_zip",
-        posted_date: "some posted_date",
+        posted_date: ~D[2024-06-10],
         primary_contact_email: "some primary_contact_email",
         primary_contact_fax: "some primary_contact_fax",
         primary_contact_fullname: "some primary_contact_fullname",
         primary_contact_phone: "some primary_contact_phone",
         primary_contact_title: "some primary_contact_title",
-        response_deadline: "some response_deadline",
+        response_deadline: "2024-06-24T10:00:00-07:00",
         secondary_contact_email: "some secondary_contact_email",
         secondary_contact_fax: "some secondary_contact_fax",
         secondary_contact_fullname: "some secondary_contact_fullname",
@@ -59,8 +59,8 @@ defmodule GovBidify.OpportunitiesFixtures do
         type: "some type",
         zip_code: "some zip_code"
       })
-      |> GovBidify.Opportunities.create_sam_opportunity()
+      |> GovBidify.Opportunities.create_opportunity()
 
-    sam_opportunity
+    opportunity
   end
 end
