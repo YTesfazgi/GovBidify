@@ -53,7 +53,7 @@ defmodule GovBidify.MixProject do
       {:ex_machina, "~> 2.7.0"},
       {:faker, "~> 0.18"},
       {:mox, "~> 1.1.0", only: :test},
-      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false} # mix sobelow
     ]
   end
 

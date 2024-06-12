@@ -19,7 +19,13 @@ config :gov_bidify, GovBidify.Repo,
 config :gov_bidify, GovBidifyWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4000],
+  http: [port: 4000],
+  https: [
+    port: 4001,
+    cipher_suite: :strong,
+    certfile: "priv/cert/selfsigned.pem",
+    keyfile: "priv/cert/selfsigned_key.pem"
+  ],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
