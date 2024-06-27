@@ -39,3 +39,24 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+// user dropdown menu
+document.addEventListener('DOMContentLoaded', () => {
+	const menuButton = document.getElementById('user-menu-button');
+	const dropdownMenu = document.getElementById('dropdown-menu');
+
+	menuButton.addEventListener('click', () => {
+		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+		menuButton.setAttribute('aria-expanded', !isExpanded);
+		dropdownMenu.classList.toggle('hidden');
+	});
+
+	// close the menu if clicking outside of it
+	document.addEventListener('click', (event) => {
+		if (!menuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+		menuButton.setAttribute('aria-expanded', 'false');
+		dropdownMenu.classList.add('hidden');
+		}
+	});
+});
+
+
