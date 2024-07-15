@@ -18,6 +18,12 @@ defmodule GovBidifyWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive, :home
+
+    # live "/opportunities", OpportunitiesLive.Index, :index
+    # live "/opportunities/:id", OpportunitiesLive.Show, :show
+
+    live "/contract_awards", ContractAwardsLive.Index, :index
+    # live "/contract_awards/:id", ContractAwardsLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
