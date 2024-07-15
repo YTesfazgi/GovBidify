@@ -1,12 +1,12 @@
-defmodule GovBidify.AwardData do
+defmodule GovBidify.ContractAwards do
   @moduledoc """
-  The AwardData context.
+  The ContractAwards context.
   """
 
   import Ecto.Query, warn: false
   alias GovBidify.Repo
 
-  alias GovBidify.AwardData.ContractAward
+  alias GovBidify.ContractAwards.ContractAward
 
   @doc """
   Returns the list of contract_awards.
@@ -35,7 +35,7 @@ defmodule GovBidify.AwardData do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contract_award!(id), do: Repo.get!(ContractAward, id)
+  def get_contract_award_by_award_id_piid!(award_id_piid), do: Repo.get!(ContractAward, award_id_piid)
 
   @doc """
   Creates a contract_award.
@@ -100,5 +100,23 @@ defmodule GovBidify.AwardData do
   """
   def change_contract_award(%ContractAward{} = contract_award, attrs \\ %{}) do
     ContractAward.changeset(contract_award, attrs)
+  end
+
+  @doc """
+  Returns all contract awards containing the search_term in their title or description.
+
+  ## Examples
+
+      iex> search_contract_awards_by_title_and_description(search_term)
+      [%Opportunity{}, ...]
+  """
+  def search_contract_awards_by_description(search_term) when is_binary(search_term) do
+    pattern = "%#{search_term}%"
+
+    query = from o in ContractAward,
+            where: ilike(o.transaction_description, ^pattern) or ilike(o.prime_award_base_transaction_description, ^pattern),
+            select: o
+
+    Repo.all(query)
   end
 end

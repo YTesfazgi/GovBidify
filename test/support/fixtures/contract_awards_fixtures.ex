@@ -1,7 +1,7 @@
-defmodule GovBidify.AwardDataFixtures do
+defmodule GovBidify.ContractAwardsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `GovBidify.AwardData` context.
+  entities via the `GovBidify.ContractAwards` context.
   """
 
   @doc """
@@ -307,7 +307,7 @@ defmodule GovBidify.AwardDataFixtures do
         woman_owned_business: "some woman_owned_business",
         women_owned_small_business: "some women_owned_small_business"
       })
-      |> GovBidify.AwardData.create_contract_award()
+      |> GovBidify.ContractAwards.create_contract_award()
 
     contract_award
   end

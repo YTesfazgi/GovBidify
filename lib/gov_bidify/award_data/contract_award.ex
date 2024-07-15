@@ -1,7 +1,8 @@
-defmodule GovBidify.AwardData.ContractAward do
+defmodule GovBidify.ContractAwards.ContractAward do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:award_id_piid, :string, []}
   schema "contract_awards" do
     field :award_or_idv_flag, :string
     field :naics_code, :string
@@ -123,7 +124,6 @@ defmodule GovBidify.AwardData.ContractAward do
     field :award_type, :string
     field :research_code, :string
     field :parent_award_type_code, :string
-    field :award_id_piid, :string
     field :minority_owned_business, :string
     field :recipient_country_name, :string
     field :product_or_service_code, :string
