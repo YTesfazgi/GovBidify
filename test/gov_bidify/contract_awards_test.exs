@@ -15,9 +15,9 @@ defmodule GovBidify.ContractAwardsTest do
       assert ContractAwards.list_contract_awards() == [contract_award]
     end
 
-    test "get_contract_award_by_award_id_piid!/1 returns the contract_award with given award_id_piid" do
+    test "get_contract_award_by_contract_transaction_unique_key!/1 returns the contract_award with given contract_transaction_unique_key" do
       contract_award = contract_award_fixture()
-      assert ContractAwards.get_contract_award_by_award_id_piid!(contract_award.award_id_piid) == contract_award
+      assert ContractAwards.get_contract_award_by_contract_transaction_unique_key!(contract_award.contract_transaction_unique_key) == contract_award
     end
 
     test "create_contract_award/1 with valid data creates a contract_award" do
@@ -630,13 +630,13 @@ defmodule GovBidify.ContractAwardsTest do
     test "update_contract_award/2 with invalid data returns error changeset" do
       contract_award = contract_award_fixture()
       assert {:error, %Ecto.Changeset{}} = ContractAwards.update_contract_award(contract_award, @invalid_attrs)
-      assert contract_award == ContractAwards.get_contract_award_by_award_id_piid!(contract_award.award_id_piid)
+      assert contract_award == ContractAwards.get_contract_award_by_contract_transaction_unique_key!(contract_award.contract_transaction_unique_key)
     end
 
     test "delete_contract_award/1 deletes the contract_award" do
       contract_award = contract_award_fixture()
       assert {:ok, %ContractAward{}} = ContractAwards.delete_contract_award(contract_award)
-      assert_raise Ecto.NoResultsError, fn -> ContractAwards.get_contract_award_by_award_id_piid!(contract_award.award_id_piid) end
+      assert_raise Ecto.NoResultsError, fn -> ContractAwards.get_contract_award_by_contract_transaction_unique_key!(contract_award.contract_transaction_unique_key) end
     end
 
     test "change_contract_award/1 returns a contract_award changeset" do

@@ -2,7 +2,7 @@ defmodule GovBidify.ContractAwards.ContractAward do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @primary_key {:award_id_piid, :string, []}
+  @primary_key {:contract_transaction_unique_key, :string, []}
   schema "contract_awards" do
     field :award_or_idv_flag, :string
     field :naics_code, :string
@@ -52,8 +52,9 @@ defmodule GovBidify.ContractAwards.ContractAward do
     field :multi_year_contract_code, :string
     field :number_of_offers_received, :string
     field :last_modified_date, :string
+    field :award_id_piid, :string
     field :veteran_owned_business, :string
-    field :contract_transaction_unique_key, :string
+    field :contract_award_unique_key, :string
     field :country_of_product_or_service_origin, :string
     field :highly_compensated_officer_3_amount, :string
     field :c8a_program_participant, :string
@@ -148,7 +149,6 @@ defmodule GovBidify.ContractAwards.ContractAward do
     field :primary_place_of_performance_county_name, :string
     field :type_of_contract_pricing, :string
     field :educational_institution, :string
-    field :contract_award_unique_key, :string
     field :contingency_humanitarian_or_peacekeeping_operation, :string
     field :women_owned_small_business, :string
     field :subcontracting_plan_code, :string

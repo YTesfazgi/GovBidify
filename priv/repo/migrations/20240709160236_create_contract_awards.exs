@@ -3,9 +3,9 @@ defmodule GovBidify.Repo.Migrations.CreateContractAwards do
 
   def change do
     create table(:contract_awards, primary_key: false) do
-      add :contract_transaction_unique_key, :string
+      add :contract_transaction_unique_key, :string, primary_key: true
       add :contract_award_unique_key, :string
-      add :award_id_piid, :string, primary_key: true
+      add :award_id_piid, :string
       add :modification_number, :string
       add :transaction_number, :string
       add :parent_award_agency_id, :string

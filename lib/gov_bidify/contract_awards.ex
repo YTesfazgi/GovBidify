@@ -35,7 +35,7 @@ defmodule GovBidify.ContractAwards do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contract_award_by_award_id_piid!(award_id_piid), do: Repo.get!(ContractAward, award_id_piid)
+  def get_contract_award_by_contract_transaction_unique_key!(contract_transaction_unique_key), do: Repo.get!(ContractAward, contract_transaction_unique_key)
 
   @doc """
   Creates a contract_award.

@@ -12,8 +12,9 @@ defmodule GovBidifyWeb.ContractAwardsLive.Index do
     {:noreply, assign(socket, query: query, results: results)}
   end
 
-  def handle_event("select_contract", %{"award_id_piid" => award_id_piid}, socket) do
-    contract = ContractAwards.get_contract_award_by_award_id_piid!(award_id_piid)
+  def handle_event("select_contract", %{"id" => contract_transaction_unique_key}, socket) do
+    contract = ContractAwards.get_contract_award_by_contract_transaction_unique_key!(contract_transaction_unique_key)
+    IO.inspect(contract, label: "contract")
     {:noreply, assign(socket, selected_contract: contract)}
   end
 end
