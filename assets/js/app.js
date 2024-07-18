@@ -44,6 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	const menuButton = document.getElementById('user-menu-button');
 	const dropdownMenu = document.getElementById('dropdown-menu');
 
+	const drawer = document.getElementById('drawer');
+	const closePanelButton = document.getElementById('close-panel-button');
+
 	menuButton.addEventListener('click', () => {
 		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
 		menuButton.setAttribute('aria-expanded', !isExpanded);
@@ -57,6 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		dropdownMenu.classList.add('hidden');
 		}
 	});
+
+	drawer.addEventListener('click', () => {
+		const isExpanded = drawer.getAttribute('aria-expanded') === 'true';
+		drawer.setAttribute('aria-expanded', !isExpanded);
+		closePanelButton.classList.toggle('hidden');
+	});
+
+	// close the drawer
+	closePanelButton.addEventListener('click', () => {
+		drawer.setAttribute('aria-expanded', 'false');
+		drawer.classList.toggle('hidden');
+	});
 });
-
-
