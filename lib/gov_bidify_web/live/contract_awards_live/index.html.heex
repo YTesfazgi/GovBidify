@@ -62,29 +62,21 @@
     </div>
   </div>
 
-  <div class="relative z-10" aria-labelledby="drawer" role="dialog" aria-modal="true">
+  <div class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
     <!-- Background backdrop, show/hide based on slide-over state. -->
     <div class="fixed"></div>
-    <div class="fixed">
-      <div class="absolute">
-        <div class="fixed h-full right-0 flex max-w-full pl-10 sm:pl-16">
-          <!--
-            Slide-over panel, show/hide based on slide-over state.
 
-            Entering: "transform transition ease-in-out duration-500 sm:duration-700"
-              From: "translate-x-full"
-              To: "translate-x-0"
-            Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
-              From: "translate-x-0"
-              To: "translate-x-full"
-          -->
+    <div class="fixed overflow-hidden">
+      <div class="absolute overflow-hidden">
+        <div class="pointer-events-none fixed h-full right-0 flex max-w-full pl-10 sm:pl-16">
+          <!-- Slide-over panel, show/hide based on slide-over state. -->
           <div class="pointer-events-auto w-screen max-w-2xl">
-            <div id="drawer" class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+            <div id="drawer" class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl transform transition ease-in-out duration-500 sm:duration-700">
               <div class="px-4 sm:px-6">
                 <div class="flex items-start justify-between">
-                  <h2 class="text-base font-semibold leading-6 text-gray-900">Panel title</h2>
+                  <h2 class="text-base font-semibold leading-6 text-gray-900" id="slide-over-title">Panel title</h2>
                   <div class="ml-3 flex h-7 items-center">
-                    <button type="button" id="close-panel-button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <button id="close-panel-button" type="button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                       <span class="absolute -inset-2.5"></span>
                       <span class="sr-only">Close panel</span>
                       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -95,7 +87,12 @@
                 </div>
               </div>
               <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                <%!-- Your Inner Content --%>
+                <%= if @selected_contract do %>
+                  <h2><%= @selected_contract.recipient_name %></h2>
+                  <p><%= @selected_contract.total_dollars_obligated %></p>
+                  <button phx-click="add_to_cart" phx-value-id={@selected_contract.contract_transaction_unique_key}>Add to Pursuits</button>
+                  <button phx-click="close_item">Close</button>
+                <% end %>
               </div>
             </div>
           </div>
@@ -128,15 +125,4 @@
       </div>
     </div>
   </main>
-
-  <%= if @selected_contract do %>
-    <div class="drawer fixed inset-0 flex items-center justify-center">
-      <div class="bg-white p-8 shadow-lg">
-        <h2><%= @selected_contract.recipient_name %></h2>
-        <p><%= @selected_contract.total_dollars_obligated %></p>
-        <button phx-click="add_to_cart" phx-value-id={@selected_contract.contract_transaction_unique_key}>Add to Pursuits</button>
-        <button phx-click="close_item">Close</button>
-      </div>
-    </div>
-  <% end %>
 </div>

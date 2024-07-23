@@ -39,7 +39,6 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-// user dropdown menu
 document.addEventListener('DOMContentLoaded', () => {
 	const menuButton = document.getElementById('user-menu-button');
 	const dropdownMenu = document.getElementById('dropdown-menu');
@@ -47,13 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	const drawer = document.getElementById('drawer');
 	const closePanelButton = document.getElementById('close-panel-button');
 
+	// open user menu
 	menuButton.addEventListener('click', () => {
 		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
 		menuButton.setAttribute('aria-expanded', !isExpanded);
 		dropdownMenu.classList.toggle('hidden');
 	});
 
-	// close the menu if clicking outside of it
+	// close user menu if clicking outside of it
 	document.addEventListener('click', (event) => {
 		if (!menuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
 		menuButton.setAttribute('aria-expanded', 'false');
@@ -61,15 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
+	// open drawer
 	drawer.addEventListener('click', () => {
-		const isExpanded = drawer.getAttribute('aria-expanded') === 'true';
-		drawer.setAttribute('aria-expanded', !isExpanded);
-		closePanelButton.classList.toggle('hidden');
+		// drawer.classList.remove('translate-x-full');
+		// drawer.classList.add('translate-x-0');
 	});
 
-	// close the drawer
+	// close drawer by clicking x
 	closePanelButton.addEventListener('click', () => {
-		drawer.setAttribute('aria-expanded', 'false');
-		drawer.classList.toggle('hidden');
+		drawer.classList.remove('translate-x-0');
+		drawer.classList.add('translate-x-full');
 	});
 });
