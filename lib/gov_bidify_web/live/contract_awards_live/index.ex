@@ -4,7 +4,7 @@ defmodule GovBidifyWeb.ContractAwardsLive.Index do
   alias GovBidify.ContractAwards
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: nil, results: [], selected_contract: nil)}
+    {:ok, assign(socket, query: nil, results: [], selected_contract: nil, drawer_visible: false)}
   end
 
   def handle_event("search", %{"query" => query}, socket) do
@@ -14,7 +14,10 @@ defmodule GovBidifyWeb.ContractAwardsLive.Index do
 
   def handle_event("select_contract", %{"id" => contract_transaction_unique_key}, socket) do
     contract = ContractAwards.get_contract_award_by_contract_transaction_unique_key!(contract_transaction_unique_key)
-    IO.inspect(contract, label: "contract")
-    {:noreply, assign(socket, selected_contract: contract)}
+    {:noreply, assign(socket, selected_contract: contract, drawer_visible: true)}
+  end
+
+  def handle_event("close_contract", _session, socket) do
+    {:noreply, assign(socket, selected_contract: nil, drawer_visible: false)}
   end
 end

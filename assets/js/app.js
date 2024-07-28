@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const dropdownMenu = document.getElementById('dropdown-menu');
 
 	const drawer = document.getElementById('drawer');
-	const closePanelButton = document.getElementById('close-panel-button');
+	const closeDrawerButton = document.getElementById('close-drawer-button');
 
 	// open user menu
 	menuButton.addEventListener('click', () => {
@@ -61,14 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	// open drawer
-	drawer.addEventListener('click', () => {
-		// drawer.classList.remove('translate-x-full');
-		// drawer.classList.add('translate-x-0');
-	});
-
 	// close drawer by clicking x
-	closePanelButton.addEventListener('click', () => {
+	closeDrawerButton.addEventListener('click', () => {
 		drawer.classList.remove('translate-x-0');
 		drawer.classList.add('translate-x-full');
 	});
