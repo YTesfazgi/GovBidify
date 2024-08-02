@@ -75,7 +75,7 @@
               <div id="drawer" class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl transform transition ease-in-out duration-500 sm:duration-700">
                 <div class="px-4 sm:px-6">
                   <div class="flex items-start justify-between">
-                    <h2 class="text-base font-semibold leading-6 text-gray-900" id="slide-over-title">Panel title</h2>
+                    <h2 class="text-base font-semibold leading-6 text-gray-900" id="slide-over-title"><%= @selected_contract.award_type %> - <%= @selected_contract.award_id_piid %></h2>
                     <div class="ml-3 flex h-7 items-center">
                       <button phx-click="close_contract" id="close-drawer-button" type="button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <span class="absolute -inset-2.5"></span>
@@ -90,7 +90,7 @@
                 <div class="relative mt-6 flex-1 px-4 sm:px-6">
                   <%= if @selected_contract do %>
                     <h2><%= @selected_contract.recipient_name %></h2>
-                    <p><%= @selected_contract.total_dollars_obligated %></p>
+                    <p>$<%= @selected_contract.total_dollars_obligated %></p>
                     <button phx-click="add_to_cart" phx-value-id={@selected_contract.contract_transaction_unique_key}>Add to Pursuits</button>
                     <button phx-click="close_item">Close</button>
                   <% end %>
