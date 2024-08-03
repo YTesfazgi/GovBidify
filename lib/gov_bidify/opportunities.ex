@@ -34,7 +34,7 @@ defmodule GovBidify.Opportunities do
       ** (Ecto.NoResultsError)
 
   """
-  def get_opportunity!(id), do: Repo.get!(Opportunity, id)
+  def get_opportunity_by_notice_id!(notice_id), do: Repo.get!(Opportunity, notice_id)
 
   @doc """
   Creates an opportunity.
