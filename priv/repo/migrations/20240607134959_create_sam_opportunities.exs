@@ -2,8 +2,8 @@ defmodule GovBidify.Repo.Migrations.CreateOpportunities do
   use Ecto.Migration
 
   def change do
-    create table(:opportunities) do
-      add :notice_id, :string
+    create table(:opportunities, primary_key: false) do
+      add :notice_id, :string, primary_key: true
       add :title, :text
       add :sol, :string
       add :department_ind_agency, :string
@@ -22,7 +22,7 @@ defmodule GovBidify.Repo.Migrations.CreateOpportunities do
       add :response_deadline, :utc_datetime
       add :naics_code, :string
       add :classification_code, :string
-      add :pop_street_address, :string
+      add :pop_street_address, :text
       add :pop_city, :string
       add :pop_state, :string
       add :pop_zip, :string
@@ -31,13 +31,13 @@ defmodule GovBidify.Repo.Migrations.CreateOpportunities do
       add :award_number, :string
       add :award_date, :date
       add :award, :string
-      add :awardee, :string
-      add :primary_contact_title, :string
+      add :awardee, :text
+      add :primary_contact_title, :text
       add :primary_contact_fullname, :text
       add :primary_contact_email, :string
       add :primary_contact_phone, :string
       add :primary_contact_fax, :string
-      add :secondary_contact_title, :string
+      add :secondary_contact_title, :text
       add :secondary_contact_fullname, :text
       add :secondary_contact_email, :string
       add :secondary_contact_phone, :string
@@ -47,8 +47,8 @@ defmodule GovBidify.Repo.Migrations.CreateOpportunities do
       add :city, :string
       add :zip_code, :string
       add :country_code, :string
-      add :additional_info_link, :string
-      add :link, :string
+      add :additional_info_link, :text
+      add :link, :text
       add :description, :text
 
     end

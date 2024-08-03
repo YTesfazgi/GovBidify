@@ -2,6 +2,7 @@ defmodule GovBidify.Opportunities.Opportunity do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:notice_id, :string, []}
   schema "opportunities" do
     field :awardee, :string
     field :secondary_contact_phone, :string
@@ -16,7 +17,6 @@ defmodule GovBidify.Opportunities.Opportunity do
     field :pop_country, :string
     field :naics_code, :string
     field :sub_tier, :string
-    field :notice_id, :string
     field :pop_city, :string
     field :primary_contact_fullname, :string
     field :award, :string
