@@ -116,8 +116,15 @@
                   class="border rounded-lg p-4 shadow hover:bg-gray-100 cursor-pointer"
                 >
                   <div class="font-bold text-lg mb-2"><%= result.title %></div>
-                  <div class="text-black mb-2"><%= result.base_type %></div>
-                  <div class="text-gray-600 mb-2">Notice ID: <%= result.notice_id %></div>
+                  <div class="grid grid-cols-3 gap-1">
+                    <div class="col-span-2 text-gray-600 mb-2">Notice ID: <%= result.notice_id %></div>
+                    <div class="col-span-1 text-black mb-2"><%= result.base_type %></div>
+                  </div>
+                  <div class="grid grid-cols-3 gap-1">
+                    <div><%= result.department_ind_agency %></div>
+                    <div><%= result.sub_tier %></div>
+                    <div><%= result.office %></div>
+                  </div>
                 </div>
               </div>
             <% end %>
