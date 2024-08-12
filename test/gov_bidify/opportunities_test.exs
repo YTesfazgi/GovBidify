@@ -16,9 +16,9 @@ defmodule GovBidify.OpportunitiesTest do
       assert Opportunities.list_opportunities() == [opportunity]
     end
 
-    test "get_opportunity!/1 returns the opportunity with given id" do
+    test "get_opportunity_by_notice_id!/1 returns the opportunity with given notice_id" do
       opportunity = opportunity_fixture()
-      assert Opportunities.get_opportunity!(opportunity.id) == opportunity
+      assert Opportunities.get_opportunity_by_notice_id!(opportunity.notice_id) == opportunity
     end
 
     test "create_opportunity/1 with valid data creates an opportunity" do
@@ -135,13 +135,13 @@ defmodule GovBidify.OpportunitiesTest do
     test "update_opportunity/2 with invalid data returns error changeset" do
       opportunity = opportunity_fixture()
       assert {:error, %Ecto.Changeset{}} = Opportunities.update_opportunity(opportunity, @invalid_attrs)
-      assert opportunity == Opportunities.get_opportunity!(opportunity.id)
+      assert opportunity == Opportunities.get_opportunity_by_notice_id!(opportunity.notice_id)
     end
 
     test "delete_opportunity/1 deletes the opportunity" do
       opportunity = opportunity_fixture()
       assert {:ok, %Opportunity{}} = Opportunities.delete_opportunity(opportunity)
-      assert_raise Ecto.NoResultsError, fn -> Opportunities.get_opportunity!(opportunity.id) end
+      assert_raise Ecto.NoResultsError, fn -> Opportunities.get_opportunity_by_notice_id!(opportunity.notice_id) end
     end
 
     test "change_opportunity/1 returns an opportunity changeset" do
