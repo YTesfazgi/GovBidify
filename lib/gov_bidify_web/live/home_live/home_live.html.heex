@@ -71,10 +71,10 @@
         <div class="pointer-events-none fixed h-full right-0 flex max-w-full pl-10 sm:pl-16">
           <!-- Slide-over panel, show/hide based on slide-over state. -->
           <%= if @drawer_visible do %>
-            <div id="drawer" class="pointer-events-auto w-screen max-w-2xl flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl transform transition ease-in-out duration-500 sm:duration-700">
+            <div id="drawer" class="pointer-events-auto w-screen max-w-2xl inset-0 flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl transform transition ease-in-out duration-500 sm:duration-700">
               <div class="px-4 sm:px-6">
                 <div class="flex items-start justify-between">
-                  <h2 class="text-base font-semibold text-gray-900" id="slide-over-title"><%= @selected_opportunity.base_type %> - <%= @selected_opportunity.notice_id %></h2>
+                  <h2 class="text-base font-semibold text-gray-900" id="slide-over-title"><%= @selected_opportunity.type %> - <%= @selected_opportunity.base_type %> - <%= @selected_opportunity.notice_id %></h2>
                   <div class="ml-3 flex items-center">
                     <button phx-click="close_opportunity" id="close-drawer-button" type="button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                       <span class="absolute -inset-2.5"></span>
@@ -85,17 +85,21 @@
                     </button>
                   </div>
                 </div>
-                <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                  <%= if @selected_opportunity do %>
-                    <h2><%= @selected_opportunity.awardee %></h2>
-                    <p><%= @selected_opportunity.description %></p>
-                    <button phx-click="add_to_cart" phx-value-id={@selected_opportunity.notice_id}>Add to Pursuits</button>
-                    <button phx-click="close_item">Close</button>
-                  <% end %>
-                </div>
               </div>
-            <% end %>
-          </div>
+              <%= if @selected_opportunity do %>
+                <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                  <h2><%= @selected_opportunity.awardee %></h2>
+                  <p>Solicitation #: <%= @selected_opportunity.sol %></p>
+                  <p>Posted: <%= @selected_opportunity.posted_date %></p>
+                  <p>Link: <%= @selected_opportunity.link %></p>
+                  <%!-- <p>Additional Info Link: <%= @selected_opportunity.additional_info_link %></p> --%>
+                  <p><%= @selected_opportunity.pop_street_address %></p>
+                  <p><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_opportunity.description) %></p>
+                  <button phx-click="add_to_pursuits" phx-value-id={@selected_opportunity.notice_id}>Add to Pursuits</button>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
