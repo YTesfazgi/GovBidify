@@ -76,7 +76,8 @@
                 <div class="flex items-start justify-between">
                   <div class="grid grid-cols-1">
                     <h2 class="text-base font-semibold text-gray-900" id="slide-over-title"><%= @selected_opportunity.title %></h2>
-                    <h3 class="text-base text-gray-900"><%= @selected_opportunity.type %> - <%= @selected_opportunity.base_type %> - <%= @selected_opportunity.notice_id %></h3>
+                    <h3 class="text-base text-gray-900">Notice ID: <%= @selected_opportunity.notice_id %></h3>
+                    <p><%= @selected_opportunity.type %>/<%= @selected_opportunity.base_type %></p>
                   </div>
                   <div class="ml-3 flex items-center">
                     <button phx-click="close_opportunity" id="close-drawer-button" type="button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -90,68 +91,67 @@
                 </div>
               </div>
               <%= if @selected_opportunity do %>
-                <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                <div class="relative mt-3 flex-1 px-4 sm:px-6">
                   <h2><%= @selected_opportunity.awardee %></h2>
-                  <p>Solicitation #: <%= @selected_opportunity.sol %></p>
-                  <p>Posted: <%= @selected_opportunity.posted_date %></p>
-                  <p>Response Deadline: <%= @selected_opportunity.response_deadline %></p>
-                  <p>Link: <%= @selected_opportunity.link %></p>
-                  
-                  <div class="grid grid-cols-1 gap-3">
+                  <div class="grid grid-cols-1 gap-6">
                     <%!-- Agency --%>
-                    <div class="flex flex-wrap gap-0 border border-gray-300">
-                      <div class="w-1/3 border-t border-r border-gray-300">Department/Ind. Agency</div>
-                      <div class="w-1/3 border-t border-r border-gray-300">Sub-tier</div>
-                      <div class="w-1/3 border-t border-r border-gray-300">Office</div>
-                      <div class="w-1/3 border-t border-r border-gray-300"><%= @selected_opportunity.department_ind_agency %></div>
-                      <div class="w-1/3 border-t border-r border-gray-300"><%= @selected_opportunity.sub_tier %></div>
-                      <div class="w-1/3 border-t border-r border-gray-300"><%= @selected_opportunity.office %></div>
+                    <div class="flex flex-wrap gap-0">
+                      <div class="w-1/3">Department/Ind. Agency</div>
+                      <div class="w-1/3">Sub-tier</div>
+                      <div class="w-1/3">Office</div>
+                      <div class="w-1/3"><%= @selected_opportunity.department_ind_agency %></div>
+                      <div class="w-1/3"><%= @selected_opportunity.sub_tier %></div>
+                      <div class="w-1/3"><%= @selected_opportunity.office %></div>
+                    </div>
+                    <%!-- Info --%>
+                    <div>
+                      <p>Solicitation: <%= @selected_opportunity.sol %></p>
+                      <p>Classification Code: <%= @selected_opportunity.classification_code %></p>
+                      <p>NAICS: <%= @selected_opportunity.naics_code %></p>
+                    </div>
+                    <div>
+                      <p>Posted: <%= @selected_opportunity.posted_date %></p>
+                      <p>Response Deadline: <%= @selected_opportunity.response_deadline %></p>
+                      <p>Link: <%= @selected_opportunity.link %></p>
                     </div>
                     <%!-- Set Aside --%>
-                    <div class="flex flex-wrap gap-0 border border-gray-300">
-                      <div class="w-1/2 border-t border-r border-gray-300">Set Aside Code</div>
-                      <div class="w-1/2 border-t border-r border-gray-300">Set Aside</div>
-                      <div class="w-1/2 border-t border-r border-gray-300"><%= @selected_opportunity.set_aside_code %></div>
-                      <div class="w-1/2 border-t border-r border-gray-300"><%= @selected_opportunity.set_aside %></div>
+                    <div class="">
+                      <p>Set Aside:</p>
+                      <div class=""><%= @selected_opportunity.set_aside %></div>
                     </div>
                     <%!-- Location --%>
-                    <div class="flex flex-wrap gap-0 border border-gray-300">
-                      <div class="w-1/4 border-t border-r border-gray-300">City</div>
-                      <div class="w-1/4 border-t border-r border-gray-300">State</div>
-                      <div class="w-1/4 border-t border-r border-gray-300">Zip</div>
-                      <div class="w-1/4 border-t border-r border-gray-300">Country</div>
-                      <div class="w-1/4 border-t border-r border-gray-300"><%= @selected_opportunity.pop_city %></div>
-                      <div class="w-1/4 border-t border-r border-gray-300"><%= @selected_opportunity.pop_state %></div>
-                      <div class="w-1/4 border-t border-r border-gray-300"><%= @selected_opportunity.pop_zip %></div>
-                      <div class="w-1/4 border-t border-r border-gray-300"><%= @selected_opportunity.pop_country %></div>
+                    <div class="">
+                      <p>Place of Performance:</p>
+                      <div class=""><%= @selected_opportunity.pop_street_address %></div>
+                      <div class=""><%= @selected_opportunity.pop_city %>, <%= @selected_opportunity.pop_state %></div>
+                      <div class=""><%= @selected_opportunity.pop_zip %> <%= @selected_opportunity.pop_country %></div>
                     </div>
                     <%!-- Description --%>
                     <p><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_opportunity.description) %></p>
+                    <%!-- Organization --%>
+                    <div class="">
+                      <p>Contracting Office: </p>
+                      <p><%= @selected_opportunity.organization_type %></p>
+                      <p><%= @selected_opportunity.city %>, <%= @selected_opportunity.state %></p>
+                      <p><%= @selected_opportunity.zip_code %> <%= @selected_opportunity.country_code %></p>
+                    </div>
                     <%!-- Primary Contact --%>
-                    <div class="flex flex-wrap gap-0 border border-gray-300">
-                      <div class="w-1/5 border-t border-r border-gray-300">Title</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Name</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Email</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Phone</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Fax</div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.primary_contact_title %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.primary_contact_fullname %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.primary_contact_email %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.primary_contact_phone %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.primary_contact_fax %></div>
+                    <div class="">
+                      <p>Primary Contact: </p>
+                      <div class=""><%= @selected_opportunity.primary_contact_title %></div>
+                      <div class=""><%= @selected_opportunity.primary_contact_fullname %></div>
+                      <div class=""><%= @selected_opportunity.primary_contact_email %></div>
+                      <div class=""><%= @selected_opportunity.primary_contact_phone %></div>
+                      <div class=""><%= @selected_opportunity.primary_contact_fax %></div>
                     </div>
                     <%!-- Secondary Contact --%>
-                    <div class="flex flex-wrap gap-0 border border-gray-300">
-                      <div class="w-1/5 border-t border-r border-gray-300">Title</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Name</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Email</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Phone</div>
-                      <div class="w-1/5 border-t border-r border-gray-300">Fax</div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.secondary_contact_title %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.secondary_contact_fullname %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.secondary_contact_email %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.secondary_contact_phone %></div>
-                      <div class="w-1/5 border-t border-r border-gray-300"><%= @selected_opportunity.secondary_contact_fax %></div>
+                    <div class="">
+                      <p>Secondary Contact: </p>
+                      <div class=""><%= @selected_opportunity.secondary_contact_title %></div>
+                      <div class=""><%= @selected_opportunity.secondary_contact_fullname %></div>
+                      <div class=""><%= @selected_opportunity.secondary_contact_email %></div>
+                      <div class=""><%= @selected_opportunity.secondary_contact_phone %></div>
+                      <div class=""><%= @selected_opportunity.secondary_contact_fax %></div>
                     </div>
                   </div>
 
