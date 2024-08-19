@@ -61,6 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
+	// open drawer by clicking opportunity tile
+	document.addEventListener('click', (event) => {
+
+		const currentTarget = event.target.closest('[data-opportunity-id]')
+		const currentId = currentTarget?.dataset?.opportunityId
+
+		if (!currentId) { return } // prevents erroring out if nothing found
+
+		if (currentId.startsWith('opportunity-')) {
+			drawer.classList.remove('translate-x-full');
+			drawer.classList.add('translate-x-0');
+		}
+	});
+	
 	// close drawer by clicking x
 	closeDrawerButton.addEventListener('click', () => {
 		drawer.classList.remove('translate-x-0');
