@@ -22,8 +22,30 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+let Hooks = {}
+
+Hooks.DrawerHook = {
+	mounted() {
+		console.log("Hook mounted!")
+	},
+	updated() {
+		this.handleEvent("open-drawer", () => {
+			this.el.classList.remove('translate-x-full');
+			this.el.classList.add('translate-x-0');
+		});
+		
+		this.handleEvent("close-drawer", () => {
+			this.el.classList.add('translate-x-full');
+			this.el.classList.remove('translate-x-0');
+		});
+	}
+};
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {
+	params: {_csrf_token: csrfToken},
+	hooks: Hooks
+})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
@@ -43,9 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const menuButton = document.getElementById('user-menu-button');
 	const dropdownMenu = document.getElementById('dropdown-menu');
 
-	const drawer = document.getElementById('drawer');
-	const closeDrawerButton = document.getElementById('close-drawer-button');
-
 	// open user menu
 	menuButton.addEventListener('click', () => {
 		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
@@ -59,25 +78,5 @@ document.addEventListener('DOMContentLoaded', () => {
 		menuButton.setAttribute('aria-expanded', 'false');
 		dropdownMenu.classList.add('hidden');
 		}
-	});
-
-	// open drawer by clicking opportunity tile
-	document.addEventListener('click', (event) => {
-
-		const currentTarget = event.target.closest('[data-opportunity-id]')
-		const currentId = currentTarget?.dataset?.opportunityId
-
-		if (!currentId) { return } // prevents erroring out if nothing found
-
-		if (currentId.startsWith('opportunity-')) {
-			drawer.classList.remove('translate-x-full');
-			drawer.classList.add('translate-x-0');
-		}
-	});
-	
-	// close drawer by clicking x
-	closeDrawerButton.addEventListener('click', () => {
-		drawer.classList.remove('translate-x-0');
-		drawer.classList.add('translate-x-full');
 	});
 });

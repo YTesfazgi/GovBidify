@@ -70,14 +70,14 @@
       <div class="absolute overflow-hidden">
         <div class="pointer-events-none fixed inset-y-0 mt-16 right-0 flex max-w-full pl-10 sm:pl-16">
           <!-- Slide-over panel, show/hide based on slide-over state. -->
-          <div id="drawer" class="pointer-events-auto w-screen max-w-2xl transform transition ease-in-out duration-500 sm:duration-700">
+          <div phx-hook="DrawerHook" id="drawer" class="translate-x-full pointer-events-auto w-screen max-w-2xl transform transition ease-in-out duration-500 sm:duration-700">
             <form class="flex h-full flex-col bg-white shadow-xl">
               <div class="h-0 flex-1 overflow-y-auto">
                 <div class="bg-brand px-4 py-6 sm:px-6">
                   <div class="flex items-center justify-between">
                     <h2 class="text-base font-semibold leading-6 text-white" id="slide-over-title"><%= @selected_opportunity.title %></h2>
                     <div class="ml-3 flex h-7 items-center">
-                      <button id="close-drawer-button" type="button" class="relative rounded-md bg-brand text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                      <button phx-click="close_opportunity" id="close-drawer-button" type="button" class="relative rounded-md bg-brand text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                         <span class="absolute -inset-2.5"></span>
                         <span class="sr-only">Close panel</span>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
