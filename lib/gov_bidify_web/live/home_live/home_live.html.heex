@@ -211,7 +211,7 @@
     <ul role="list" class="grid grid-cols-1 gap-6 ml-6 mt-6 lg:grid-cols-2">
     <%!-- Opportunity Search Results --%>
       <%= for result <- @results do %>
-        <li phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow cursor-pointer">
+        <li phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow cursor-pointer hover:bg-gray-50">
           <div class="flex w-full items-center justify-between space-x-6 p-6">
             <div class="flex-1 truncate">
               <div class="flex items-center space-x-3">
@@ -219,7 +219,6 @@
                 <span class="inline-flex flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
               </div>
               <p class="mt-1 truncate text-sm text-gray-500"><%= result.type%></p>
-              <p class="mt-1 truncate text-sm font-normal text-gray-900"><%= result.description %></p>
               <p class="mt-1 truncate text-sm font-light text-gray-900"><%= result.sub_tier %></p>
               <p class="mt-1 text-sm font-light text-gray-900">Respond by <%= result.response_deadline %></p>
             </div>
