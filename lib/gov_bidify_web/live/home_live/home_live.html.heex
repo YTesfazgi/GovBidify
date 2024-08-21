@@ -95,6 +95,31 @@
                   <div class="divide-y divide-gray-200 px-4 sm:px-6">
                     <div class="space-y-6 pb-5 pt-6">
                       <div>
+                        <label for="general-info" class="block text-base font-medium leading-6 text-gray-900">General Info</label>
+                        <div>
+                          <div class="mt-2">
+                            <div class="flex flex-wrap gap-0">
+                              <p class="w-1/2 text-sm font-medium">Posted Date</p>
+                              <p class="w-1/2 text-sm font-medium">Response Deadline</p>
+                              <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.posted_date %></p>
+                              <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.response_deadline %></p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-4">
+                          <div class="flex flex-wrap gap-0">
+                            <p class="w-1/2 text-sm font-medium">Set Aside</p>
+                            <p class="w-1/2 text-sm font-medium">Place of Performance</p>
+                            <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.set_aside %></p>
+                            <div class="w-1/2 text-sm font-normal text-gray-600">
+                              <p><%= @selected_opportunity.pop_street_address %></p>
+                              <p><%= @selected_opportunity.pop_city %>, <%= @selected_opportunity.pop_state %></p>
+                              <p><%= @selected_opportunity.pop_zip %>, <%= @selected_opportunity.pop_country %></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
                         <label for="classification" class="block text-base font-medium leading-6 text-gray-900">Classification</label>
                         <div class="mt-2">
                           <div class="flex flex-wrap gap-0">
@@ -116,30 +141,6 @@
                             <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_opportunity.sol %></p>
                             <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_opportunity.classification_code %></p>
                             <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_opportunity.naics_code %></p>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="mt-2">
-                          <div class="flex flex-wrap gap-0">
-                            <p class="w-1/2 text-sm font-medium">Set Aside</p>
-                            <p class="w-1/2 text-sm font-medium">Place of Performance</p>
-                            <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.set_aside %></p>
-                            <div class="w-1/2 text-sm font-normal text-gray-600">
-                              <p><%= @selected_opportunity.pop_street_address %></p>
-                              <p><%= @selected_opportunity.pop_city %>, <%= @selected_opportunity.pop_state %></p>
-                              <p><%= @selected_opportunity.pop_zip %>, <%= @selected_opportunity.pop_country %></p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <div class="mt-2">
-                          <div class="flex flex-wrap gap-0">
-                            <p class="w-1/2 text-sm font-medium">Posted Date</p>
-                            <p class="w-1/2 text-sm font-medium">Response Deadline</p>
-                            <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.posted_date %></p>
-                            <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.response_deadline %></p>
                           </div>
                         </div>
                       </div>
