@@ -35,9 +35,16 @@ defmodule GovBidifyWeb.HomeLiveHTML do
   end
 
   defp time_conversion(edt_datetime, period) do
+    hour =
+      case edt_datetime.hour do
+        0 -> 12
+        h when h > 12 -> h - 12
+        h -> h
+      end
+
     minute_str = Integer.to_string(edt_datetime.minute)
     |> String.pad_leading(2, "0")
 
-    "#{edt_datetime.hour}:#{minute_str} #{period} #{edt_datetime.zone_abbr}"
+    "#{hour}:#{minute_str} #{period} #{edt_datetime.zone_abbr}"
   end
 end
