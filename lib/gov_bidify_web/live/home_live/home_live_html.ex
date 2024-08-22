@@ -27,8 +27,17 @@ defmodule GovBidifyWeb.HomeLiveHTML do
   defp datetime_conversion(nil, _date_string, _time_string), do: ""
 
   defp datetime_conversion(datetime, date_string, time_string) do
-    date = DateTime.to_date(datetime)
-    time = DateTime.to_time(datetime)
-    "#{date_string}#{date.month}-#{date.day}-#{date.year}#{time_string}#{time}"
+    period = if datetime.hour < 12, do: "AM", else: "PM"
+    {:ok, edt_datetime} = DateTime.shift_zone(datetime, "America/New_York")
+    time = time_conversion(edt_datetime, period)
+
+    "#{date_string}#{edt_datetime.month}-#{edt_datetime.day}-#{edt_datetime.year}#{time_string}#{time}"
+  end
+
+  defp time_conversion(edt_datetime, period) do
+    minute_str = Integer.to_string(edt_datetime.minute)
+    |> String.pad_leading(2, "0")
+
+    "#{edt_datetime.hour}:#{minute_str} #{period} #{edt_datetime.zone_abbr}"
   end
 end
