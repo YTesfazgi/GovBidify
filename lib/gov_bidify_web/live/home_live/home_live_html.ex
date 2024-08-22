@@ -9,18 +9,18 @@ defmodule GovBidifyWeb.HomeLiveHTML do
     # unless it is preceded by a comma (,)
   end
 
-  # def active_status(string) do
-  #   case string do
-  #     "YES" ->
-  #       "Active"
+  def active_status(string) do
+    case string do
+      "Yes" ->
+        "Active"
 
-  #     "NO" ->
-  #       "Inactive"
+      "No" ->
+        "Inactive"
 
-  #     _ ->
-  #       ""
-  #   end
-  # end
+      _ ->
+        ""
+    end
+  end
 
   def datetime_handler(datetime, date_string \\ "", time_string \\ ""), do: datetime_conversion(datetime, date_string, time_string)
 
