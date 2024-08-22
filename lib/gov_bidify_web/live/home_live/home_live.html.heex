@@ -102,7 +102,7 @@
                               <p class="w-1/2 text-sm font-medium">Posted Date</p>
                               <p class="w-1/2 text-sm font-medium">Response Deadline</p>
                               <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.posted_date %></p>
-                              <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.response_deadline %></p>
+                              <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(@selected_opportunity.response_deadline, "", ", ") %></p>
                             </div>
                           </div>
                         </div>
@@ -220,7 +220,7 @@
               </div>
               <p class="mt-1 truncate text-sm text-gray-500"><%= result.type%></p>
               <p class="mt-1 truncate text-sm font-light text-gray-900"><%= result.sub_tier %></p>
-              <p class="mt-1 text-sm font-light text-gray-900">Respond by <%= result.response_deadline %></p>
+              <p class="mt-1 text-sm font-light text-gray-900"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(result.response_deadline, "Respond by ", " at ") %></p>
             </div>
           </div>
         </li>
