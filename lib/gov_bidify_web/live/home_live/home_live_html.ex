@@ -5,8 +5,8 @@ defmodule GovBidifyWeb.HomeLiveHTML do
 
   def remove_replacement_symbol(string) do
     String.replace(string, "� ", " ")
+    String.replace(string, ",�", ", ")
     String.replace(string, "�", " ")
-    # unless it is preceded by a comma (,)
   end
 
   def active_status(string) do
