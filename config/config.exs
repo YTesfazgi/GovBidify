@@ -67,3 +67,6 @@ import_config "#{config_env()}.exs"
 
 # Configures tzdata
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
+# Configures flop
+config :flop, repo: GovBidify.Repo

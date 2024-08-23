@@ -54,7 +54,8 @@ defmodule GovBidify.MixProject do
       {:faker, "~> 0.18"},
       {:mox, "~> 1.1.0", only: :test},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}, # mix sobelow
-      {:tzdata, "~> 1.1"}
+      {:tzdata, "~> 1.1"},
+      {:flop, "~> 0.26.1"}
     ]
   end
 
