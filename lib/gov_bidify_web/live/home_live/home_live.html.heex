@@ -101,7 +101,7 @@
                             <div class="flex flex-wrap gap-0">
                               <p class="w-1/2 text-sm font-medium">Posted Date</p>
                               <p class="w-1/2 text-sm font-medium">Response Deadline</p>
-                              <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.posted_date %></p>
+                              <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_opportunity.posted_date) %></p>
                               <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(@selected_opportunity.response_deadline, "", ", ") %></p>
                             </div>
                           </div>

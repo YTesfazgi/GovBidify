@@ -22,6 +22,12 @@ defmodule GovBidifyWeb.HomeLiveHTML do
     end
   end
 
+  def date_formatter(date) when is_nil(date), do: ""
+
+  def date_formatter(date) do
+    "#{date.month}/#{date.day}/#{date.year}"
+  end
+
   def datetime_handler(datetime, date_string \\ "", time_string \\ ""), do: datetime_conversion(datetime, date_string, time_string)
 
   defp datetime_conversion(nil, _date_string, _time_string), do: ""
@@ -31,7 +37,7 @@ defmodule GovBidifyWeb.HomeLiveHTML do
     {:ok, edt_datetime} = DateTime.shift_zone(datetime, "America/New_York")
     time = time_conversion(edt_datetime, period)
 
-    "#{date_string}#{edt_datetime.month}-#{edt_datetime.day}-#{edt_datetime.year}#{time_string}#{time}"
+    "#{date_string}#{edt_datetime.month}/#{edt_datetime.day}/#{edt_datetime.year}#{time_string}#{time}"
   end
 
   defp time_conversion(edt_datetime, period) do
