@@ -59,7 +59,7 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 document.addEventListener('DOMContentLoaded', () => {
-	const menu = document.getElementById("mobile-nav-menu");
+	const menuSidebar = document.getElementById("mobile-nav-sidebar");
 	const menuContainer = document.getElementById("mobile-nav-menu-container");
 	const backdrop = document.getElementById("mobile-nav-menu-backdrop");
 	const openButton = document.getElementById("mobile-nav-menu-open-button");
@@ -67,24 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	function openMenu() {
 		menuContainer.classList.remove("hidden");
-		menuContainer.classList.remove("opacity-0");
-		menuContainer.classList.add("opacity-100");
 
-		menu.classList.remove("-translate-x-full");
-		menu.classList.add("translate-x-0"); 
+		// this timeout is necessary for the browser to register the initial css values
+		setTimeout(() => {
+			menuContainer.classList.remove("opacity-0");
+			menuContainer.classList.add("opacity-100");
 
-		backdrop.classList.remove("opacity-0");
-		backdrop.classList.add("opacity-100");
+			menuSidebar.classList.remove("-translate-x-full");
+			menuSidebar.classList.add("translate-x-0"); 
 
-		closeButton.classList.remove("opacity-0");
-		closeButton.classList.add("opacity-100");
+			backdrop.classList.remove("opacity-0");
+			backdrop.classList.add("opacity-100");
 
-		console.log("Open Menu!")
+			closeButton.classList.remove("opacity-0");
+			closeButton.classList.add("opacity-100");
+		}, 0);
 	}
 
 	function closeMenu() {
-		menu.classList.remove("translate-x-0");
-		menu.classList.add("-translate-x-full");
+		menuSidebar.classList.remove("translate-x-0");
+		menuSidebar.classList.add("-translate-x-full");
 
 		backdrop.classList.remove("opacity-100");
 		backdrop.classList.add("opacity-0");
@@ -94,15 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		setTimeout(() => {
 			menuContainer.classList.add("hidden");
-		}, 300); // match the duration of your CSS transition
-
-		console.log("Close Menu!")
+		}, 300); // matches duration of CSS transition
 	}
 
 	backdrop.addEventListener("click", closeMenu);
 	closeButton.addEventListener("click", closeMenu);
 	openButton.addEventListener("click", openMenu);
+});
 
+document.addEventListener('DOMContentLoaded', () => {
 	const menuButton = document.getElementById('user-menu-button');
 	const dropdownMenu = document.getElementById('dropdown-menu');
 
