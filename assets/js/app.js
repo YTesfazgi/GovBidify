@@ -25,9 +25,6 @@ import topbar from "../vendor/topbar"
 let Hooks = {}
 
 Hooks.DrawerHook = {
-	mounted() {
-		console.log("Hook mounted!")
-	},
 	updated() {
 		this.handleEvent("open-drawer", () => {
 			this.el.classList.remove('translate-x-full');
@@ -62,6 +59,50 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 document.addEventListener('DOMContentLoaded', () => {
+	const menu = document.getElementById("mobile-nav-menu");
+	const menuContainer = document.getElementById("mobile-nav-menu-container");
+	const backdrop = document.getElementById("mobile-nav-menu-backdrop");
+	const openButton = document.getElementById("mobile-nav-menu-open-button");
+	const closeButton = document.getElementById("mobile-nav-menu-close-button");
+
+	function openMenu() {
+		menuContainer.classList.remove("hidden");
+		menuContainer.classList.remove("opacity-0");
+		menuContainer.classList.add("opacity-100");
+
+		menu.classList.remove("-translate-x-full");
+		menu.classList.add("translate-x-0"); 
+
+		backdrop.classList.remove("opacity-0");
+		backdrop.classList.add("opacity-100");
+
+		closeButton.classList.remove("opacity-0");
+		closeButton.classList.add("opacity-100");
+
+		console.log("Open Menu!")
+	}
+
+	function closeMenu() {
+		menu.classList.remove("translate-x-0");
+		menu.classList.add("-translate-x-full");
+
+		backdrop.classList.remove("opacity-100");
+		backdrop.classList.add("opacity-0");
+
+		closeButton.classList.remove("opacity-100");
+		closeButton.classList.add("opacity-0");
+
+		setTimeout(() => {
+			menuContainer.classList.add("hidden");
+		}, 300); // match the duration of your CSS transition
+
+		console.log("Close Menu!")
+	}
+
+	backdrop.addEventListener("click", closeMenu);
+	closeButton.addEventListener("click", closeMenu);
+	openButton.addEventListener("click", openMenu);
+
 	const menuButton = document.getElementById('user-menu-button');
 	const dropdownMenu = document.getElementById('dropdown-menu');
 

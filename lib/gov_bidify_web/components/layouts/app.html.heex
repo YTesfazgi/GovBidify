@@ -1,6 +1,6 @@
 <div>
   <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-  <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+  <div id="mobile-nav-menu-container" class="relative z-50 opacity-0 hidden" role="dialog" aria-modal="true">
     <!--
       Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
@@ -11,7 +11,7 @@
         From: "opacity-100"
         To: "opacity-0"
     -->
-    <div class="fixed inset-0 bg-gray-900/80 transition-opacity ease-linear duration-300" aria-hidden="true"></div>
+    <div id="mobile-nav-menu-backdrop" class="fixed inset-0 bg-gray-900/80 transition-opacity opacity-0 ease-linear duration-300" aria-hidden="true"></div>
 
     <div class="fixed inset-0 flex">
       <!--
@@ -24,7 +24,7 @@
           From: "translate-x-0"
           To: "-translate-x-full"
       -->
-      <div class="relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform">
+      <div id="mobile-nav-menu" class="relative mr-16 flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform -translate-x-full">
         <!--
           Close button, show/hide based on off-canvas menu state.
 
@@ -35,7 +35,7 @@
             From: "opacity-100"
             To: "opacity-0"
         -->
-        <div class="absolute left-full top-0 flex w-16 justify-center pt-5 ease-in-out duration-300">
+        <div id="mobile-nav-menu-close-button" class="absolute left-full top-0 w-16 justify-center pt-5 ease-in-out duration-300">
           <button type="button" class="-m-2.5 p-2.5">
             <span class="sr-only">Close sidebar</span>
             <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -44,7 +44,7 @@
           </button>
         </div>
 
-        <!-- Sidebar component, swap this element with another sidebar if you like -->
+        <!-- Sidebar component -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-brand px-6 pb-2">
           <div class="flex h-16 shrink-0 items-center">
             <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=white" alt="Your Company">
@@ -138,7 +138,7 @@
 
   <!-- Static sidebar for desktop -->
   <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-    <!-- Sidebar component, swap this element with another sidebar if you like -->
+    <!-- Sidebar component -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-brand px-6">
       <div class="flex h-16 shrink-0 items-center">
         <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=white" alt="Your Company">
@@ -235,8 +235,9 @@
     </div>
   </div>
 
+  <%!-- Mobile Top Bar --%>
   <div class="sticky top-0 z-40 flex items-center gap-x-6 bg-brand px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-    <button type="button" class="-m-2.5 p-2.5 text-white lg:hidden">
+    <button id="mobile-nav-menu-open-button" type="button" class="-m-2.5 p-2.5 text-white lg:hidden">
       <span class="sr-only">Open sidebar</span>
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
