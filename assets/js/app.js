@@ -30,7 +30,7 @@ Hooks.DrawerHook = {
 			this.el.classList.remove('translate-x-full');
 			this.el.classList.add('translate-x-0');
 		});
-		
+
 		this.handleEvent("close-drawer", () => {
 			this.el.classList.add('translate-x-full');
 			this.el.classList.remove('translate-x-0');
@@ -58,6 +58,7 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+// mobile nav menu
 document.addEventListener('DOMContentLoaded', () => {
 	const menuSidebar = document.getElementById("mobile-nav-sidebar");
 	const menuContainer = document.getElementById("mobile-nav-menu-container");
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			menuContainer.classList.add("opacity-100");
 
 			menuSidebar.classList.remove("-translate-x-full");
-			menuSidebar.classList.add("translate-x-0"); 
+			menuSidebar.classList.add("translate-x-0");
 
 			backdrop.classList.remove("opacity-0");
 			backdrop.classList.add("opacity-100");
@@ -104,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	openButton.addEventListener("click", openMenu);
 });
 
+// user dropdown menu
 document.addEventListener('DOMContentLoaded', () => {
 	const menuButton = document.getElementById('user-menu-button');
 	const dropdownMenu = document.getElementById('dropdown-menu');
