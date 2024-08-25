@@ -18,9 +18,9 @@
 
     <div class="fixed overflow-hidden">
       <div class="absolute overflow-hidden">
-        <div class="pointer-events-none fixed inset-y-0 mt-16 right-0 flex max-w-full pl-10 sm:pl-16">
+        <div class="lg:ml-16 pointer-events-none fixed inset-y-0 mt-16 right-0 flex max-w-full">
           <!-- Slide-over panel, show/hide based on slide-over state. -->
-          <div phx-hook="DrawerHook" id="drawer" class="translate-x-full pointer-events-auto w-screen max-w-2xl transform transition ease-in-out duration-500 sm:duration-700">
+          <div phx-hook="DrawerHook" id="drawer" class="lg:ml-56 pointer-events-auto w-full transform transition ease-in-out duration-500 sm:duration-700 translate-x-full">
             <form class="flex h-full flex-col bg-white shadow-xl">
               <div class="h-0 flex-1 overflow-y-auto">
                 <div class="bg-brand px-4 py-6 sm:px-6">
@@ -97,7 +97,7 @@
                       <div>
                         <label for="description" class="block text-base font-medium leading-6 text-gray-900">Description</label>
                         <div class="mt-2">
-                          <p class="text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_opportunity.description) %></p>
+                          <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_opportunity.description) %></p>
                         </div>
                       </div>
                       <div>
