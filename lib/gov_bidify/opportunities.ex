@@ -118,4 +118,23 @@ defmodule GovBidify.Opportunities do
 
     Repo.all(query)
   end
+
+  def search_opportunities_by_title_and_description(query, flop_params) do
+    IO.inspect(flop_params, label: "flop_params")
+
+    opts = [for: Opportunity]
+    flop = Flop.validate!(flop_params, opts)
+
+    IO.inspect(flop, label: "flop")
+
+    base_query = from o in Opportunity,
+                 where: ilike(o.title, ^"%#{query}%") or ilike(o.description, ^"%#{query}%")
+
+    {results, meta} = Flop.run(base_query, flop, opts)
+
+    IO.inspect(meta, label: "meta")
+
+    {results, meta}
+  end
+
 end

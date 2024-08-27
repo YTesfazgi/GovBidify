@@ -6,12 +6,17 @@ defmodule GovBidifyWeb.HomeLive do
   @selected_opportunity_nil %{title: nil, notice_id: nil, type: nil, department_ind_agency: nil, sub_tier: nil, office: nil, sol: nil, classification_code: nil, naics_code: nil, set_aside: nil, pop_street_address: nil, pop_city: nil, pop_state: nil, pop_zip: nil, pop_country: nil, posted_date: nil, response_deadline: nil, description: "", primary_contact_title: nil, primary_contact_fullname: nil, primary_contact_email: nil, primary_contact_phone: nil, primary_contact_fax: nil, secondary_contact_title: nil, secondary_contact_fullname: nil, secondary_contact_email: nil, secondary_contact_phone: nil, secondary_contact_fax: nil, link: nil, active: nil}
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: nil, results: [], selected_opportunity: @selected_opportunity_nil, mobile_search_bar: true)}
+    {:ok, assign(socket, query: nil, results: [], meta: %{page: 1, page_size: 10}, selected_opportunity: @selected_opportunity_nil, mobile_search_bar: true)}
   end
 
-  def handle_event("search", %{"query" => query}, socket) do
-    results = Opportunities.search_opportunities_by_title_and_description(query)
-    {:noreply, assign(socket, query: query, results: results)}
+  def handle_event("search", %{"query" => query, "flop" => flop_params}, socket) do
+    flop_params = %{
+      "page" => String.to_integer(flop_params["page"]),
+      "page_size" => String.to_integer(flop_params["page_size"])
+    }
+
+    {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop_params)
+    {:noreply, assign(socket, query: query, results: results, meta: %{page: meta.flop.page, page_size: meta.flop.page_size})}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
