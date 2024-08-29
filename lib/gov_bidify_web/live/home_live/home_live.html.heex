@@ -11,8 +11,8 @@
         <!-- Hidden inputs for Flop parameters -->
       <input type="hidden" name="flop[page]" value={@meta.page} />
       <input type="hidden" name="flop[page_size]" value={@meta.page_size} />
-      <input type="hidden" name="flop[order_by]" value="title" />
-      <input type="hidden" name="flop[order_directions]" value="asc" />
+      <input type="hidden" name="flop[order_by]" value={@order_by} />
+      <input type="hidden" name="flop[order_directions]" value={@order_directions} />
 
       </form>
     </div>

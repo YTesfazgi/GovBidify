@@ -7,7 +7,7 @@ defmodule GovBidifyWeb.HomeLive do
   @meta_default %{page: 1, page_size: 10, has_next_page?: false, next_page: nil, has_previous_page?: false, previous_page: nil}
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, mobile_search_bar: true)}
+    {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, order_by: "response_deadline", order_directions: "asc", mobile_search_bar: true)}
   end
 
   def handle_event("search", %{"query" => query, "flop" => flop_params}, socket) do
