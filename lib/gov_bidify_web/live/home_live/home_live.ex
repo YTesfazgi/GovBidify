@@ -31,4 +31,23 @@ defmodule GovBidifyWeb.HomeLive do
   def handle_event("close_opportunity", _session, socket) do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
+
+  def handle_params(params, _uri, socket) do
+    # Extract or default the order_by and order_directions parameters
+    order_by = Map.get(params, "order_by", "title")
+    order_directions = Map.get(params, "order_directions", "asc")
+    page = Map.get(params, "page", "1") |> String.to_integer()
+
+    flop_params = %{
+      "page" => page,
+      "page_size" => Map.get(params, "page_size", 10),
+      "order_by" => [order_by],
+      "order_directions" => [order_directions]
+    }
+
+    # Fetch results and meta data
+    {results, meta} = Opportunities.search_opportunities_by_title_and_description(socket.assigns.query, flop_params)
+
+    {:noreply, assign(socket, results: results, meta: %{page: meta.flop.page, page_size: meta.flop.page_size, has_next_page?: meta.has_next_page?, next_page: meta.next_page, has_previous_page?: meta.has_previous_page?, previous_page: meta.previous_page}, flop: flop_params, order_by: order_by, order_directions: order_directions)}
+  end
 end
