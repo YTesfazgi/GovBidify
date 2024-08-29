@@ -2,10 +2,15 @@ defmodule GovBidify.Opportunities.Opportunity do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @derive {
-    Flop.Schema,
-    filterable: [:type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office],
-    sortable: [:response_deadline]
+  # @derive {
+  #   Flop.Schema,
+  #   filterable: [:type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office],
+  #   sortable: [:response_deadline]
+  # }
+
+  @derive {Flop.Schema,
+    filterable: [:title, :description, :response_deadline],
+    sortable: [:title, :response_deadline] # Add :title here
   }
 
   @primary_key {:notice_id, :string, []}
