@@ -112,21 +112,23 @@ defmodule GovBidify.Opportunities do
   def search_opportunities_by_title_and_description(search_term) when is_binary(search_term) do
     pattern = "%#{search_term}%"
 
-    query = from o in Opportunity,
-            where: ilike(o.title, ^pattern) or ilike(o.description, ^pattern),
-            select: o
+    query =
+      from o in Opportunity,
+        where: ilike(o.title, ^pattern) or ilike(o.description, ^pattern),
+        select: o
 
     Repo.all(query)
   end
 
   def search_opportunities_by_title_and_description(query, flop_params) do
-    flop = Flop.validate!(flop_params, [for: Opportunity])
-    base_query = from o in Opportunity,
-                 where: ilike(o.title, ^"%#{query}%") or ilike(o.description, ^"%#{query}%")
+    flop = Flop.validate!(flop_params, for: Opportunity)
 
-    {results, meta} = Flop.run(base_query, flop, [for: Opportunity])
+    base_query =
+      from o in Opportunity,
+        where: ilike(o.title, ^"%#{query}%") or ilike(o.description, ^"%#{query}%")
+
+    {results, meta} = Flop.run(base_query, flop, for: Opportunity)
 
     {results, meta}
   end
-
 end

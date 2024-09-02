@@ -35,7 +35,8 @@ defmodule GovBidify.ContractAwards do
       ** (Ecto.NoResultsError)
 
   """
-  def get_contract_award_by_contract_transaction_unique_key!(contract_transaction_unique_key), do: Repo.get!(ContractAward, contract_transaction_unique_key)
+  def get_contract_award_by_contract_transaction_unique_key!(contract_transaction_unique_key),
+    do: Repo.get!(ContractAward, contract_transaction_unique_key)
 
   @doc """
   Creates a contract_award.
@@ -113,9 +114,12 @@ defmodule GovBidify.ContractAwards do
   def search_contract_awards_by_description(search_term) when is_binary(search_term) do
     pattern = "%#{search_term}%"
 
-    query = from o in ContractAward,
-            where: ilike(o.transaction_description, ^pattern) or ilike(o.prime_award_base_transaction_description, ^pattern),
-            select: o
+    query =
+      from o in ContractAward,
+        where:
+          ilike(o.transaction_description, ^pattern) or
+            ilike(o.prime_award_base_transaction_description, ^pattern),
+        select: o
 
     Repo.all(query)
   end

@@ -8,7 +8,8 @@ defmodule GovBidify.Opportunities.Opportunity do
   #   sortable: [:response_deadline]
   # }
 
-  @derive {Flop.Schema,
+  @derive {
+    Flop.Schema,
     filterable: [:title, :description, :response_deadline],
     sortable: [:title, :response_deadline] # Add :title here
   }

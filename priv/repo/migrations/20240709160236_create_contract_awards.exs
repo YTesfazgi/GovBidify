@@ -298,7 +298,6 @@ defmodule GovBidify.Repo.Migrations.CreateContractAwards do
       add :usaspending_permalink, :string
       add :initial_report_date, :string
       add :last_modified_date, :string
-
     end
   end
 end
