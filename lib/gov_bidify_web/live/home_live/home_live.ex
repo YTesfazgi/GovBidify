@@ -10,16 +10,8 @@ defmodule GovBidifyWeb.HomeLive do
     {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, order_by: "response_deadline", order_directions: "asc", mobile_search_bar: true)}
   end
 
-  def handle_event("search", %{"query" => query, "flop" => flop_params}, socket) do
-    flop_params = %{
-      "page" => String.to_integer(flop_params["page"]),
-      "page_size" => String.to_integer(flop_params["page_size"]),
-      "order_by" => [flop_params["order_by"]],
-      "order_directions" => [flop_params["order_directions"]]
-    }
-
-    {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop_params)
-    {:noreply, assign(socket, query: query, results: results, flop: flop_params, meta: %{page: meta.flop.page, page_size: meta.flop.page_size, has_next_page?: meta.has_next_page?, next_page: meta.next_page, has_previous_page?: meta.has_previous_page?, previous_page: meta.previous_page})}
+  def handle_event("search", %{"query" => query}, socket) do
+    {:noreply, push_patch(socket, to: ~p"/?query=#{query}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -32,8 +24,8 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
-  def handle_params(params, _uri, socket) do
-    # Extract or default the order_by and order_directions parameters
+  def handle_params(%{"query" => _query} = params, _uri, socket) do
+    query = Map.get(params, "query", "")
     order_by = Map.get(params, "order_by", "title")
     order_directions = Map.get(params, "order_directions", "asc")
     page = Map.get(params, "page", "1") |> String.to_integer()
@@ -45,9 +37,27 @@ defmodule GovBidifyWeb.HomeLive do
       "order_directions" => [order_directions]
     }
 
-    # Fetch results and meta data
-    {results, meta} = Opportunities.search_opportunities_by_title_and_description(socket.assigns.query, flop_params)
+    {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop_params)
 
-    {:noreply, assign(socket, results: results, meta: %{page: meta.flop.page, page_size: meta.flop.page_size, has_next_page?: meta.has_next_page?, next_page: meta.next_page, has_previous_page?: meta.has_previous_page?, previous_page: meta.previous_page}, flop: flop_params, order_by: order_by, order_directions: order_directions)}
+    {:noreply,
+      assign(socket,
+        results: results,
+        meta: %{
+          page: meta.flop.page,
+          page_size: meta.flop.page_size,
+          has_next_page?: meta.has_next_page?,
+          next_page: meta.next_page,
+          has_previous_page?: meta.has_previous_page?,
+          previous_page: meta.previous_page
+        },
+        flop: flop_params,
+        order_by: order_by,
+        order_directions: order_directions
+    )
+    }
+  end
+
+  def handle_params(_params, _uri, socket) do
+    {:noreply, socket}
   end
 end

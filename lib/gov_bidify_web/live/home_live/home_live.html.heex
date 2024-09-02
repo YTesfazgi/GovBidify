@@ -163,19 +163,19 @@
   </div>
 
   <div>
-    <div>
+    <%!-- <div>
       <%= if @meta.has_previous_page? do %>
-        <.link href={~p"/?page=#{@meta.previous_page}&order_by=#{@order_by}&order_directions=#{@order_directions}"}>Previous</.link>
+        <button phx-click="previous_page" phx-value-page={@meta.previous_page}>Previous</button>
       <% end %>
 
       <%= if @meta.has_next_page? do %>
-        <.link href={~p"/?page=#{@meta.next_page}&order_by=#{@order_by}&order_directions=#{@order_directions}"}>Next</.link>
+        <button phx-click="next_page" phx-value-page={@meta.next_page}>Next</button>
       <% end %>
     </div>
     <div>
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="asc">Sort by Title (Asc)</button>
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="desc">Sort by Title (Desc)</button>
-    </div>
+    </div> --%>
     <%!-- Opportunity Search Results --%>
     <ul role="list" class="grid grid-cols-1 sm:grid-cols-2">
       <%= for result <- @results do %>
