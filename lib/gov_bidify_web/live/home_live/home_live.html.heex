@@ -9,10 +9,10 @@
         </svg>
         <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." value={@query} type="search" name="query">
         <!-- Hidden inputs for Flop parameters -->
-        <input type="hidden" name="flop[page]" value={@meta.page} />
+        <%!-- <input type="hidden" name="flop[page]" value={@meta.page} />
         <input type="hidden" name="flop[page_size]" value={@meta.page_size} />
         <input type="hidden" name="flop[order_by]" value={@order_by} />
-        <input type="hidden" name="flop[order_directions]" value={@order_directions} />
+        <input type="hidden" name="flop[order_directions]" value={@order_directions} /> --%>
       </form>
     </div>
   </div>
@@ -164,15 +164,6 @@
 
   <div>
     <%!-- <div>
-      <%= if @meta.has_previous_page? do %>
-        <button phx-click="previous_page" phx-value-page={@meta.previous_page}>Previous</button>
-      <% end %>
-
-      <%= if @meta.has_next_page? do %>
-        <button phx-click="next_page" phx-value-page={@meta.next_page}>Next</button>
-      <% end %>
-    </div>
-    <div>
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="asc">Sort by Title (Asc)</button>
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="desc">Sort by Title (Desc)</button>
     </div> --%>
@@ -195,5 +186,19 @@
         <li class="col-span-1"></li>
       <% end %>
     </ul>
+    <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
+      <Flop.Phoenix.pagination
+        meta={@meta}
+        path={~p"/?query=#{URI.encode(@query)}"}
+        opts={[
+          page_links: {:ellipsis, 3},
+          previous_link_attrs: [class: "hidden"],
+          next_link_attrs: [class: "hidden"],
+          current_link_attrs: [class: "text-black font-bold cursor-not-allowed", aria: [current: "page"], role: "presentation"],
+          pagination_list_attrs: [class: "text-brand p-4 rounded-lg flex justify-center mt-5"],
+          pagination_list_item_attrs: [class: "mx-2"]
+        ]}
+      />
+    <% end %>
   </div>
 </div>

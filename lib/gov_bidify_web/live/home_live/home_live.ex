@@ -11,7 +11,7 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    {:noreply, push_patch(socket, to: ~p"/?query=#{query}")}
+    {:noreply, push_patch(socket, to: ~p"/?query=#{URI.encode(query)}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -26,15 +26,16 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_params(%{"query" => _query} = params, _uri, socket) do
     query = Map.get(params, "query", "")
-    order_by = Map.get(params, "order_by", "title")
-    order_directions = Map.get(params, "order_directions", "asc")
+    order_by = Map.get(params, "order_by", ["title"])
+    order_directions = Map.get(params, "order_directions", ["asc"])
     page = Map.get(params, "page", "1") |> String.to_integer()
+    page_size = Map.get(params, "page_size", "10") |> String.to_integer()
 
     flop_params = %{
       "page" => page,
-      "page_size" => Map.get(params, "page_size", 10),
-      "order_by" => [order_by],
-      "order_directions" => [order_directions]
+      "page_size" => page_size,
+      "order_by" => order_by,
+      "order_directions" => order_directions
     }
 
     {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop_params)
@@ -42,20 +43,15 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply,
       assign(socket,
         results: results,
-        meta: %{
-          page: meta.flop.page,
-          page_size: meta.flop.page_size,
-          has_next_page?: meta.has_next_page?,
-          next_page: meta.next_page,
-          has_previous_page?: meta.has_previous_page?,
-          previous_page: meta.previous_page
-        },
+        meta: meta,
         flop: flop_params,
         order_by: order_by,
-        order_directions: order_directions
-    )
+        order_directions: order_directions,
+        query: query
+      )
     }
   end
+
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
