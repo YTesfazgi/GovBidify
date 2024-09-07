@@ -4,7 +4,7 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
 
   @selected_opportunity_nil %{title: nil, notice_id: nil, type: nil, department_ind_agency: nil, sub_tier: nil, office: nil, sol: nil, classification_code: nil, naics_code: nil, set_aside: nil, pop_street_address: nil, pop_city: nil, pop_state: nil, pop_zip: nil, pop_country: nil, posted_date: nil, response_deadline: nil, description: "", primary_contact_title: nil, primary_contact_fullname: nil, primary_contact_email: nil, primary_contact_phone: nil, primary_contact_fax: nil, secondary_contact_title: nil, secondary_contact_fullname: nil, secondary_contact_email: nil, secondary_contact_phone: nil, secondary_contact_fax: nil, link: nil, active: nil}
-  @meta_default %{page: 1, page_size: 10, has_next_page?: false, next_page: nil, has_previous_page?: false, previous_page: nil}
+  @meta_default %Flop.Meta{flop: %Flop{after: nil, before: nil, first: nil, last: nil, limit: nil, offset: nil, order_by: [:title], order_directions: [:asc], page: 1, page_size: 10, decoded_cursor: nil, filters: []}, page_size: 10, has_next_page?: false, next_page: nil, has_previous_page?: false, previous_page: nil}
 
   def mount(_params, _session, socket) do
     {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, order_by: "response_deadline", order_directions: "asc", mobile_search_bar: true)}
@@ -51,7 +51,6 @@ defmodule GovBidifyWeb.HomeLive do
       )
     }
   end
-
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}

@@ -1,6 +1,5 @@
 <div>
   <div class="hidden lg:sticky lg:top-0 lg:z-40 lg:flex lg:h-16 lg:shrink-0 lg:items-center lg:gap-x-4 lg:border-b lg:border-gray-200 lg:bg-white lg:shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
       <form phx-submit="search" class="relative flex flex-1">
         <label for="search-field" class="sr-only">Search</label>
@@ -9,10 +8,10 @@
         </svg>
         <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." value={@query} type="search" name="query">
         <!-- Hidden inputs for Flop parameters -->
-        <%!-- <input type="hidden" name="flop[page]" value={@meta.page} />
+        <input type="hidden" name="flop[page]" value={@meta.flop.page} />
         <input type="hidden" name="flop[page_size]" value={@meta.page_size} />
         <input type="hidden" name="flop[order_by]" value={@order_by} />
-        <input type="hidden" name="flop[order_directions]" value={@order_directions} /> --%>
+        <input type="hidden" name="flop[order_directions]" value={@order_directions} />
       </form>
     </div>
   </div>
