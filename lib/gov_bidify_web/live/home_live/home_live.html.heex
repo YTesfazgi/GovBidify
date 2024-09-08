@@ -167,37 +167,79 @@
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="desc">Sort by Title (Desc)</button>
     </div> --%>
     <%!-- Opportunity Search Results --%>
-    <ul role="list" class="grid grid-cols-1 sm:grid-cols-2">
-      <%= for result <- @results do %>
-        <li phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 bg-white shadow cursor-pointer hover:bg-gray-50 hover:shadow-lg">
-          <div class="flex w-full items-center justify-between space-x-6 p-6">
-            <div class="flex-1 truncate">
-              <div class="flex items-center space-x-3">
-                <h3 class="truncate text-sm font-medium text-gray-900"><%= result.title %></h3>
-                <span class="inline-flex flex-shrink-0 items-center rounded-full shadow-sm bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"><%= GovBidifyWeb.HomeLiveHTML.active_status(result.active) %></span>
+    <div class="grid grid-cols-4">
+      <div role="list" class="col-span-2">
+        <%= for result <- @results do %>
+          <li phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 bg-white cursor-pointer hover:bg-gray-50 hover:shadow-lg">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+              <div class="flex-1 truncate">
+                <div class="flex items-center space-x-3">
+                  <h3 class="truncate text-sm font-medium text-gray-900"><%= result.title %></h3>
+                  <span class="inline-flex flex-shrink-0 items-center rounded-full shadow-sm bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"><%= GovBidifyWeb.HomeLiveHTML.active_status(result.active) %></span>
+                </div>
+                <p class="mt-1 truncate text-sm text-gray-500"><%= result.type%></p>
+                <p class="mt-1 truncate text-sm font-light text-gray-900"><%= result.sub_tier %></p>
+                <p class="mt-1 text-sm font-light text-gray-900"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(result.response_deadline, "Respond by ", " at ") %></p>
               </div>
-              <p class="mt-1 truncate text-sm text-gray-500"><%= result.type%></p>
-              <p class="mt-1 truncate text-sm font-light text-gray-900"><%= result.sub_tier %></p>
-              <p class="mt-1 text-sm font-light text-gray-900"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(result.response_deadline, "Respond by ", " at ") %></p>
             </div>
-          </div>
-        </li>
-        <li class="col-span-1"></li>
-      <% end %>
-    </ul>
-    <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
-      <Flop.Phoenix.pagination
-        meta={@meta}
-        path={~p"/?query=#{URI.encode(@query)}"}
-        opts={[
-          page_links: {:ellipsis, 3},
-          previous_link_attrs: [class: "hidden"],
-          next_link_attrs: [class: "hidden"],
-          current_link_attrs: [class: "text-black font-bold cursor-not-allowed", aria: [current: "page"], role: "presentation"],
-          pagination_list_attrs: [class: "text-brand p-4 rounded-lg flex justify-center mt-5"],
-          pagination_list_item_attrs: [class: "mx-2"]
-        ]}
-      />
-    <% end %>
+          </li>
+        <% end %>
+        <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
+          <Flop.Phoenix.pagination
+            meta={@meta}
+            path={~p"/?query=#{URI.encode(@query)}"}
+            opts={[
+              page_links: {:ellipsis, 3},
+              previous_link_attrs: [class: "hidden"],
+              next_link_attrs: [class: "hidden"],
+              current_link_attrs: [class: "text-black font-bold cursor-not-allowed", aria: [current: "page"], role: "presentation"],
+              pagination_list_attrs: [class: "text-brand p-4 rounded-lg flex justify-center mt-5"],
+              pagination_list_item_attrs: [class: "mx-2"]
+            ]}
+          />
+        <% end %>
+      </div>
+      <div class="col-span-2 shadow">
+        <div class="fixed top-16 bg-white p-6 overflow-y-auto max-h-[calc(100vh-5rem)]">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Filters</h3>
+          <form phx-change="apply_filters">
+            <div class="space-y-4">
+              <div>
+                <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
+                <select id="type" name="type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                  <option value="">All Types</option>
+                  <option value="Solicitation">Solicitation</option>
+                  <option value="Award Notice">Award Notice</option>
+                  <option value="Combined Synopsis/Solicitation">Combined Synopsis/Solicitation</option>
+                </select>
+              </div>
+              <div>
+                <label for="naics_code" class="block text-sm font-medium text-gray-700">NAICS Code</label>
+                <input type="text" name="naics_code" id="naics_code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="set_aside" class="block text-sm font-medium text-gray-700">Set Aside</label>
+                <select id="set_aside" name="set_aside" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                  <option value="">All Set Asides</option>
+                  <option value="Small Business">Small Business</option>
+                  <option value="8(a)">8(a)</option>
+                  <option value="HUBZone">HUBZone</option>
+                  <option value="Service-Disabled Veteran-Owned Small Business">Service-Disabled Veteran-Owned Small Business</option>
+                </select>
+              </div>
+              <div>
+                <label for="pop_state" class="block text-sm font-medium text-gray-700">State</label>
+                <input type="text" name="pop_state" id="pop_state" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+              </div>
+            </div>
+            <div class="mt-4">
+              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Apply Filters
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

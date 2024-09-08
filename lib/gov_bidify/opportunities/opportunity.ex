@@ -10,8 +10,8 @@ defmodule GovBidify.Opportunities.Opportunity do
 
   @derive {
     Flop.Schema,
-    filterable: [:title, :description, :response_deadline],
-    sortable: [:title, :response_deadline] # Add :title here
+    filterable: [:title, :description, :response_deadline, :type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office],
+    sortable: [:title, :response_deadline, :type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office]
   }
 
   @primary_key {:notice_id, :string, []}
