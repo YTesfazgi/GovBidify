@@ -105,23 +105,36 @@ document.addEventListener('DOMContentLoaded', () => {
 	openButton.addEventListener("click", openMenu);
 });
 
-// user dropdown menu
+// sort dropdown menu
 document.addEventListener('DOMContentLoaded', () => {
-	const menuButton = document.getElementById('user-menu-button');
-	const dropdownMenu = document.getElementById('dropdown-menu');
+	const sortMenuButton = document.getElementById('sort-menu-button');
+	const sortMenu = document.getElementById('sort-menu');
 
-	// open user menu
-	menuButton.addEventListener('click', () => {
-		const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-		menuButton.setAttribute('aria-expanded', !isExpanded);
-		dropdownMenu.classList.toggle('hidden');
+	function toggleSortMenu() {
+		const isExpanded = sortMenuButton.getAttribute('aria-expanded') === 'true';
+		sortMenuButton.setAttribute('aria-expanded', !isExpanded);
+
+		if (!isExpanded) {
+			sortMenu.classList.remove("opacity-0", "scale-95");
+			sortMenu.classList.add("opacity-100", "scale-100");
+		} else {
+			sortMenu.classList.remove("opacity-100", "scale-100");
+			sortMenu.classList.add("opacity-0", "scale-95");
+		}
+	}
+
+	// toggle sort menu when button is clicked
+	sortMenuButton.addEventListener('click', (event) => {
+		event.stopPropagation();
+		toggleSortMenu();
 	});
 
-	// close user menu if clicking outside of it
+	// close sort menu if clicking outside of it
 	document.addEventListener('click', (event) => {
-		if (!menuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-		menuButton.setAttribute('aria-expanded', 'false');
-		dropdownMenu.classList.add('hidden');
+		if (!sortMenuButton.contains(event.target) && !sortMenu.contains(event.target)) {
+			sortMenuButton.setAttribute('aria-expanded', 'false');
+			sortMenu.classList.remove("opacity-100", "scale-100");
+			sortMenu.classList.add("opacity-0", "scale-95");
 		}
 	});
 });
