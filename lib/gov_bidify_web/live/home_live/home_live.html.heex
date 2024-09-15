@@ -199,8 +199,8 @@
           />
         <% end %>
       </div>
-      <div class="col-span-2 shadow">
-        <div class="fixed top-16 bg-white p-6 overflow-y-auto max-h-[calc(100vh-5rem)]">
+      <div class="col-span-2">
+        <div class="sticky top-16 bg-white p-6 overflow-y-auto max-h-[calc(100vh-5rem)]">
           <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="flex items-baseline justify-between border-b border-gray-200">
               <h1 class="text-4xl font-bold tracking-tight text-gray-900">Filters</h1>
@@ -215,13 +215,8 @@
                     </button>
                   </div>
                   <!-- Dropdown menu, show/hide based on menu state. -->
-                  <div id="sort-menu" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                  <div id="sort-menu" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="py-1" role="none">
-                      <!--
-                        Active: "bg-gray-100", Not Active: ""
-
-                        Selected: "font-medium text-gray-900", Not Selected: "text-gray-500"
-                      -->
                       <a href="#" class="block px-4 py-2 text-sm font-medium text-gray-900" role="menuitem" tabindex="-1" id="menu-item-0">Most Popular</a>
                       <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-1">Best Rating</a>
                       <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-2">Newest</a>
@@ -244,34 +239,50 @@
 
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
-                <form class="hidden lg:block">
+                <form class="col-span-2">
                   <h3 class="sr-only">Categories</h3>
 
-                  <.filter_section title="Color" id="color">
+                  <.filter_section title="Notice Type" id="type">
                     <div class="space-y-4">
                       <div class="flex items-center">
-                        <input id="filter-color-0" name="color[]" value="white" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-color-0" class="ml-3 text-sm text-gray-600">White</label>
+                        <input id="filter-type-0" name="type[]" value="presolicitation" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-0" class="ml-3 text-sm text-gray-600">Presolicitation</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-color-1" name="color[]" value="beige" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-color-1" class="ml-3 text-sm text-gray-600">Beige</label>
+                        <input id="filter-type-1" name="type[]" value="solicitation" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-1" class="ml-3 text-sm text-gray-600">Solicitation</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-color-2" name="color[]" value="blue" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-color-2" class="ml-3 text-sm text-gray-600">Blue</label>
+                        <input id="filter-type-2" name="type[]" value="sources sought" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-2" class="ml-3 text-sm text-gray-600">Sources Sought</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-color-3" name="color[]" value="brown" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-color-3" class="ml-3 text-sm text-gray-600">Brown</label>
+                        <input id="filter-type-3" name="type[]" value="consolidate/(substantially) bundle" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-3" class="ml-3 text-sm text-gray-600">Consolidate/(Substantially) Bundle</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-color-4" name="color[]" value="green" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-color-4" class="ml-3 text-sm text-gray-600">Green</label>
+                        <input id="filter-type-4" name="type[]" value="combined synopsis/solicitation" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-4" class="ml-3 text-sm text-gray-600">Combined Synopsis/Solicitation</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-color-5" name="color[]" value="purple" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-color-5" class="ml-3 text-sm text-gray-600">Purple</label>
+                        <input id="filter-type-5" name="type[]" value="modification/amendment/cancel" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-5" class="ml-3 text-sm text-gray-600">Modification/Amendment/Cancel</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="filter-type-6" name="type[]" value="award notice" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-6" class="ml-3 text-sm text-gray-600">Award Notice</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="filter-type-7" name="type[]" value="special notice" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-7" class="ml-3 text-sm text-gray-600">Special Notice</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="filter-type-8" name="type[]" value="justification" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-8" class="ml-3 text-sm text-gray-600">Justification</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="filter-type-9" name="type[]" value="sale of surplus property" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="filter-type-9" class="ml-3 text-sm text-gray-600">Sale of Surplus Property</label>
                       </div>
                     </div>
                   </.filter_section>
