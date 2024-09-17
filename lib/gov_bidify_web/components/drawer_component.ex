@@ -3,7 +3,7 @@ defmodule GovBidifyWeb.DrawerComponent do
 
   def render(assigns) do
     ~H"""
-      <div class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+      <div class="relative z-10" role="dialog" aria-modal="true">
       <!-- Background backdrop, show/hide based on slide-over state. -->
       <div class="fixed"></div>
 
@@ -16,7 +16,7 @@ defmodule GovBidifyWeb.DrawerComponent do
                 <div class="h-0 flex-1 overflow-y-auto">
                   <div class="bg-brand px-4 py-6 sm:px-6">
                     <div class="flex items-center justify-between">
-                      <h2 class="text-base font-semibold leading-6 text-white" id="slide-over-title"><%= @selected_opportunity.title %></h2>
+                      <h2 class="text-base font-semibold leading-6 text-white"><%= @selected_opportunity.title %></h2>
                       <div class="ml-3 flex h-7 items-center">
                         <button phx-click="close_opportunity" type="button" class="relative rounded-md bg-brand text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                           <span class="absolute -inset-2.5"></span>

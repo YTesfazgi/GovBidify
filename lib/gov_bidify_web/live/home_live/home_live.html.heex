@@ -17,11 +17,7 @@
   </div>
 
   <%= if @selected_opportunity do %>
-    <.live_component
-      module={GovBidifyWeb.DrawerComponent}
-      id="drawer"
-      selected_opportunity={@selected_opportunity}
-    />
+    <.live_component module={GovBidifyWeb.DrawerComponent} id="drawer-component" selected_opportunity={@selected_opportunity}/>
   <% end %>
 
   <div>
