@@ -25,8 +25,8 @@
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="asc">Sort by Title (Asc)</button>
       <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="desc">Sort by Title (Desc)</button>
     </div> --%>
-    <%!-- Opportunity Search Results --%>
     <div class="grid grid-cols-4">
+      <%!-- Opportunity Search Results --%>
       <div role="list" class="col-span-2">
         <%= for result <- @results do %>
           <li phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 bg-white cursor-pointer hover:bg-gray-50 hover:shadow-lg">
@@ -43,6 +43,7 @@
             </div>
           </li>
         <% end %>
+        <%!-- Pagination component --%>
         <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
           <Flop.Phoenix.pagination
             meta={@meta}
@@ -93,14 +94,12 @@
               </div>
             </div>
 
-            <section aria-labelledby="products-heading">
-              <h2 id="products-heading" class="sr-only">Products</h2>
-
+            <section aria-labelledby="filters-heading">
+              <h2 id="filters-heading" class="sr-only">Filters</h2>
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
                 <form class="col-span-2">
                   <h3 class="sr-only">Categories</h3>
-
                   <.filter_section title="Notice Type" id="type">
                     <div class="space-y-4">
                       <div class="flex items-center">
@@ -145,32 +144,38 @@
                       </div>
                     </div>
                   </.filter_section>
+                  <div class="w-full border-b border-gray-200 py-6">
+                    <label for="combobox" class="block text-sm font-medium leading-6 text-gray-900">Department</label>
+                    <div class="relative mt-2">
+                      <input id="combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="options" aria-expanded="false" readonly>
+                      <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
 
-                  <.filter_section title="Category" id="category">
-                    <div class="space-y-4">
-                      <div class="flex items-center">
-                        <input id="filter-category-0" name="category[]" value="new-arrivals" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-category-0" class="ml-3 text-sm text-gray-600">New Arrivals</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-category-1" name="category[]" value="sale" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-category-1" class="ml-3 text-sm text-gray-600">Sale</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-category-2" name="category[]" value="travel" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-category-2" class="ml-3 text-sm text-gray-600">Travel</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-category-3" name="category[]" value="organization" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-category-3" class="ml-3 text-sm text-gray-600">Organization</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-category-4" name="category[]" value="accessories" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-category-4" class="ml-3 text-sm text-gray-600">Accessories</label>
-                      </div>
+                      <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="options" role="listbox">
+                        <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900" role="option" tabindex="0">
+                          <span class="block truncate">One</span>
+                          <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                            </svg>
+                          </span>
+                        </li>
+                        <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900" role="option" tabindex="0">
+                          <span class="block truncate">Two</span>
+                          <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                            </svg>
+                          </span>
+                        </li>
+                        <!-- Add more <li> elements for each option -->
+                      </ul>
                     </div>
-                  </.filter_section>
-
+                    <div id="selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                  </div>
                   <.filter_section title="Size" id="size">
                     <div class="space-y-4">
                       <div class="flex items-center">
