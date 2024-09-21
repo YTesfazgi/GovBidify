@@ -250,7 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Setup both comboboxes
+  // Setup all comboboxes
   setupCombobox('department-combobox', 'department-options', 'department-selected-options');
   setupCombobox('sub-tier-combobox', 'sub-tier-options', 'sub-tier-selected-options');
+  setupCombobox('office-combobox', 'office-options', 'office-selected-options');
 });

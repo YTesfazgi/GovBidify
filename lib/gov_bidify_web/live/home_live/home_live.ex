@@ -9,7 +9,8 @@ defmodule GovBidifyWeb.HomeLive do
   def mount(_params, _session, socket) do
     departments = Opportunities.list_departments()
     sub_tiers = Opportunities.list_sub_tiers()
-    {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, order_by: "response_deadline", order_directions: "asc", mobile_search_bar: true, departments: departments, sub_tiers: sub_tiers)}
+    offices = Opportunities.list_offices()
+    {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, order_by: "response_deadline", order_directions: "asc", mobile_search_bar: true, departments: departments, sub_tiers: sub_tiers, offices: offices)}
   end
 
   def handle_event("search", %{"query" => query}, socket) do

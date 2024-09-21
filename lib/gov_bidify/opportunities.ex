@@ -28,6 +28,10 @@ defmodule GovBidify.Opportunities do
     Repo.all(from o in Opportunity, distinct: [:sub_tier])
   end
 
+  def list_offices do
+    Repo.all(from o in Opportunity, distinct: [:office])
+  end
+
   @doc """
   Gets a single opportunity.
 
