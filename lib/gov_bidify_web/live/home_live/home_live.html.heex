@@ -99,7 +99,7 @@
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
                 <form class="col-span-3">
-                  <h3 class="sr-only">Categories</h3>
+                  <h3 class="sr-only">Filter Categories</h3>
                   <.filter_section title="Notice Type" id="type">
                     <div class="space-y-4">
                       <div class="flex items-center">
@@ -144,6 +144,7 @@
                       </div>
                     </div>
                   </.filter_section>
+                  <.filter_section title="Federal Organization" id="federal-organization">
                   <div class="w-full border-b border-gray-200 py-6">
                     <label for="department-combobox" class="block text-sm font-medium leading-6 text-gray-900">Department</label>
                     <div class="relative mt-2">
@@ -216,6 +217,7 @@
                     </div>
                     <div id="office-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                   </div>
+                  </.filter_section>
                   <.filter_section title="Size" id="size">
                     <div class="space-y-4">
                       <div class="flex items-center">
