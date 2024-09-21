@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = combobox.nextElementSibling;
     const selectedOptionsContainer = document.getElementById(selectedOptionsId);
     const selectedOptions = new Set();
+    const allOptions = Array.from(optionsList.querySelectorAll('li'));
 
     function openCombobox() {
       combobox.setAttribute('aria-expanded', 'true');
@@ -156,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeCombobox() {
       combobox.setAttribute('aria-expanded', 'false');
       optionsList.classList.add('hidden');
+      resetFilter();
+      combobox.value = ''; // Clear the input when closing
     }
 
     function toggleCombobox() {
@@ -208,9 +211,34 @@ document.addEventListener('DOMContentLoaded', () => {
       updateSelectedOptions();
     }
 
+    function resetFilter() {
+      allOptions.forEach(option => option.classList.remove('hidden'));
+    }
+
+    function filterOptions(query) {
+      const lowercaseQuery = query.toLowerCase();
+      allOptions.forEach(option => {
+        const text = option.textContent.trim().toLowerCase();
+        if (text.includes(lowercaseQuery)) {
+          option.classList.remove('hidden');
+        } else {
+          option.classList.add('hidden');
+        }
+      });
+    }
+
     // Toggle combobox when the input or button is clicked
-    combobox.addEventListener('click', toggleCombobox);
-    toggleButton.addEventListener('click', toggleCombobox);
+    combobox.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (combobox.getAttribute('aria-expanded') === 'false') {
+        openCombobox();
+      }
+    });
+
+    toggleButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleCombobox();
+    });
 
     // Close combobox when clicking outside
     document.addEventListener('click', (event) => {
@@ -247,6 +275,13 @@ document.addEventListener('DOMContentLoaded', () => {
           toggleOption(option);
         }
       }
+    });
+
+    // Handle input for filtering
+    combobox.addEventListener('input', (event) => {
+      const query = event.target.value;
+      filterOptions(query);
+      openCombobox();
     });
   }
 
