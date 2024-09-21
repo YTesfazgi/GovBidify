@@ -20,6 +20,10 @@ defmodule GovBidify.Opportunities do
     Repo.all(Opportunity)
   end
 
+  def list_departments do
+    Repo.all(from o in Opportunity, distinct: [:department_ind_agency])
+  end
+
   @doc """
   Gets a single opportunity.
 
