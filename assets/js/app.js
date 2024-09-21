@@ -115,11 +115,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		sortMenuButton.setAttribute('aria-expanded', !isExpanded);
 
 		if (!isExpanded) {
-			sortMenu.classList.remove("opacity-0", "scale-95");
+			sortMenu.classList.remove("hidden", "opacity-0", "scale-95");
 			sortMenu.classList.add("opacity-100", "scale-100");
 		} else {
 			sortMenu.classList.remove("opacity-100", "scale-100");
 			sortMenu.classList.add("opacity-0", "scale-95");
+			// Add a small delay before adding the 'hidden' class to allow for the transition
+			setTimeout(() => {
+				sortMenu.classList.add("hidden");
+			}, 150); // Adjust this value to match your transition duration
 		}
 	}
 
@@ -135,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			sortMenuButton.setAttribute('aria-expanded', 'false');
 			sortMenu.classList.remove("opacity-100", "scale-100");
 			sortMenu.classList.add("opacity-0", "scale-95");
+			// Add a small delay before adding the 'hidden' class to allow for the transition
+			setTimeout(() => {
+				sortMenu.classList.add("hidden");
+			}, 150); // Adjust this value to match your transition duration
 		}
 	});
 });
