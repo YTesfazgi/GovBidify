@@ -218,31 +218,79 @@
                     <div id="office-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                   </div>
                   </.filter_section>
-                  <.filter_section title="Size" id="size">
+                  <.filter_section title="Set Aside" id="set-aside">
                     <div class="space-y-4">
                       <div class="flex items-center">
-                        <input id="filter-size-0" name="size[]" value="2l" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-size-0" class="ml-3 text-sm text-gray-600">2L</label>
+                        <input id="set-aside-filter-0" name="type[]" value="SBA" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-0" class="ml-3 text-sm text-gray-600">Total Small Business Set-Aside (FAR 19.5)</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-size-1" name="size[]" value="6l" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-size-1" class="ml-3 text-sm text-gray-600">6L</label>
+                        <input id="set-aside-filter-1" name="type[]" value="SBP" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-1" class="ml-3 text-sm text-gray-600">Partial Small Business Set-Aside (FAR 19.5)</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-size-2" name="size[]" value="12l" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-size-2" class="ml-3 text-sm text-gray-600">12L</label>
+                        <input id="set-aside-filter-2" name="type[]" value="8A" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-2" class="ml-3 text-sm text-gray-600">8(a) Set-Aside (FAR 19.8)</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-size-3" name="size[]" value="18l" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-size-3" class="ml-3 text-sm text-gray-600">18L</label>
+                        <input id="set-aside-filter-3" name="type[]" value="8AN" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-3" class="ml-3 text-sm text-gray-600">8(a) Sole Source (FAR 19.8)</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-size-4" name="size[]" value="20l" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-size-4" class="ml-3 text-sm text-gray-600">20L</label>
+                        <input id="set-aside-filter-4" name="type[]" value="HZC" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-4" class="ml-3 text-sm text-gray-600">Historically Underutilized Business (HUBZone) Set-Aside (FAR 19.13)</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-size-5" name="size[]" value="40l" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-size-5" class="ml-3 text-sm text-gray-600">40L</label>
+                        <input id="set-aside-filter-5" name="type[]" value="HZS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-5" class="ml-3 text-sm text-gray-600">Historically Underutilized Business (HUBZone) Sole Source (FAR 19.13)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-6" name="type[]" value="SDVOSBC" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-6" class="ml-3 text-sm text-gray-600">Service-Disabled Veteran-Owned Small Business (SDVOSB) Set-Aside (FAR 19.14)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-7" name="type[]" value="SDVOSBS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-7" class="ml-3 text-sm text-gray-600">Service-Disabled Veteran-Owned Small Business (SDVOSB) Sole Source (FAR 19.14)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-8" name="type[]" value="WOSB" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-8" class="ml-3 text-sm text-gray-600">Women-Owned Small Business (WOSB) Program Set-Aside (FAR 19.15)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-9" name="type[]" value="WOSBSS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-9" class="ml-3 text-sm text-gray-600">Women-Owned Small Business (WOSB) Program Sole Source (FAR 19.15)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-10" name="type[]" value="EDWOSB" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-10" class="ml-3 text-sm text-gray-600">Economically Disadvantaged WOSB (EDWOSB) Program Set-Aside (FAR 19.15)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-11" name="type[]" value="EDWOSBSS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-11" class="ml-3 text-sm text-gray-600">Economically Disadvantaged WOSB (EDWOSB) Program Sole Source (FAR 19.15)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-12" name="type[]" value="LAS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-12" class="ml-3 text-sm text-gray-600">Local Area Set-Aside (FAR 26.2)</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-13" name="type[]" value="IEE" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-13" class="ml-3 text-sm text-gray-600">Indian Economic Enterprise (IEE) Set-Aside</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-14" name="type[]" value="ISBEE" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-14" class="ml-3 text-sm text-gray-600">Indian Small Business Economic Enterprise (ISBEE) Set-Aside</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-15" name="type[]" value="BICiv" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-15" class="ml-3 text-sm text-gray-600">Buy Indian Set-Aside</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-16" name="type[]" value="VSA" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-16" class="ml-3 text-sm text-gray-600">Veteran-Owned Small Business Set-Aside</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="set-aside-filter-17" name="type[]" value="VSS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="set-aside-filter-17" class="ml-3 text-sm text-gray-600">Veteran-Owned Small Business Sole source</label>
                       </div>
                     </div>
                   </.filter_section>
