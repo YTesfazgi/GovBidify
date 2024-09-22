@@ -294,6 +294,30 @@
                       </div>
                     </div>
                   </.filter_section>
+                  <.filter_section title="Product/Service Code" id="codes">
+                    <div class="space-y-4">
+                      <div>
+                        <label for="naics-code" class="block text-sm font-medium text-gray-700">NAICS Code</label>
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                          <input type="text" name="naics_code" id="naics-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter NAICS Code">
+                          <button type="button" id="add-naics-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+                      <div id="naics-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                      <div>
+                        <label for="psc-code" class="block text-sm font-medium text-gray-700">PSC Code</label>
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                          <input type="text" name="psc_code" id="psc-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter PSC Code">
+                          <button type="button" id="add-psc-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+                      <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                    </div>
+                  </.filter_section>
                 </form>
               </div>
             </section>
