@@ -308,6 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Setup code input fields
   setupCodeInput('naics-code', 'add-naics-code', 'naics-selected-options');
   setupCodeInput('psc-code', 'add-psc-code', 'psc-selected-options');
+  setupCodeInput('city', 'add-city', 'city-selected-options');
+  setupCodeInput('zip-code', 'add-zip-code', 'zip-code-selected-options');
 });
 
 // Add this function to your JavaScript file

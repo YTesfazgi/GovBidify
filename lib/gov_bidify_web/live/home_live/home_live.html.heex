@@ -319,7 +319,7 @@
                     </div>
                   </.filter_section>
                   <.filter_section title="Place of Performance" id="place-of-performance">
-                    <div class="w-full border-b border-gray-200 py-6">
+                    <div class="w-full py-3">
                       <label for="country-combobox" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
                       <div class="relative mt-2">
                         <input id="country-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="country-options" aria-expanded="false" placeholder="Search countries...">
@@ -343,7 +343,7 @@
                       </div>
                       <div id="country-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-                    <div class="w-full border-b border-gray-200 py-6">
+                    <div class="w-full py-3">
                       <label for="state-combobox" class="block text-sm font-medium leading-6 text-gray-900">State</label>
                       <div class="relative mt-2">
                         <input id="state-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="state-options" aria-expanded="false" placeholder="Search states...">
@@ -366,6 +366,28 @@
                         </ul>
                       </div>
                       <div id="state-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                    </div>
+                    <div class="space-y-4">
+                      <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                          <input type="text" name="city" id="city" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter City">
+                          <button type="button" id="add-city" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+                      <div id="city-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                      <div>
+                        <label for="zip-code" class="block text-sm font-medium text-gray-700">Zip Code</label>
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                          <input type="text" name="zip_code" id="zip-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter Zip Code">
+                          <button type="button" id="add-zip-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                            Add
+                          </button>
+                        </div>
+                      </div>
+                      <div id="zip-code-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
                   </.filter_section>
                   <.filter_section title="Status" id="status">
