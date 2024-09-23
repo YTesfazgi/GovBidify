@@ -21,23 +21,33 @@ defmodule GovBidify.Opportunities do
   end
 
   def list_departments do
-    Repo.all(from o in Opportunity, distinct: [:department_ind_agency])
+    Repo.all(from o in Opportunity, distinct: [:department_ind_agency], select: o.department_ind_agency)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
   end
 
   def list_sub_tiers do
-    Repo.all(from o in Opportunity, distinct: [:sub_tier])
+    Repo.all(from o in Opportunity, distinct: [:sub_tier], select: o.sub_tier)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
   end
 
   def list_offices do
-    Repo.all(from o in Opportunity, distinct: [:office])
+    Repo.all(from o in Opportunity, distinct: [:office], select: o.office)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
   end
 
   def list_countries do
-    Repo.all(from o in Opportunity, distinct: [:pop_country])
+    Repo.all(from o in Opportunity, distinct: [:pop_country], select: o.pop_country)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
   end
 
   def list_states do
-    Repo.all(from o in Opportunity, distinct: [:pop_state])
+    Repo.all(from o in Opportunity, distinct: [:pop_state], select: o.pop_state)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
   end
 
   @doc """
