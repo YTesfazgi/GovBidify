@@ -111,7 +111,7 @@
                         <label for="filter-type-1" class="ml-3 text-sm text-gray-600">Solicitation</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="filter-type-2" name="type[]" value="sources sought" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <input id="filter-type-2" name="type[]" value="sources sought" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
                         <label for="filter-type-2" class="ml-3 text-sm text-gray-600">Sources Sought</label>
                       </div>
                       <div class="flex items-center">
@@ -145,7 +145,7 @@
                     </div>
                   </.filter_section>
                   <.filter_section title="Federal Organization" id="federal-organization">
-                  <div class="w-full border-b border-gray-200 py-6">
+                  <div class="w-full py-3">
                     <label for="department-combobox" class="block text-sm font-medium leading-6 text-gray-900">Department</label>
                     <div class="relative mt-2">
                       <input id="department-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="department-options" aria-expanded="false" placeholder="Search departments...">
@@ -169,7 +169,7 @@
                     </div>
                     <div id="department-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                   </div>
-                  <div class="w-full border-b border-gray-200 py-6">
+                  <div class="w-full py-3">
                     <label for="sub-tier-combobox" class="block text-sm font-medium leading-6 text-gray-900">Sub-tier</label>
                     <div class="relative mt-2">
                       <input id="sub-tier-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="sub-tier-options" aria-expanded="false" placeholder="Search sub-tiers...">
@@ -193,7 +193,7 @@
                     </div>
                     <div id="sub-tier-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                   </div>
-                  <div class="w-full border-b border-gray-200 py-6">
+                  <div class="w-full py-3">
                     <label for="office-combobox" class="block text-sm font-medium leading-6 text-gray-900">Office</label>
                     <div class="relative mt-2">
                       <input id="office-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="office-options" aria-expanded="false" placeholder="Search offices...">
@@ -229,7 +229,7 @@
                         <label for="set-aside-filter-1" class="ml-3 text-sm text-gray-600">Partial Small Business Set-Aside (FAR 19.5)</label>
                       </div>
                       <div class="flex items-center">
-                        <input id="set-aside-filter-2" name="type[]" value="8A" type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <input id="set-aside-filter-2" name="type[]" value="8A" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
                         <label for="set-aside-filter-2" class="ml-3 text-sm text-gray-600">8(a) Set-Aside (FAR 19.8)</label>
                       </div>
                       <div class="flex items-center">
@@ -316,6 +316,56 @@
                         </div>
                       </div>
                       <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                    </div>
+                  </.filter_section>
+                  <.filter_section title="Place of Performance" id="place-of-performance">
+                    <div class="w-full border-b border-gray-200 py-6">
+                      <label for="country-combobox" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
+                      <div class="relative mt-2">
+                        <input id="country-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="country-options" aria-expanded="false" placeholder="Search countries...">
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="country-options" role="listbox">
+                          <%= for country <- @countries do %>
+                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
+                              <span class="block"><%= country.pop_country %></span>
+                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                      <div id="country-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                    </div>
+                    <div class="w-full border-b border-gray-200 py-6">
+                      <label for="state-combobox" class="block text-sm font-medium leading-6 text-gray-900">State</label>
+                      <div class="relative mt-2">
+                        <input id="state-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="state-options" aria-expanded="false" placeholder="Search states...">
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="state-options" role="listbox">
+                          <%= for state <- @states do %>
+                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
+                              <span class="block"><%= state.pop_state %></span>
+                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                      <div id="state-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
                   </.filter_section>
                 </form>

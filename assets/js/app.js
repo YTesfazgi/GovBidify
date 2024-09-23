@@ -297,6 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCombobox('department-combobox', 'department-options', 'department-selected-options');
   setupCombobox('sub-tier-combobox', 'sub-tier-options', 'sub-tier-selected-options');
   setupCombobox('office-combobox', 'office-options', 'office-selected-options');
+  setupCombobox('country-combobox', 'country-options', 'country-selected-options');
+  setupCombobox('state-combobox', 'state-options', 'state-selected-options');
 });
 
 // Add this to your existing DOMContentLoaded event listener

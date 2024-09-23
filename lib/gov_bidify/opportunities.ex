@@ -32,6 +32,14 @@ defmodule GovBidify.Opportunities do
     Repo.all(from o in Opportunity, distinct: [:office])
   end
 
+  def list_countries do
+    Repo.all(from o in Opportunity, distinct: [:pop_country])
+  end
+
+  def list_states do
+    Repo.all(from o in Opportunity, distinct: [:pop_state])
+  end
+
   @doc """
   Gets a single opportunity.
 
