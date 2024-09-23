@@ -368,6 +368,18 @@
                       <div id="state-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
                   </.filter_section>
+                  <.filter_section title="Status" id="status">
+                    <div class="space-y-4">
+                      <div class="flex items-center">
+                        <input id="status-filter-0" name="status[]" value="active" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="status-filter-0" class="ml-3 text-sm text-gray-600">Active</label>
+                      </div>
+                      <div class="flex items-center">
+                        <input id="status-filter-1" name="status[]" value="inactive" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                        <label for="status-filter-1" class="ml-3 text-sm text-gray-600">Inactive</label>
+                      </div>
+                    </div>
+                  </.filter_section>
                 </form>
               </div>
             </section>
