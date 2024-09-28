@@ -1,7 +1,7 @@
 <div>
   <div class="hidden lg:sticky lg:top-0 lg:z-40 lg:flex lg:h-16 lg:shrink-0 lg:items-center lg:gap-x-4 lg:border-b lg:border-gray-200 lg:bg-white lg:shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-      <form phx-submit="search" class="relative flex flex-1">
+      <form class="relative flex flex-1">
         <label for="search-field" class="sr-only">Search</label>
         <svg class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
@@ -10,8 +10,8 @@
         <!-- Hidden inputs for Flop parameters -->
         <input type="hidden" name="flop[page]" value={@meta.flop.page} />
         <input type="hidden" name="flop[page_size]" value={@meta.page_size} />
-        <input type="hidden" name="flop[order_by]" value={@order_by} />
-        <input type="hidden" name="flop[order_directions]" value={@order_directions} />
+        <input type="hidden" name="flop[order_by][]" value={@order_by} />
+        <input type="hidden" name="flop[order_directions][]" value={@order_directions} />
       </form>
     </div>
   </div>
@@ -98,200 +98,135 @@
               <h2 id="filters-heading" class="sr-only">Filters</h2>
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
-                <form class="col-span-3">
+                <form phx-change="update_filter" class="col-span-3">
                   <h3 class="sr-only">Filter Categories</h3>
                   <.filter_section title="Notice Type" id="type">
-                    <div class="space-y-4">
-                      <div class="flex items-center">
-                        <input id="filter-type-0" name="type[]" value="presolicitation" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-0" class="ml-3 text-sm text-gray-600">Presolicitation</label>
+                    <div class="w-full py-3">
+                      <label for="type-combobox" class="block text-sm font-medium leading-6 text-gray-900">Type</label>
+                      <div class="relative mt-2">
+                        <input id="type-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="type-options" aria-expanded="false" placeholder="Search types...">
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="type-options" role="listbox">
+                          <%= for type <- @types do %>
+                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
+                              <span class="block"><%= type %></span>
+                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </li>
+                          <% end %>
+                        </ul>
                       </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-1" name="type[]" value="solicitation" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-1" class="ml-3 text-sm text-gray-600">Solicitation</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-2" name="type[]" value="sources sought" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-2" class="ml-3 text-sm text-gray-600">Sources Sought</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-3" name="type[]" value="consolidate/(substantially) bundle" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-3" class="ml-3 text-sm text-gray-600">Consolidate/(Substantially) Bundle</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-4" name="type[]" value="combined synopsis/solicitation" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-4" class="ml-3 text-sm text-gray-600">Combined Synopsis/Solicitation</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-5" name="type[]" value="modification/amendment/cancel" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-5" class="ml-3 text-sm text-gray-600">Modification/Amendment/Cancel</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-6" name="type[]" value="award notice" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-6" class="ml-3 text-sm text-gray-600">Award Notice</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-7" name="type[]" value="special notice" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-7" class="ml-3 text-sm text-gray-600">Special Notice</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-8" name="type[]" value="justification" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-8" class="ml-3 text-sm text-gray-600">Justification</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="filter-type-9" name="type[]" value="sale of surplus property" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="filter-type-9" class="ml-3 text-sm text-gray-600">Sale of Surplus Property</label>
-                      </div>
+                      <div id="type-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
                   </.filter_section>
                   <.filter_section title="Federal Organization" id="federal-organization">
-                  <div class="w-full py-3">
-                    <label for="department-combobox" class="block text-sm font-medium leading-6 text-gray-900">Department</label>
-                    <div class="relative mt-2">
-                      <input id="department-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="department-options" aria-expanded="false" placeholder="Search departments...">
-                      <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                      <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="department-options" role="listbox">
-                        <%= for department <- @departments do %>
-                          <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                            <span class="block"><%= department %></span>
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                        <% end %>
-                      </ul>
+                    <div class="w-full py-3">
+                      <label for="department-combobox" class="block text-sm font-medium leading-6 text-gray-900">Department</label>
+                      <div class="relative mt-2">
+                        <input id="department-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="department-options" aria-expanded="false" placeholder="Search departments...">
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="department-options" role="listbox">
+                          <%= for department <- @departments do %>
+                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
+                              <span class="block"><%= department %></span>
+                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                      <div id="department-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-                    <div id="department-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                  </div>
-                  <div class="w-full py-3">
-                    <label for="sub-tier-combobox" class="block text-sm font-medium leading-6 text-gray-900">Sub-tier</label>
-                    <div class="relative mt-2">
-                      <input id="sub-tier-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="sub-tier-options" aria-expanded="false" placeholder="Search sub-tiers...">
-                      <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                      <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="sub-tier-options" role="listbox">
-                        <%= for sub_tier <- @sub_tiers do %>
-                          <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                            <span class="block"><%= sub_tier %></span>
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                        <% end %>
-                      </ul>
+                    <div class="w-full py-3">
+                      <label for="sub-tier-combobox" class="block text-sm font-medium leading-6 text-gray-900">Sub-tier</label>
+                      <div class="relative mt-2">
+                        <input id="sub-tier-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="sub-tier-options" aria-expanded="false" placeholder="Search sub-tiers...">
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="sub-tier-options" role="listbox">
+                          <%= for sub_tier <- @sub_tiers do %>
+                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
+                              <span class="block"><%= sub_tier %></span>
+                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                      <div id="sub-tier-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-                    <div id="sub-tier-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                  </div>
-                  <div class="w-full py-3">
-                    <label for="office-combobox" class="block text-sm font-medium leading-6 text-gray-900">Office</label>
-                    <div class="relative mt-2">
-                      <input id="office-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="office-options" aria-expanded="false" placeholder="Search offices...">
-                      <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                        <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                      <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="office-options" role="listbox">
-                        <%= for office <- @offices do %>
-                          <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                            <span class="block"><%= office %></span>
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                              </svg>
-                            </span>
-                          </li>
-                        <% end %>
-                      </ul>
+                    <div class="w-full py-3">
+                      <label for="office-combobox" class="block text-sm font-medium leading-6 text-gray-900">Office</label>
+                      <div class="relative mt-2">
+                        <input id="office-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="office-options" aria-expanded="false" placeholder="Search offices...">
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
+                          </svg>
+                        </button>
+                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="office-options" role="listbox">
+                          <%= for office <- @offices do %>
+                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
+                              <span class="block"><%= office %></span>
+                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                </svg>
+                              </span>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                      <div id="office-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-                    <div id="office-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                  </div>
                   </.filter_section>
                   <.filter_section title="Set Aside" id="set-aside">
                     <div class="space-y-4">
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-0" name="type[]" value="SBA" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-0" class="ml-3 text-sm text-gray-600">Total Small Business Set-Aside (FAR 19.5)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-1" name="type[]" value="SBP" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-1" class="ml-3 text-sm text-gray-600">Partial Small Business Set-Aside (FAR 19.5)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-2" name="type[]" value="8A" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-2" class="ml-3 text-sm text-gray-600">8(a) Set-Aside (FAR 19.8)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-3" name="type[]" value="8AN" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-3" class="ml-3 text-sm text-gray-600">8(a) Sole Source (FAR 19.8)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-4" name="type[]" value="HZC" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-4" class="ml-3 text-sm text-gray-600">Historically Underutilized Business (HUBZone) Set-Aside (FAR 19.13)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-5" name="type[]" value="HZS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-5" class="ml-3 text-sm text-gray-600">Historically Underutilized Business (HUBZone) Sole Source (FAR 19.13)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-6" name="type[]" value="SDVOSBC" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-6" class="ml-3 text-sm text-gray-600">Service-Disabled Veteran-Owned Small Business (SDVOSB) Set-Aside (FAR 19.14)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-7" name="type[]" value="SDVOSBS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-7" class="ml-3 text-sm text-gray-600">Service-Disabled Veteran-Owned Small Business (SDVOSB) Sole Source (FAR 19.14)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-8" name="type[]" value="WOSB" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-8" class="ml-3 text-sm text-gray-600">Women-Owned Small Business (WOSB) Program Set-Aside (FAR 19.15)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-9" name="type[]" value="WOSBSS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-9" class="ml-3 text-sm text-gray-600">Women-Owned Small Business (WOSB) Program Sole Source (FAR 19.15)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-10" name="type[]" value="EDWOSB" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-10" class="ml-3 text-sm text-gray-600">Economically Disadvantaged WOSB (EDWOSB) Program Set-Aside (FAR 19.15)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-11" name="type[]" value="EDWOSBSS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-11" class="ml-3 text-sm text-gray-600">Economically Disadvantaged WOSB (EDWOSB) Program Sole Source (FAR 19.15)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-12" name="type[]" value="LAS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-12" class="ml-3 text-sm text-gray-600">Local Area Set-Aside (FAR 26.2)</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-13" name="type[]" value="IEE" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-13" class="ml-3 text-sm text-gray-600">Indian Economic Enterprise (IEE) Set-Aside</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-14" name="type[]" value="ISBEE" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-14" class="ml-3 text-sm text-gray-600">Indian Small Business Economic Enterprise (ISBEE) Set-Aside</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-15" name="type[]" value="BICiv" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-15" class="ml-3 text-sm text-gray-600">Buy Indian Set-Aside</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-16" name="type[]" value="VSA" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-16" class="ml-3 text-sm text-gray-600">Veteran-Owned Small Business Set-Aside</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="set-aside-filter-17" name="type[]" value="VSS" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="set-aside-filter-17" class="ml-3 text-sm text-gray-600">Veteran-Owned Small Business Sole source</label>
-                      </div>
+                      <%= for {value, label} <- [
+                        {"SBA", "Total Small Business Set-Aside (FAR 19.5)"},
+                        {"SBP", "Partial Small Business Set-Aside (FAR 19.5)"},
+                        {"8A", "8(a) Set-Aside (FAR 19.8)"},
+                        {"8AN", "8(a) Sole Source (FAR 19.8)"},
+                        {"HZC", "Historically Underutilized Business (HUBZone) Set-Aside (FAR 19.13)"},
+                        {"HZS", "Historically Underutilized Business (HUBZone) Sole Source (FAR 19.13)"},
+                        {"SDVOSBC", "Service-Disabled Veteran-Owned Small Business (SDVOSB) Set-Aside (FAR 19.14)"},
+                        {"SDVOSBS", "Service-Disabled Veteran-Owned Small Business (SDVOSB) Sole Source (FAR 19.14)"},
+                        {"WOSB", "Women-Owned Small Business (WOSB) Program Set-Aside (FAR 19.15)"},
+                        {"WOSBSS", "Women-Owned Small Business (WOSB) Program Sole Source (FAR 19.15)"},
+                        {"EDWOSB", "Economically Disadvantaged WOSB (EDWOSB) Program Set-Aside (FAR 19.15)"},
+                        {"EDWOSBSS", "Economically Disadvantaged WOSB (EDWOSB) Program Sole Source (FAR 19.15)"},
+                        {"LAS", "Local Area Set-Aside (FAR 26.2)"},
+                        {"IEE", "Indian Economic Enterprise (IEE) Set-Aside"},
+                        {"ISBEE", "Indian Small Business Economic Enterprise (ISBEE) Set-Aside"},
+                        {"BICiv", "Buy Indian Set-Aside"},
+                        {"VSA", "Veteran-Owned Small Business Set-Aside"},
+                        {"VSS", "Veteran-Owned Small Business Sole source"}
+                      ] do %>
+                        <div class="flex items-center">
+                          <input id={"set-aside-filter-#{value}"} name="set_aside[]" value={value} type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                          <label for={"set-aside-filter-#{value}"} class="ml-3 text-sm text-gray-600"><%= label %></label>
+                        </div>
+                      <% end %>
                     </div>
                   </.filter_section>
                   <.filter_section title="Product/Service Code" id="codes">
@@ -392,14 +327,12 @@
                   </.filter_section>
                   <.filter_section title="Status" id="status">
                     <div class="space-y-4">
-                      <div class="flex items-center">
-                        <input id="status-filter-0" name="status[]" value="active" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="status-filter-0" class="ml-3 text-sm text-gray-600">Active</label>
-                      </div>
-                      <div class="flex items-center">
-                        <input id="status-filter-1" name="status[]" value="inactive" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                        <label for="status-filter-1" class="ml-3 text-sm text-gray-600">Inactive</label>
-                      </div>
+                      <%= for {value, label} <- [{"active", "Active"}, {"inactive", "Inactive"}] do %>
+                        <div class="flex items-center">
+                          <input id={"status-filter-#{value}"} name="status[]" value={value} type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                          <label for={"status-filter-#{value}"} class="ml-3 text-sm text-gray-600"><%= label %></label>
+                        </div>
+                      <% end %>
                     </div>
                   </.filter_section>
                 </form>

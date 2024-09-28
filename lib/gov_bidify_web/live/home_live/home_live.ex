@@ -7,17 +7,19 @@ defmodule GovBidifyWeb.HomeLive do
   @meta_default %Flop.Meta{flop: %Flop{after: nil, before: nil, first: nil, last: nil, limit: nil, offset: nil, order_by: [:title], order_directions: [:asc], page: 1, page_size: 10, decoded_cursor: nil, filters: []}, page_size: 10, has_next_page?: false, next_page: nil, has_previous_page?: false, previous_page: nil}
 
   def mount(_params, _session, socket) do
+    types = Opportunities.list_types()
     departments = Opportunities.list_departments()
     sub_tiers = Opportunities.list_sub_tiers()
     offices = Opportunities.list_offices()
     countries = Opportunities.list_countries()
     states = Opportunities.list_states()
 
-    {:ok, assign(socket, query: nil, results: [], meta: @meta_default, selected_opportunity: @selected_opportunity_nil, order_by: "response_deadline", order_directions: "asc", mobile_search_bar: true, departments: departments, sub_tiers: sub_tiers, offices: offices, countries: countries, states: states)}
+    {:ok, assign(socket, query: nil, results: [], filters: %{}, meta: @meta_default, flop: %{}, selected_opportunity: @selected_opportunity_nil, order_by: ["response_deadline"], order_directions: ["asc"], mobile_search_bar: true, types: types, departments: departments, sub_tiers: sub_tiers, offices: offices, countries: countries, states: states)}
   end
 
-  def handle_event("search", %{"query" => query}, socket) do
-    {:noreply, push_patch(socket, to: ~p"/?query=#{URI.encode(query)}")}
+  def handle_event("update_filter", params, socket) do
+    updated_filters = update_filters(socket.assigns.filters, params)
+    {:noreply, assign(socket, filters: updated_filters)}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -30,36 +32,51 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
-  def handle_params(%{"query" => _query} = params, _uri, socket) do
-    query = Map.get(params, "query", "")
-    order_by = Map.get(params, "order_by", ["title"])
-    order_directions = Map.get(params, "order_directions", ["asc"])
-    page = Map.get(params, "page", "1") |> String.to_integer()
-    page_size = Map.get(params, "page_size", "10") |> String.to_integer()
+  def handle_params(%{"query" => query} = params, _uri, socket) do
+    IO.inspect(socket.assigns.filters, label: "filters")
+    # Check if the query has changed
+    if query != socket.assigns.query do
+      filters = Flop.map_to_filter_params(socket.assigns.filters)
+      IO.inspect(filters, label: "filters")
+      {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, params["flop"])
 
-    flop_params = %{
-      "page" => page,
-      "page_size" => page_size,
-      "order_by" => order_by,
-      "order_directions" => order_directions
-    }
-
-    {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop_params)
-
-    {:noreply,
-      assign(socket,
-        results: results,
-        meta: meta,
-        flop: flop_params,
-        order_by: order_by,
-        order_directions: order_directions,
-        query: query
-      )
-    }
+      {:noreply,
+        assign(socket,
+          results: results,
+          meta: meta,
+          flop: params["flop"],
+          order_by: params["flop"]["order_by"],
+          order_directions: params["flop"]["order_directions"],
+          query: query
+        )
+      }
+    else
+      {:noreply, socket}  # No change in query, return the existing socket
+    end
   end
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  defp update_filters(current_filters, params) do
+    Enum.reduce(params, current_filters, fn {key, value}, acc ->
+      case key do
+        "type" -> Map.put(acc, :type, value)
+        "department" -> Map.put(acc, :department, value)
+        "sub_tier" -> Map.put(acc, :sub_tier, value)
+        "office" -> Map.put(acc, :office, value)
+        "set_aside" -> Map.update(acc, :set_aside_code, [value], fn existing -> existing ++ [value] end)
+        "naics_code" -> Map.put(acc, :naics_code, value)
+        "psc_code" -> Map.put(acc, :psc_code, value)
+        "country" -> Map.put(acc, :country, value)
+        "state" -> Map.put(acc, :state, value)
+        "city" -> Map.put(acc, :city, value)
+        "zip_code" -> Map.put(acc, :zip_code, value)
+        "status" -> Map.put(acc, :status, value)
+        _ -> acc
+      end
+    end)
   end
 
   def filter_section(assigns) do

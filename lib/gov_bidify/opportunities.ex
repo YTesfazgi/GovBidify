@@ -20,6 +20,12 @@ defmodule GovBidify.Opportunities do
     Repo.all(Opportunity)
   end
 
+  def list_types do
+    Repo.all(from o in Opportunity, distinct: [:type], select: o.type)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
+  end
+
   def list_departments do
     Repo.all(from o in Opportunity, distinct: [:department_ind_agency], select: o.department_ind_agency)
     |> Enum.reject(&(&1 == "" or is_nil(&1)))

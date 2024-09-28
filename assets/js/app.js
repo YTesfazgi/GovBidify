@@ -294,11 +294,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Setup all comboboxes
-  setupCombobox('department-combobox', 'department-options', 'department-selected-options');
-  setupCombobox('sub-tier-combobox', 'sub-tier-options', 'sub-tier-selected-options');
-  setupCombobox('office-combobox', 'office-options', 'office-selected-options');
-  setupCombobox('country-combobox', 'country-options', 'country-selected-options');
-  setupCombobox('state-combobox', 'state-options', 'state-selected-options');
+  setupCombobox('type-combobox', 'type-options', 'type-selected-options', 'type');
+  setupCombobox('department-combobox', 'department-options', 'department-selected-options', 'department');
+  setupCombobox('sub-tier-combobox', 'sub-tier-options', 'sub-tier-selected-options', 'sub_tier');
+  setupCombobox('office-combobox', 'office-options', 'office-selected-options', 'office');
+  setupCombobox('country-combobox', 'country-options', 'country-selected-options', 'country');
+  setupCombobox('state-combobox', 'state-options', 'state-selected-options', 'state');
 });
 
 // Add this to your existing DOMContentLoaded event listener
