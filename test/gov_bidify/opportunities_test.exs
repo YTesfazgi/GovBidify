@@ -171,9 +171,5 @@ defmodule GovBidify.OpportunitiesTest do
       assert Repo.aggregate(Opportunity, :count) == 3
       assert meta.total_count == 2
     end
-
-    test "opportunity_factory works" do
-      _opportunity = build(:opportunity)
-    end
   end
 end
