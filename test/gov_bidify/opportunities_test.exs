@@ -164,7 +164,7 @@ defmodule GovBidify.OpportunitiesTest do
         order_directions: ["asc"],
         page: "1",
         page_size: "10",
-        filters: %{type: ["Sources Sought", "Request for Proposals"], active: "Yes"}
+        filters: %{type: ["Sources Sought", "Request for Proposals"], active: ["Yes"]}
       }
 
       assert {_results, meta} = Opportunities.search_opportunities_by_title_and_description("some", flop_params)
