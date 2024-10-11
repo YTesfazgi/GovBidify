@@ -10,7 +10,7 @@ defmodule GovBidify.Opportunities.Opportunity do
 
   @derive {
     Flop.Schema,
-    filterable: [:type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office],
+    filterable: [:type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office, :active],
     sortable: [:title, :response_deadline, :type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office]
   }
 

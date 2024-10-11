@@ -154,6 +154,24 @@ defmodule GovBidify.OpportunitiesTest do
       assert Opportunities.search_opportunities_by_title_and_description("some") == [opportunity]
     end
 
+    test "search_opportunities_by_title_and_description/2 returns a flop tuple" do
+      insert(:opportunity, type: "Sources Sought", description: "some description")
+      insert(:opportunity, type: "Request for Proposals", description: "some description")
+      insert(:opportunity, type: "Request for Information", description: "some description")
+
+      flop_params = %{
+        order_by: ["response_deadline"],
+        order_directions: ["asc"],
+        page: "1",
+        page_size: "10",
+        filters: %{type: ["Sources Sought", "Request for Proposals"], active: "Yes"}
+      }
+
+      assert {_results, meta} = Opportunities.search_opportunities_by_title_and_description("some", flop_params)
+      assert Repo.aggregate(Opportunity, :count) == 3
+      assert meta.total_count == 2
+    end
+
     test "opportunity_factory works" do
       _opportunity = build(:opportunity)
     end
