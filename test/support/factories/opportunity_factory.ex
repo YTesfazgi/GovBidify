@@ -25,7 +25,7 @@ defmodule GovBidify.Opportunities.OpportunityFactory do
           set_aside_code: "Total Small Business Set-Aside (FAR 19.5)",
           zip_code: Faker.Address.En.zip_code(),
           organization_type: "some text",
-          response_deadline: Faker.Date.forward(10),
+          response_deadline: Faker.DateTime.forward(10),
           aac_code: Faker.String.base64(),
           primary_contact_title: Faker.Lorem.sentence(),
           secondary_contact_fax: Faker.Phone.EnUs.phone(),
