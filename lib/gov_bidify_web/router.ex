@@ -17,13 +17,15 @@ defmodule GovBidifyWeb.Router do
   scope "/", GovBidifyWeb do
     pipe_through :browser
 
-    live "/", HomeLive, :home
+    live_session :default, on_mount: GovBidify.Hooks.AllowEctoSandbox do
+      live "/", HomeLive, :home
 
-    # live "/opportunities", OpportunitiesLive.Index, :index
-    # live "/opportunities/:id", OpportunitiesLive.Show, :show
+      # live "/opportunities", OpportunitiesLive.Index, :index
+      # live "/opportunities/:id", OpportunitiesLive.Show, :show
 
-    live "/contract_awards", ContractAwardsLive.Index, :index
-    # live "/contract_awards/:id", ContractAwardsLive.Show, :show
+      live "/contract_awards", ContractAwardsLive.Index, :index
+      # live "/contract_awards/:id", ContractAwardsLive.Show, :show
+    end
   end
 
   # Other scopes may use custom stacks.
