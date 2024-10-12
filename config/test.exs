@@ -31,3 +31,10 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Configures wallaby
+config :wallaby, driver: Wallaby.Chrome
+config :wallaby, otp_app: :gov_bidify
+
+# Enable SQL sandbox for concurrent testing
+config :gov_bidify, :sandbox, Ecto.Adapters.SQL.Sandbox

@@ -55,7 +55,8 @@ defmodule GovBidify.MixProject do
       {:mox, "~> 1.1.0", only: :test},
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}, # mix sobelow
       {:tzdata, "~> 1.1"},
-      {:flop_phoenix, "~> 0.23.0"}
+      {:flop_phoenix, "~> 0.23.0"},
+      {:wallaby, "~> 0.30", runtime: false, only: :test}
     ]
   end
 
@@ -70,7 +71,7 @@ defmodule GovBidify.MixProject do
       setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      test: ["esbuild default", "ecto.create --quiet", "ecto.migrate", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]

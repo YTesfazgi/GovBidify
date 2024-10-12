@@ -15,9 +15,9 @@ defmodule GovBidifyWeb.CoreComponents do
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
   use Phoenix.Component
+  use Gettext, backend: GovBidifyWeb.Gettext
 
   alias Phoenix.LiveView.JS
-  import GovBidifyWeb.Gettext
 
   @doc """
   Renders a modal.

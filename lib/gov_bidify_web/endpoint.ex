@@ -11,6 +11,14 @@ defmodule GovBidifyWeb.Endpoint do
     same_site: "Lax"
   ]
 
+  # Enable SQL sandbox for development environments.
+  # You should not set this in production as keeping
+  # the DB in a consistent state is critical.
+
+  if sandbox = Application.compile_env(:gov_bidify, :sandbox, false) do
+    plug Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox
+  end
+
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
