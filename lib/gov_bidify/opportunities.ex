@@ -156,10 +156,10 @@ defmodule GovBidify.Opportunities do
     Repo.all(query)
   end
 
-  def search_opportunities_by_title_and_description(query, flop_params) do
-    filters = Flop.map_to_filter_params(flop_params.filters, operators: %{type: :in, active: :in})
-    flop_params = Map.put(flop_params, :filters, filters)
-    flop = Flop.validate!(flop_params, for: Opportunity)
+  def search_opportunities_by_title_and_description(query, flop) do
+    filters = Flop.map_to_filter_params(flop.filters, operators: %{type: :in, active: :in})
+    flop = Map.put(flop, :filters, filters)
+    flop = Flop.validate!(flop, for: Opportunity)
 
     base_query =
       from o in Opportunity,

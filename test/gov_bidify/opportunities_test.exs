@@ -154,22 +154,42 @@ defmodule GovBidify.OpportunitiesTest do
       assert Opportunities.search_opportunities_by_title_and_description("some") == [opportunity]
     end
 
-    test "search_opportunities_by_title_and_description/2 returns a flop tuple" do
+    test "search_opportunities_by_title_and_description/2 with filters returns a flop tuple" do
       insert(:opportunity, type: "Sources Sought", description: "some description")
       insert(:opportunity, type: "Request for Proposals", description: "some description")
       insert(:opportunity, type: "Request for Information", description: "some description")
 
-      flop_params = %{
+      flop = %{
         order_by: ["response_deadline"],
         order_directions: ["asc"],
-        page: "1",
-        page_size: "10",
+        page: 1,
+        page_size: 10,
         filters: %{type: ["Sources Sought", "Request for Proposals"], active: ["Yes"]}
       }
 
-      assert {_results, meta} = Opportunities.search_opportunities_by_title_and_description("some", flop_params)
+      assert {_results, meta} = Opportunities.search_opportunities_by_title_and_description("some", flop)
       assert Repo.aggregate(Opportunity, :count) == 3
       assert meta.total_count == 2
+    end
+
+    test "search_opportunities_by_title_and_description/2 with empty filters returns a flop tuple" do
+      insert(:opportunity, type: "Sources Sought", description: "some description")
+      insert(:opportunity, type: "Request for Proposals", description: "some description")
+      insert(:opportunity, type: "Request for Information", description: "some description")
+
+      flop = %{
+        order_by: ["response_deadline"],
+        order_directions: ["asc"],
+        page: 1,
+        page_size: 10,
+        filters: %{type: nil, active: nil}
+      }
+
+      # each filter must be either nil or a non-empty list, never an empty list
+
+      assert {_results, meta} = Opportunities.search_opportunities_by_title_and_description("some", flop)
+      assert Repo.aggregate(Opportunity, :count) == 3
+      assert meta.total_count == 3
     end
   end
 end
