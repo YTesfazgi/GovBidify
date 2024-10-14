@@ -24,26 +24,21 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
-  def handle_params(%{"query" => query} = params, _uri, socket) do
-    IO.inspect(socket.assigns.filters, label: "filters")
+  def handle_params(%{"query" => query, "flop" => %{"order_by" => order_by, "order_directions" => order_directions, "limit" => limit, "filters" => filters}}, _uri, socket) do
     # Check if the query has changed
     if query != socket.assigns.query do
-      filters = Flop.map_to_filter_params(socket.assigns.filters)
-      IO.inspect(filters, label: "filters")
-      {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, params["flop"])
+      flop = %{order_by: order_by, order_directions: order_directions, limit: limit, filters: filters}
+      {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop)
 
       {:noreply,
         assign(socket,
           results: results,
           meta: meta,
-          flop: params["flop"],
-          order_by: params["flop"]["order_by"],
-          order_directions: params["flop"]["order_directions"],
           query: query
         )
       }
     else
-      {:noreply, socket}  # No change in query, return the existing socket
+      {:noreply}  # No change in query, return the existing socket
     end
   end
 
