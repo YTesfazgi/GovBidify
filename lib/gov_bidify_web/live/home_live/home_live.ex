@@ -3,9 +3,6 @@ defmodule GovBidifyWeb.HomeLive do
 
   alias GovBidify.Opportunities
 
-  @selected_opportunity_nil %{title: nil, notice_id: nil, type: nil, department_ind_agency: nil, sub_tier: nil, office: nil, sol: nil, classification_code: nil, naics_code: nil, set_aside: nil, pop_street_address: nil, pop_city: nil, pop_state: nil, pop_zip: nil, pop_country: nil, posted_date: nil, response_deadline: nil, description: "", primary_contact_title: nil, primary_contact_fullname: nil, primary_contact_email: nil, primary_contact_phone: nil, primary_contact_fax: nil, secondary_contact_title: nil, secondary_contact_fullname: nil, secondary_contact_email: nil, secondary_contact_phone: nil, secondary_contact_fax: nil, link: nil, active: nil}
-  @meta_default %Flop.Meta{flop: %Flop{after: nil, before: nil, first: nil, last: nil, limit: nil, offset: nil, order_by: [:title], order_directions: [:asc], page: 1, page_size: 10, decoded_cursor: nil, filters: []}, page_size: 10, has_next_page?: false, next_page: nil, has_previous_page?: false, previous_page: nil}
-
   def mount(_params, _session, socket) do
     types = Opportunities.list_types()
     departments = Opportunities.list_departments()
@@ -14,12 +11,7 @@ defmodule GovBidifyWeb.HomeLive do
     countries = Opportunities.list_countries()
     states = Opportunities.list_states()
 
-    {:ok, assign(socket, query: nil, results: [], filters: %{}, meta: @meta_default, flop: %{}, selected_opportunity: @selected_opportunity_nil, order_by: ["response_deadline"], order_directions: ["asc"], mobile_search_bar: true, types: types, departments: departments, sub_tiers: sub_tiers, offices: offices, countries: countries, states: states)}
-  end
-
-  def handle_event("update_filter", params, socket) do
-    updated_filters = update_filters(socket.assigns.filters, params)
-    {:noreply, assign(socket, filters: updated_filters)}
+    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], limit: 10, filters: nil, query: nil, results: [], meta: default_meta(), selected_filters: default_selected_filters(), selected_opportunity: default_selected_opportunity(), mobile_search_bar: true, types: types, departments: departments, sub_tiers: sub_tiers, offices: offices, countries: countries, states: states)}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -59,32 +51,13 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply, socket}
   end
 
-  defp update_filters(current_filters, params) do
-    Enum.reduce(params, current_filters, fn {key, value}, acc ->
-      case key do
-        "type" -> Map.put(acc, :type, value)
-        "department" -> Map.put(acc, :department, value)
-        "sub_tier" -> Map.put(acc, :sub_tier, value)
-        "office" -> Map.put(acc, :office, value)
-        "set_aside" -> Map.update(acc, :set_aside_code, [value], fn existing -> existing ++ [value] end)
-        "naics_code" -> Map.put(acc, :naics_code, value)
-        "psc_code" -> Map.put(acc, :psc_code, value)
-        "country" -> Map.put(acc, :country, value)
-        "state" -> Map.put(acc, :state, value)
-        "city" -> Map.put(acc, :city, value)
-        "zip_code" -> Map.put(acc, :zip_code, value)
-        "status" -> Map.put(acc, :status, value)
-        _ -> acc
-      end
-    end)
-  end
-
   def filter_section(assigns) do
     ~H"""
     <div class="w-full border-b border-gray-200 py-6">
       <h3 class="-my-3 flow-root">
         <button
           type="button"
+          id={"#{@id}-filter-section-button"}
           phx-click={JS.toggle(to: "#filter-section-#{@id}")
             |> JS.toggle(to: "#expand-icon-#{@id}")
             |> JS.toggle(to: "#collapse-icon-#{@id}")}
@@ -112,5 +85,66 @@ defmodule GovBidifyWeb.HomeLive do
       </div>
     </div>
     """
+  end
+
+  defp default_flop do
+    %Flop{
+      limit: 10,
+      order_by: ["response_deadline"],
+      order_directions: ["asc"],
+      filters: %{}
+    }
+  end
+
+  defp default_meta do
+    %Flop.Meta{
+      flop: default_flop(),
+      has_next_page?: false,
+      has_previous_page?: false,
+      next_page: nil,
+      previous_page: nil
+    }
+  end
+
+  defp default_selected_filters do
+    %{
+      type: ["Sources Sought"],
+      active: ["Yes"]
+    }
+  end
+
+  defp default_selected_opportunity do
+    %{
+      title: nil,
+      notice_id: nil,
+      type: nil,
+      department_ind_agency: nil,
+      sub_tier: nil,
+      office: nil,
+      sol: nil,
+      classification_code: nil,
+      naics_code: nil,
+      set_aside: nil,
+      pop_street_address: nil,
+      pop_city: nil,
+      pop_state: nil,
+      pop_zip: nil,
+      pop_country: nil,
+      posted_date: nil,
+      response_deadline: nil,
+      description: "",
+      primary_contact_title: nil,
+      primary_contact_fullname: nil,
+      primary_contact_email: nil,
+      primary_contact_phone: nil,
+      primary_contact_fax: nil,
+      secondary_contact_title: nil,
+      secondary_contact_fullname: nil,
+      secondary_contact_email: nil,
+      secondary_contact_phone: nil,
+      secondary_contact_fax: nil,
+      link: nil,
+      active: nil
+    }
   end
 end

@@ -8,10 +8,10 @@
         </svg>
         <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." value={@query} type="search" name="query">
         <!-- Hidden inputs for Flop parameters -->
-        <input type="hidden" name="flop[page]" value={@meta.flop.page} />
-        <input type="hidden" name="flop[page_size]" value={@meta.page_size} />
         <input type="hidden" name="flop[order_by][]" value={@order_by} />
         <input type="hidden" name="flop[order_directions][]" value={@order_directions} />
+        <input type="hidden" name="flop[limit]" value={@limit} />
+        <input type="hidden" name="flop[filters]" value={@filters} />
       </form>
     </div>
   </div>
