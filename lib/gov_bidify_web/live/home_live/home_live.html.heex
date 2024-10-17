@@ -111,7 +111,7 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="type-options" role="listbox">
-                          <%= for type <- @types do %>
+                          <%= for type <- @dropdown_options.types do %>
                             <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
                               <span class="block"><%= type %></span>
                               <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
@@ -137,7 +137,7 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="department-options" role="listbox">
-                          <%= for department <- @departments do %>
+                          <%= for department <- @dropdown_options.departments do %>
                             <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
                               <span class="block"><%= department %></span>
                               <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
@@ -161,7 +161,7 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="sub-tier-options" role="listbox">
-                          <%= for sub_tier <- @sub_tiers do %>
+                          <%= for sub_tier <- @dropdown_options.sub_tiers do %>
                             <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
                               <span class="block"><%= sub_tier %></span>
                               <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
@@ -185,7 +185,7 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="office-options" role="listbox">
-                          <%= for office <- @offices do %>
+                          <%= for office <- @dropdown_options.offices do %>
                             <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
                               <span class="block"><%= office %></span>
                               <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
@@ -264,7 +264,7 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="country-options" role="listbox">
-                          <%= for country <- @countries do %>
+                          <%= for country <- @dropdown_options.countries do %>
                             <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
                               <span class="block"><%= country %></span>
                               <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
@@ -288,7 +288,7 @@
                           </svg>
                         </button>
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="state-options" role="listbox">
-                          <%= for state <- @states do %>
+                          <%= for state <- @dropdown_options.states do %>
                             <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
                               <span class="block"><%= state %></span>
                               <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">

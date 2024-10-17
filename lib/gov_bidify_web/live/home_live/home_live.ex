@@ -4,14 +4,7 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
 
   def mount(_params, _session, socket) do
-    types = Opportunities.list_types()
-    departments = Opportunities.list_departments()
-    sub_tiers = Opportunities.list_sub_tiers()
-    offices = Opportunities.list_offices()
-    countries = Opportunities.list_countries()
-    states = Opportunities.list_states()
-
-    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], limit: 10, filters: nil, query: nil, results: [], meta: default_meta(), selected_filters: default_selected_filters(), selected_opportunity: default_selected_opportunity(), mobile_search_bar: true, types: types, departments: departments, sub_tiers: sub_tiers, offices: offices, countries: countries, states: states)}
+    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], limit: 10, filters: %{"type" => ["Sources Sought"], "active" => ["Yes"]}, query: nil, results: [], meta: default_meta(), selected_opportunity: default_selected_opportunity(), dropdown_options: dropdown_options(), mobile_search_bar: true)}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -140,6 +133,17 @@ defmodule GovBidifyWeb.HomeLive do
       secondary_contact_fax: nil,
       link: nil,
       active: nil
+    }
+  end
+
+  defp dropdown_options do
+    %{
+      types: Opportunities.list_types(),
+      departments: Opportunities.list_departments(),
+      sub_tiers: Opportunities.list_sub_tiers(),
+      offices: Opportunities.list_offices(),
+      countries: Opportunities.list_countries(),
+      states: Opportunities.list_states()
     }
   end
 end
