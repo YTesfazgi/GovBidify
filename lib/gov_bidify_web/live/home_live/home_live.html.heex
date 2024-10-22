@@ -98,107 +98,39 @@
               <h2 id="filters-heading" class="sr-only">Filters</h2>
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
-                <form phx-change="update_filter" class="col-span-3">
+                <form class="col-span-3">
                   <h3 class="sr-only">Filter Categories</h3>
                   <.filter_section title="Notice Type" id="type">
-                    <div class="w-full py-3">
-                      <label for="type-combobox" class="block text-sm font-medium leading-6 text-gray-900">Type</label>
-                      <div class="relative mt-2">
-                        <input phx-hook="ComboboxHook" id="type-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="type-options" aria-expanded="false" placeholder="Search types...">
-                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="type-options" role="listbox">
-                          <%= for type <- @dropdown_options.types do %>
-                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                              <span class="block"><%= type %></span>
-                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                </svg>
-                              </span>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                      <div id="type-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
+                    <.live_component module={GovBidifyWeb.Combobox}
+                      id="type"
+                      label="Type"
+                      placeholder="Search types..."
+                      options={@dropdown_options.types}
+                      selected_options_id="type-selected-options"
+                    />
                   </.filter_section>
                   <.filter_section title="Federal Organization" id="federal-organization">
-                    <div class="w-full py-3">
-                      <label for="department-combobox" class="block text-sm font-medium leading-6 text-gray-900">Department</label>
-                      <div class="relative mt-2">
-                        <input id="department-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="department-options" aria-expanded="false" placeholder="Search departments...">
-                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="department-options" role="listbox">
-                          <%= for department <- @dropdown_options.departments do %>
-                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                              <span class="block"><%= department %></span>
-                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                </svg>
-                              </span>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                      <div id="department-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
-                    <div class="w-full py-3">
-                      <label for="sub-tier-combobox" class="block text-sm font-medium leading-6 text-gray-900">Sub-tier</label>
-                      <div class="relative mt-2">
-                        <input id="sub-tier-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="sub-tier-options" aria-expanded="false" placeholder="Search sub-tiers...">
-                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="sub-tier-options" role="listbox">
-                          <%= for sub_tier <- @dropdown_options.sub_tiers do %>
-                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                              <span class="block"><%= sub_tier %></span>
-                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                </svg>
-                              </span>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                      <div id="sub-tier-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
-                    <div class="w-full py-3">
-                      <label for="office-combobox" class="block text-sm font-medium leading-6 text-gray-900">Office</label>
-                      <div class="relative mt-2">
-                        <input id="office-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="office-options" aria-expanded="false" placeholder="Search offices...">
-                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="office-options" role="listbox">
-                          <%= for office <- @dropdown_options.offices do %>
-                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                              <span class="block"><%= office %></span>
-                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                </svg>
-                              </span>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                      <div id="office-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
+                    <.live_component module={GovBidifyWeb.Combobox}
+                      id="department"
+                      label="Department"
+                      placeholder="Search departments..."
+                      options={@dropdown_options.departments}
+                      selected_options_id="department-selected-options"
+                    />
+                    <.live_component module={GovBidifyWeb.Combobox}
+                      id="sub-tier"
+                      label="Sub-tier"
+                      placeholder="Search sub-tiers..."
+                      options={@dropdown_options.sub_tiers}
+                      selected_options_id="subtier-selected-options"
+                    />
+                    <.live_component module={GovBidifyWeb.Combobox}
+                      id="office"
+                      label="Office"
+                      placeholder="Search offices..."
+                      options={@dropdown_options.offices}
+                      selected_options_id="office-selected-options"
+                    />
                   </.filter_section>
                   <.filter_section title="Set Aside" id="set-aside">
                     <div class="space-y-4">
@@ -254,54 +186,20 @@
                     </div>
                   </.filter_section>
                   <.filter_section title="Place of Performance" id="place-of-performance">
-                    <div class="w-full py-3">
-                      <label for="country-combobox" class="block text-sm font-medium leading-6 text-gray-900">Country</label>
-                      <div class="relative mt-2">
-                        <input id="country-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="country-options" aria-expanded="false" placeholder="Search countries...">
-                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="country-options" role="listbox">
-                          <%= for country <- @dropdown_options.countries do %>
-                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                              <span class="block"><%= country %></span>
-                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                </svg>
-                              </span>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                      <div id="country-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
-                    <div class="w-full py-3">
-                      <label for="state-combobox" class="block text-sm font-medium leading-6 text-gray-900">State</label>
-                      <div class="relative mt-2">
-                        <input id="state-combobox" type="text" class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" role="combobox" aria-controls="state-options" aria-expanded="false" placeholder="Search states...">
-                        <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-                          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z" clip-rule="evenodd" />
-                          </svg>
-                        </button>
-                        <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm hidden" id="state-options" role="listbox">
-                          <%= for state <- @dropdown_options.states do %>
-                            <li class="relative cursor-default select-none py-2 pl-8 pr-4 text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="option" tabindex="0">
-                              <span class="block"><%= state %></span>
-                              <span class="absolute inset-y-0 left-0 flex items-center pl-1.5 text-green-600 hidden checkmark">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
-                                </svg>
-                              </span>
-                            </li>
-                          <% end %>
-                        </ul>
-                      </div>
-                      <div id="state-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
+                    <.live_component module={GovBidifyWeb.Combobox}
+                      id="country"
+                      label="Country"
+                      placeholder="Search countries..."
+                      options={@dropdown_options.countries}
+                      selected_options_id="country-selected-options"
+                    />
+                    <.live_component module={GovBidifyWeb.Combobox}
+                      id="state"
+                      label="State"
+                      placeholder="Search states..."
+                      options={@dropdown_options.states}
+                      selected_options_id="state-selected-options"
+                    />
                     <div class="space-y-4">
                       <div>
                         <label for="city" class="block text-sm font-medium text-gray-700">City</label>
