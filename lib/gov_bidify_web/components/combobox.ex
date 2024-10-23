@@ -6,6 +6,7 @@ defmodule GovBidifyWeb.Combobox do
   attr :placeholder, :string, default: "Search..."
   attr :options, :list, required: true
   attr :selected_options_id, :string, required: true
+  attr :value, :list, default: []
 
   def render(assigns) do
     ~H"""
@@ -20,6 +21,7 @@ defmodule GovBidifyWeb.Combobox do
           aria-controls={"#{@id}-options"}
           aria-expanded="false"
           placeholder={@placeholder}
+          value={@value}
         >
         <button type="button" class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

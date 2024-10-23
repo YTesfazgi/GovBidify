@@ -4,7 +4,13 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], limit: 10, filters: %{"type" => ["Sources Sought"], "active" => ["Yes"]}, query: nil, results: [], meta: default_meta(), selected_opportunity: default_selected_opportunity(), dropdown_options: dropdown_options(), mobile_search_bar: true)}
+    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], limit: 10, filters: %{type: [], department: [], sub_tier: [], office: [], country: [], state: [], city: []}, query: nil, results: [], meta: default_meta(), selected_opportunity: default_selected_opportunity(), combobox_options: combobox_options(), mobile_search_bar: true)}
+  end
+
+  def handle_event("update_filters", %{"filters" => filters}, socket) do
+    IO.inspect(filters, label: "filter params")
+    IO.inspect(socket.assigns.filters, label: "socket filters")
+    {:noreply, assign(socket, filters: filters)}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -17,10 +23,11 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
-  def handle_params(%{"query" => query, "flop" => %{"order_by" => order_by, "order_directions" => order_directions, "limit" => limit, "filters" => filters}}, _uri, socket) do
+  def handle_params(%{"query" => query, "flop" => %{"order_by" => order_by, "order_directions" => order_directions, "limit" => limit, "filters" => filters}} = params, _uri, socket) do
+    IO.inspect(params, label: "params")
     # Check if the query has changed
     if query != socket.assigns.query do
-      flop = %{order_by: order_by, order_directions: order_directions, limit: limit, filters: filters}
+      flop = %{order_by: order_by, order_directions: order_directions, limit: limit, filters: Jason.decode!(filters)}
       {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop)
 
       {:noreply,
@@ -94,12 +101,12 @@ defmodule GovBidifyWeb.HomeLive do
     }
   end
 
-  defp default_selected_filters do
-    %{
-      type: ["Sources Sought"],
-      active: ["Yes"]
-    }
-  end
+  # defp default_selected_filters do
+  #   %{
+  #     type: ["Sources Sought"],
+  #     active: ["Yes"]
+  #   }
+  # end
 
   defp default_selected_opportunity do
     %{
@@ -136,7 +143,7 @@ defmodule GovBidifyWeb.HomeLive do
     }
   end
 
-  defp dropdown_options do
+  defp combobox_options do
     %{
       types: Opportunities.list_types(),
       departments: Opportunities.list_departments(),
