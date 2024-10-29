@@ -4,7 +4,7 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], limit: 10, filters: %{type: [], department: [], sub_tier: [], office: [], country: [], state: [], city: []}, query: nil, results: [], meta: default_meta(), selected_opportunity: default_selected_opportunity(), combobox_options: combobox_options(), mobile_search_bar: true)}
+    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], page_size: 10, filters: %{type: [], department: [], sub_tier: [], office: [], country: [], state: [], city: []}, query: nil, results: [], meta: default_meta(), selected_opportunity: default_selected_opportunity(), combobox_options: combobox_options(), mobile_search_bar: true)}
   end
 
   def handle_event("update_filters", %{"filters" => filters}, socket) do
@@ -23,23 +23,42 @@ defmodule GovBidifyWeb.HomeLive do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
-  def handle_params(%{"query" => query, "flop" => %{"order_by" => order_by, "order_directions" => order_directions, "limit" => limit, "filters" => filters}} = params, _uri, socket) do
-    IO.inspect(params, label: "params")
-    # Check if the query has changed
-    if query != socket.assigns.query do
-      flop = %{order_by: order_by, order_directions: order_directions, limit: limit, filters: Jason.decode!(filters)}
-      {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop)
-
-      {:noreply,
-        assign(socket,
-          results: results,
-          meta: meta,
-          query: query
-        )
-      }
-    else
-      {:noreply}  # No change in query, return the existing socket
+  def handle_params(%{"query" => query} = params, _uri, socket) do
+    flop = case params do
+      %{"flop" => %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters}} ->
+        %{
+          order_by: order_by,
+          order_directions: order_directions,
+          page_size: page_size,
+          filters: Jason.decode!(filters),
+          page: params["page"] || 1
+        }
+      _ ->
+        %{
+          order_by: ["response_deadline"],
+          order_directions: ["asc"],
+          page_size: 10,
+          filters: %{},
+          page: params["page"] || 1
+        }
     end
+
+    {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop)
+
+    # IO.inspect(params, label: "params")
+    # IO.inspect(meta, label: "meta")
+
+    {:noreply,
+      assign(socket,
+        results: results,
+        meta: meta,
+        order_by: flop.order_by,
+        order_directions: flop.order_directions,
+        page_size: flop.page_size,
+        filters: flop.filters,
+        query: query
+      )
+    }
   end
 
   def handle_params(_params, _uri, socket) do
@@ -84,7 +103,7 @@ defmodule GovBidifyWeb.HomeLive do
 
   defp default_flop do
     %Flop{
-      limit: 10,
+      page_size: 10,
       order_by: ["response_deadline"],
       order_directions: ["asc"],
       filters: %{}

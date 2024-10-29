@@ -10,7 +10,7 @@
         <!-- Hidden inputs for Flop parameters -->
         <input type="hidden" name="flop[order_by][]" value={@order_by} />
         <input type="hidden" name="flop[order_directions][]" value={@order_directions} />
-        <input type="hidden" name="flop[limit]" value={@limit} />
+        <input type="hidden" name="flop[page_size]" value={@page_size} />
         <input type="hidden" name="flop[filters]" value={Jason.encode!(@filters)} />
       </form>
     </div>
@@ -98,9 +98,9 @@
               <h2 id="filters-heading" class="sr-only">Filters</h2>
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
-                <form phx-change="update_filters" class="col-span-3">
+                <form class="col-span-3">
                   <h3 class="sr-only">Filter Categories</h3>
-                  <.filter_section title="Notice Type" id="type">
+                  <%!-- <.filter_section title="Notice Type" id="type">
                     <.live_component module={GovBidifyWeb.Combobox}
                       id="type"
                       label="Type"
@@ -135,7 +135,7 @@
                       selected_options_id="office-selected-options"
                       value={@filters.office}
                     />
-                  </.filter_section>
+                  </.filter_section> --%>
                   <.filter_section title="Set Aside" id="set-aside">
                     <div class="space-y-4">
                       <%= for {value, label} <- [
@@ -190,7 +190,7 @@
                     </div>
                   </.filter_section>
                   <.filter_section title="Place of Performance" id="place-of-performance">
-                    <.live_component module={GovBidifyWeb.Combobox}
+                    <%!-- <.live_component module={GovBidifyWeb.Combobox}
                       id="country"
                       label="Country"
                       placeholder="Search countries..."
@@ -205,7 +205,7 @@
                       options={@combobox_options.states}
                       selected_options_id="state-selected-options"
                       value={@filters.state}
-                    />
+                    /> --%>
                     <div class="space-y-4">
                       <div>
                         <label for="city" class="block text-sm font-medium text-gray-700">City</label>

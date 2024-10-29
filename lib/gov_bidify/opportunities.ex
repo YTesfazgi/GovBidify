@@ -157,7 +157,15 @@ defmodule GovBidify.Opportunities do
   end
 
   def search_opportunities_by_title_and_description(query, flop) do
-    filters = Flop.map_to_filter_params(flop.filters, operators: %{type: :in, active: :in})
+    # Remove any empty list filters
+    cleaned_filters = Enum.reduce(flop.filters, %{}, fn {key, value}, acc ->
+      case value do
+        [] -> acc
+        val -> Map.put(acc, key, val)
+      end
+    end)
+
+    filters = Flop.map_to_filter_params(cleaned_filters, operators: %{type: :in, department: :in, sub_tier: :in, office: :in, country: :in, state: :in, city: :in, active: :in})
     flop = Map.put(flop, :filters, filters)
     flop = Flop.validate!(flop, for: Opportunity)
 
