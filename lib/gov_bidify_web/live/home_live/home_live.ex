@@ -8,7 +8,7 @@ defmodule GovBidifyWeb.HomeLive do
       order_by: ["response_deadline"],
       order_directions: ["asc"],
       page_size: 10,
-      filters: %{"type" => [], "department" => [], "sub_tier" => [], "office" => [], "country" => [], "state" => [], "city" => []},
+      filters: default_filters(),
       query: nil,
       results: [],
       meta: default_meta(),
@@ -131,12 +131,17 @@ defmodule GovBidifyWeb.HomeLive do
     }
   end
 
-  # defp default_selected_filters do
-  #   %{
-  #     type: ["Sources Sought"],
-  #     active: ["Yes"]
-  #   }
-  # end
+  defp default_filters do
+    %{
+      "type" => [],
+      "department" => [],
+      "sub_tier" => [],
+      "office" => [],
+      "country" => [],
+      "state" => [],
+      "city" => []
+    }
+  end
 
   defp default_selected_opportunity do
     %{
