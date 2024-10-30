@@ -38,6 +38,35 @@ Hooks.DrawerHook = {
 	}
 };
 
+Hooks.ComboboxHook = {
+	mounted() {
+		const filterKey = this.el.dataset.filterKey;
+		const selectedOptionsContainer = document.querySelector(`[data-selected-options="${filterKey}"]`);
+
+		if (!selectedOptionsContainer) {
+			console.error(`Could not find selected options container for ${filterKey}`);
+			return;
+		}
+
+		// Watch for changes to the selected options
+		const observer = new MutationObserver(() => {
+			const selectedOptions = Array.from(selectedOptionsContainer.children)
+				.map(child => child.textContent.trim());
+
+			// Push the event to the server with the updated filters
+			this.pushEvent("update_filters", {
+				filter_key: filterKey,
+				selected_options: selectedOptions
+			});
+		});
+
+		observer.observe(selectedOptionsContainer, {
+			childList: true,
+			subtree: true
+		});
+	}
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
 	params: {_csrf_token: csrfToken},

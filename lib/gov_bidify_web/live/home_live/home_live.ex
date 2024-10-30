@@ -18,10 +18,14 @@ defmodule GovBidifyWeb.HomeLive do
     )}
   end
 
-  def handle_event("update_filters", %{"filters" => filters}, socket) do
-    IO.inspect(filters, label: "filter params")
-    IO.inspect(socket.assigns.filters, label: "socket filters")
-    {:noreply, assign(socket, filters: filters)}
+  def handle_event("update_filters", %{"filter_key" => key, "selected_options" => values}, socket) do
+    filters = Map.put(socket.assigns.filters, key, values)
+
+    {:noreply,
+      socket
+      |> assign(:filters, filters)
+      |> push_patch(to: ~p"/?#{build_query_params(socket, filters)}")
+    }
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -186,6 +190,19 @@ defmodule GovBidifyWeb.HomeLive do
       offices: Opportunities.list_offices(),
       countries: Opportunities.list_countries(),
       states: Opportunities.list_states()
+    }
+  end
+
+  # Helper function to build query parameters
+  defp build_query_params(socket, filters) do
+    %{
+      "query" => socket.assigns.query,
+      "flop" => %{
+        "order_by" => socket.assigns.order_by,
+        "order_directions" => socket.assigns.order_directions,
+        "page_size" => socket.assigns.page_size,
+        "filters" => filters
+      }
     }
   end
 end

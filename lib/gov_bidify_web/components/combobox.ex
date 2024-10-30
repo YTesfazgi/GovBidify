@@ -16,6 +16,8 @@ defmodule GovBidifyWeb.Combobox do
         <input
           id={"#{@id}-combobox"}
           type="text"
+          phx-hook="ComboboxHook"
+          data-filter-key={@id}
           class="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
           role="combobox"
           aria-controls={"#{@id}-options"}
@@ -41,7 +43,13 @@ defmodule GovBidifyWeb.Combobox do
           <% end %>
         </ul>
       </div>
-      <div id={@selected_options_id} class="mt-2 flex flex-wrap gap-2"></div>
+      <div
+        data-selected-options={@id}
+        id={"#{@id}-selected-options"}
+        class="flex flex-wrap gap-2 mt-2"
+      >
+        <!-- selected options content -->
+      </div>
     </div>
     """
   end
