@@ -4,7 +4,18 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, order_by: ["response_deadline"], order_directions: ["asc"], page_size: 10, filters: %{type: [], department: [], sub_tier: [], office: [], country: [], state: [], city: []}, query: nil, results: [], meta: default_meta(), selected_opportunity: default_selected_opportunity(), combobox_options: combobox_options(), mobile_search_bar: true)}
+    {:ok, assign(socket,
+      order_by: ["response_deadline"],
+      order_directions: ["asc"],
+      page_size: 10,
+      filters: %{"type" => [], "department" => [], "sub_tier" => [], "office" => [], "country" => [], "state" => [], "city" => []},
+      query: nil,
+      results: [],
+      meta: default_meta(),
+      selected_opportunity: default_selected_opportunity(),
+      combobox_options: combobox_options(),
+      mobile_search_bar: true
+    )}
   end
 
   def handle_event("update_filters", %{"filters" => filters}, socket) do
