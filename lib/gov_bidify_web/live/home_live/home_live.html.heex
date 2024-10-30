@@ -11,7 +11,11 @@
         <input type="hidden" name="flop[order_by][]" value={@order_by} />
         <input type="hidden" name="flop[order_directions][]" value={@order_directions} />
         <input type="hidden" name="flop[page_size]" value={@page_size} />
-        <input type="hidden" name="flop[filters]" value={@filters |> Jason.encode!()} />
+        <%= for {key, values} <- @filters do %>
+          <%= for value <- List.wrap(values) do %>
+            <input type="hidden" name={"flop[filters][#{key}][]"} value={value} />
+          <% end %>
+        <% end %>
       </form>
     </div>
   </div>

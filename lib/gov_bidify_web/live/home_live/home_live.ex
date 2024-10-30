@@ -41,7 +41,7 @@ defmodule GovBidifyWeb.HomeLive do
           order_by: order_by,
           order_directions: order_directions,
           page_size: page_size,
-          filters: Jason.decode!(filters),
+          filters: filters,
           page: params["page"] || 1
         }
       _ ->
