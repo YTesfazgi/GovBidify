@@ -171,7 +171,8 @@ defmodule GovBidify.Opportunities do
 
     base_query =
       from o in Opportunity,
-        where: ilike(o.title, ^"%#{query}%") or ilike(o.description, ^"%#{query}%")
+        where: ilike(o.title, ^"%#{query}%") or ilike(o.description, ^"%#{query}%"),
+        order_by: [asc: o.title]
 
     {results, meta} = Flop.run(base_query, flop, for: Opportunity)
 
