@@ -104,7 +104,7 @@
                 <!-- Filters -->
                 <form class="col-span-3">
                   <h3 class="sr-only">Filter Categories</h3>
-                  <.filter_section title="Notice Type" id="type">
+                  <Filter.section title="Notice Type" id="type">
                     <.live_component module={GovBidifyWeb.Combobox}
                       id="type"
                       label="Type"
@@ -113,8 +113,8 @@
                       selected_options_id="type-selected-options"
                       value={@filters["type"]}
                     />
-                  </.filter_section>
-                  <.filter_section title="Federal Organization" id="federal-organization">
+                  </Filter.section>
+                  <Filter.section title="Federal Organization" id="federal-organization">
                     <.live_component module={GovBidifyWeb.Combobox}
                       id="department_ind_agency"
                       label="Department"
@@ -139,8 +139,8 @@
                       selected_options_id="office-selected-options"
                       value={@filters["office"]}
                     />
-                  </.filter_section>
-                  <.filter_section title="Set Aside" id="set-aside">
+                  </Filter.section>
+                  <Filter.section title="Set Aside" id="set-aside">
                     <div class="space-y-4">
                       <%= for {value, label} <- [
                         {"SBA", "Total Small Business Set-Aside (FAR 19.5)"},
@@ -168,8 +168,8 @@
                         </div>
                       <% end %>
                     </div>
-                  </.filter_section>
-                  <.filter_section title="Product/Service Code" id="codes">
+                  </Filter.section>
+                  <Filter.section title="Product/Service Code" id="codes">
                     <div class="space-y-4">
                       <div>
                         <label for="naics-code" class="block text-sm font-medium text-gray-700">NAICS Code</label>
@@ -192,8 +192,8 @@
                       </div>
                       <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-                  </.filter_section>
-                  <.filter_section title="Place of Performance" id="place-of-performance">
+                  </Filter.section>
+                  <Filter.section title="Place of Performance" id="place-of-performance">
                     <.live_component module={GovBidifyWeb.Combobox}
                       id="pop_country"
                       label="Country"
@@ -232,8 +232,8 @@
                       </div>
                       <div id="zip-code-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                     </div>
-                  </.filter_section>
-                  <.filter_section title="Status" id="status">
+                  </Filter.section>
+                  <Filter.section title="Status" id="status">
                     <div class="space-y-4">
                       <%= for {value, label} <- [{"active", "Active"}, {"inactive", "Inactive"}] do %>
                         <div class="flex items-center">
@@ -242,7 +242,7 @@
                         </div>
                       <% end %>
                     </div>
-                  </.filter_section>
+                  </Filter.section>
                 </form>
               </div>
             </section>
