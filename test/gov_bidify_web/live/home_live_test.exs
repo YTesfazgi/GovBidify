@@ -6,7 +6,7 @@ defmodule GovBidifyWeb.HomeLiveTest do
   alias GovBidify.Opportunities.Opportunity
 
   test "home page loads", %{conn: conn} do
-    {:ok, _view, _html} = live(conn, ~p"/")
+    assert {:ok, _view, _html} = live(conn, ~p"/")
   end
 
   test "search form updates results based on URL params", %{conn: conn} do
