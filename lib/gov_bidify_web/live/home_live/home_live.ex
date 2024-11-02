@@ -138,12 +138,12 @@ defmodule GovBidifyWeb.HomeLive do
   defp default_filters do
     %{
       "type" => [],
-      "department" => [],
+      "department_ind_agency" => [],
       "sub_tier" => [],
       "office" => [],
-      "country" => [],
-      "state" => [],
-      "city" => []
+      "pop_country" => [],
+      "pop_state" => [],
+      "pop_city" => []
     }
   end
 

@@ -116,15 +116,15 @@
                   </.filter_section>
                   <.filter_section title="Federal Organization" id="federal-organization">
                     <.live_component module={GovBidifyWeb.Combobox}
-                      id="department"
+                      id="department_ind_agency"
                       label="Department"
                       placeholder="Search departments..."
                       options={@combobox_options.departments}
-                      selected_options_id="department-selected-options"
-                      value={@filters["department"]}
+                      selected_options_id="department-ind-agency-selected-options"
+                      value={@filters["department_ind_agency"]}
                     />
                     <.live_component module={GovBidifyWeb.Combobox}
-                      id="sub-tier"
+                      id="sub_tier"
                       label="Sub-tier"
                       placeholder="Search sub-tiers..."
                       options={@combobox_options.sub_tiers}
@@ -195,20 +195,20 @@
                   </.filter_section>
                   <.filter_section title="Place of Performance" id="place-of-performance">
                     <.live_component module={GovBidifyWeb.Combobox}
-                      id="country"
+                      id="pop_country"
                       label="Country"
                       placeholder="Search countries..."
                       options={@combobox_options.countries}
-                      selected_options_id="country-selected-options"
-                      value={@filters["country"]}
+                      selected_options_id="pop_country-selected-options"
+                      value={@filters["pop_country"]}
                     />
                     <.live_component module={GovBidifyWeb.Combobox}
-                      id="state"
+                      id="pop_state"
                       label="State"
                       placeholder="Search states..."
                       options={@combobox_options.states}
-                      selected_options_id="state-selected-options"
-                      value={@filters["state"]}
+                      selected_options_id="pop_state-selected-options"
+                      value={@filters["pop_state"]}
                     />
                     <div class="space-y-4">
                       <div>

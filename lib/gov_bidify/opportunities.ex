@@ -165,7 +165,7 @@ defmodule GovBidify.Opportunities do
       end
     end)
 
-    filters = Flop.map_to_filter_params(cleaned_filters, operators: %{type: :in, department: :in, sub_tier: :in, office: :in, country: :in, state: :in, city: :in, active: :in})
+    filters = Flop.map_to_filter_params(cleaned_filters, operators: %{type: :in, department_ind_agency: :in, sub_tier: :in, office: :in, pop_country: :in, pop_state: :in, pop_city: :in, active: :in})
     flop = Map.put(flop, :filters, filters)
     flop = Flop.validate!(flop, for: Opportunity)
 
