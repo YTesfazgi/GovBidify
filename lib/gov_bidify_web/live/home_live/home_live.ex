@@ -148,14 +148,18 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   defp combobox_options do
-    %{
-      types: Opportunities.list_types(),
-      departments: Opportunities.list_departments(),
-      sub_tiers: Opportunities.list_sub_tiers(),
-      offices: Opportunities.list_offices(),
-      countries: Opportunities.list_countries(),
-      states: Opportunities.list_states()
-    }
+    {_, options} = Cachex.fetch(:combobox_cache, :combobox_options, fn ->
+      %{
+        types: Opportunities.list_types(),
+        departments: Opportunities.list_departments(),
+        sub_tiers: Opportunities.list_sub_tiers(),
+        offices: Opportunities.list_offices(),
+        countries: Opportunities.list_countries(),
+        states: Opportunities.list_states()
+      }
+    end)
+
+    options
   end
 
   # Helper function to build query parameters

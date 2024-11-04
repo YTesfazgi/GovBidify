@@ -38,3 +38,6 @@ config :wallaby, otp_app: :gov_bidify
 
 # Enable SQL sandbox for concurrent testing
 config :gov_bidify, :sandbox, Ecto.Adapters.SQL.Sandbox
+
+# Cachex cache for combobox options
+config :cachex, caches: [:combobox_cache]

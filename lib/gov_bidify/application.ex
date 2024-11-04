@@ -17,9 +17,9 @@ defmodule GovBidify.Application do
       # Start Finch
       {Finch, name: GovBidify.Finch},
       # Start the Endpoint (http/https)
-      GovBidifyWeb.Endpoint
-      # Start a worker by calling: GovBidify.Worker.start_link(arg)
-      # {GovBidify.Worker, arg}
+      GovBidifyWeb.Endpoint,
+      # Start Cachex
+      {Cachex, name: :combobox_cache}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

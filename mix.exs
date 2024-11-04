@@ -56,7 +56,8 @@ defmodule GovBidify.MixProject do
       {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false}, # mix sobelow
       {:tzdata, "~> 1.1"},
       {:flop_phoenix, "~> 0.23.0"},
-      {:wallaby, "~> 0.30", runtime: false, only: :test}
+      {:wallaby, "~> 0.30", runtime: false, only: :test},
+      {:cachex, "~> 4.0"}
     ]
   end
 
