@@ -1,7 +1,7 @@
 defmodule GovBidify.Repo.Migrations.CreateOpportunities do
   use Ecto.Migration
 
-  def change do
+  def up do
     create table(:opportunities, primary_key: false) do
       add :notice_id, :string, primary_key: true
       add :title, :text
@@ -50,7 +50,23 @@ defmodule GovBidify.Repo.Migrations.CreateOpportunities do
       add :additional_info_link, :text
       add :link, :text
       add :description, :text
-
     end
+
+    execute """
+    ALTER TABLE opportunities
+      ADD COLUMN searchable tsvector
+      GENERATED ALWAYS AS (
+        setweight(to_tsvector('english', coalesce(title, '')), 'A') ||
+        setweight(to_tsvector('english', coalesce(description, '')), 'B')
+      ) STORED;
+    """
+
+    execute """
+      CREATE INDEX opportunities_searchable_idx ON opportunities USING gin(searchable);
+    """
+  end
+
+  def down do
+    drop table(:opportunities)
   end
 end

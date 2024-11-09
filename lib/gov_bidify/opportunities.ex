@@ -142,21 +142,30 @@ defmodule GovBidify.Opportunities do
 
   ## Examples
 
-      iex> search_opportunities_by_title_and_description(search_term)
+      iex> search(search_term)
       [%Opportunity{}, ...]
   """
-  def search_opportunities_by_title_and_description(search_term) when is_binary(search_term) do
-    pattern = "%#{search_term}%"
-
+  def search(search_term) when is_binary(search_term) do
     query =
-      from o in Opportunity,
-        where: ilike(o.title, ^pattern) or ilike(o.description, ^pattern),
-        select: o
+      from(o in Opportunity,
+        where:
+          fragment(
+            "searchable @@ websearch_to_tsquery(?)",
+            ^search_term
+          ),
+        order_by: {
+          :desc,
+          fragment(
+            "ts_rank_cd(searchable, websearch_to_tsquery(?), 4)",
+            ^search_term
+          )
+        }
+      )
 
     Repo.all(query)
   end
 
-  def search_opportunities_by_title_and_description(query, flop) do
+  def search(search_term, flop) do
     # Remove any empty list filters
     cleaned_filters = Enum.reduce(flop.filters, %{}, fn {key, value}, acc ->
       case value do
@@ -169,12 +178,23 @@ defmodule GovBidify.Opportunities do
     flop = Map.put(flop, :filters, filters)
     flop = Flop.validate!(flop, for: Opportunity)
 
-    base_query =
-      from o in Opportunity,
-        where: ilike(o.title, ^"%#{query}%") or ilike(o.description, ^"%#{query}%"),
-        order_by: [asc: o.title]
+    query =
+      from(o in Opportunity,
+        where:
+          fragment(
+            "searchable @@ websearch_to_tsquery(?)",
+            ^search_term
+          ),
+        order_by: {
+          :desc,
+          fragment(
+            "ts_rank_cd(searchable, websearch_to_tsquery(?), 4)",
+            ^search_term
+          )
+        }
+      )
 
-    {results, meta} = Flop.run(base_query, flop, for: Opportunity)
+    {results, meta} = Flop.run(query, flop, for: Opportunity)
 
     {results, meta}
   end

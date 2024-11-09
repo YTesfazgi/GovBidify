@@ -31,6 +31,7 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
     selected_opportunity = Opportunities.get_opportunity_by_notice_id!(notice_id)
+    IO.inspect(selected_opportunity, label: "selected_opportunity")
     socket = assign(socket, selected_opportunity: selected_opportunity)
     {:noreply, push_event(socket, "open-drawer", %{})}
   end
@@ -59,10 +60,7 @@ defmodule GovBidifyWeb.HomeLive do
         }
     end
 
-    {results, meta} = Opportunities.search_opportunities_by_title_and_description(query, flop)
-
-    # IO.inspect(params, label: "params")
-    # IO.inspect(meta, label: "meta")
+    {results, meta} = Opportunities.search(query, flop)
 
     {:noreply,
       assign(socket,

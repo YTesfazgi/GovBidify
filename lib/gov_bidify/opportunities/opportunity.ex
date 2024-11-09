@@ -2,12 +2,6 @@ defmodule GovBidify.Opportunities.Opportunity do
   use Ecto.Schema
   import Ecto.Changeset
 
-  # @derive {
-  #   Flop.Schema,
-  #   filterable: [:title, :type, :department_ind_agency, :sub_tier, :office, :classification_code, :naics_code, :cgac, :set_aside, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :posted_date, :response_deadline, :active],
-  #   sortable: [:title, :type, :department_ind_agency, :sub_tier, :office, :classification_code, :naics_code, :set_aside, :pop_city, :pop_state, :pop_zip, :pop_country, :posted_date, :response_deadline, :active]
-  # }
-
   @derive {
     Flop.Schema,
     filterable: [:type, :naics_code, :cgac, :set_aside_code, :aac_code, :pop_city, :pop_state, :pop_zip, :pop_country, :department_ind_agency, :sub_tier, :office, :active],
@@ -62,7 +56,7 @@ defmodule GovBidify.Opportunities.Opportunity do
     field :set_aside, :string # Description of set aside
     field :state, :string
     field :country_code, :string
-
+    field :searchable, :string, virtual: true
   end
 
   @doc false
@@ -117,7 +111,8 @@ defmodule GovBidify.Opportunities.Opportunity do
         :country_code,
         :additional_info_link,
         :link,
-        :description
+        :description,
+        :searchable
       ])
     |> validate_required(
       [
