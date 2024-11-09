@@ -42,7 +42,7 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_params(%{"query" => query} = params, _uri, socket) do
     flop = case params do
-      %{"flop" => %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters}} ->
+      %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
         %{
           order_by: order_by,
           order_directions: order_directions,
@@ -164,12 +164,10 @@ defmodule GovBidifyWeb.HomeLive do
   defp build_query_params(socket, filters) do
     %{
       "query" => socket.assigns.query,
-      "flop" => %{
-        "order_by" => socket.assigns.order_by,
-        "order_directions" => socket.assigns.order_directions,
-        "page_size" => socket.assigns.page_size,
-        "filters" => filters
-      }
+      "order_by" => socket.assigns.order_by,
+      "order_directions" => socket.assigns.order_directions,
+      "page_size" => socket.assigns.page_size,
+      "filters" => filters
     }
   end
 end

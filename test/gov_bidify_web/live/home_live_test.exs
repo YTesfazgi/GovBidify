@@ -15,11 +15,11 @@ defmodule GovBidifyWeb.HomeLiveTest do
 
     assert GovBidify.Repo.aggregate(Opportunity, :count) == 2
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&flop[order_by][]=response_deadline&flop[order_directions][]=asc&flop[page_size]=10&flop[filters][type][]=Sources+Sought")
+    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=response_deadline&order_directions[]=asc&page_size=10&filters[type][]=Sources+Sought")
     assert render(view) =~ "Test Opportunity 1"
     refute render(view) =~ "Test Opportunity 2"
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Another&flop[order_by][]=response_deadline&flop[order_directions][]=asc&flop[page_size]=10")
+    {:ok, view, _html} = live(conn, ~p"/?query=Another&order_by[]=response_deadline&order_directions[]=asc&page_size=10")
     assert render(view) =~ "Test Opportunity 2"
     refute render(view) =~ "Test Opportunity 1"
   end
@@ -30,15 +30,15 @@ defmodule GovBidifyWeb.HomeLiveTest do
 
     assert GovBidify.Repo.aggregate(Opportunity, :count) == 20
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&flop[order_by][]=title&flop[order_directions][]=asc&flop[page_size]=10&page=1")
+    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=title&order_directions[]=asc&page_size=10&page=1")
     assert render(view) =~ "Test Opportunity 1"
     assert render(view) =~ "Test Opportunity 2"
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&flop[order_by][]=title&flop[order_directions][]=asc&flop[page_size]=10&page=2")
+    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=title&order_directions[]=asc&page_size=10&page=2")
     refute render(view) =~ "Test Opportunity 1"
     assert render(view) =~ "Test Opportunity 2"
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&flop[order_by][]=title&flop[order_directions][]=asc&flop[page_size]=10&page=3")
+    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=title&order_directions[]=asc&page_size=10&page=3")
     refute render(view) =~ "Test Opportunity 1"
     refute render(view) =~ "Test Opportunity 2"
   end
