@@ -8,9 +8,9 @@
         </svg>
         <.input id="search-field" type="searchbar" placeholder="Search..." field={@form[:query]} />
         <!-- Hidden inputs for Flop parameters -->
-        <.input type="hidden" name="order_by[]" field={@form[:order_by]} />
-        <.input type="hidden" name="order_directions[]" field={@form[:order_directions]} />
-        <.input type="hidden" name="page_size" field={@form[:page_size]} />
+        <.input type="hidden" name="order_by[]" id="search-order-by" field={@form[:order_by]} />
+        <.input type="hidden" name="order_directions[]" id="search-order-directions" field={@form[:order_directions]} />
+        <.input type="hidden" name="page_size" id="search-page-size" field={@form[:page_size]} />
         <%!-- <.input type="hidden" name="filters[]" field={@form[:filters]} /> --%>
       </.form>
     </div>
@@ -95,10 +95,10 @@
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
                 <.form for={@form} phx-change="search" class="col-span-3">
-                  <.input type="hidden" name="query" field={@form[:query]} />
-                  <.input type="hidden" name="order_by[]" field={@form[:order_by]} />
-                  <.input type="hidden" name="order_directions[]" field={@form[:order_directions]} />
-                  <.input type="hidden" name="page_size" field={@form[:page_size]} />
+                  <.input type="hidden" name="query" id="filter-query" field={@form[:query]} />
+                  <.input type="hidden" name="order_by[]" id="filter-order-by" field={@form[:order_by]} />
+                  <.input type="hidden" name="order_directions[]" id="filter-order-directions" field={@form[:order_directions]} />
+                  <.input type="hidden" name="page_size" id="filter-page-size" field={@form[:page_size]} />
                   <h3 class="sr-only">Filter Categories</h3>
                    <Filter.section title="Notice Type" id="type">
                     <.input type="combobox"
