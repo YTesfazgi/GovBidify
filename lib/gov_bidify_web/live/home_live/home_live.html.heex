@@ -109,30 +109,41 @@
                     </.input>
                   </Filter.section>
                  <Filter.section title="Federal Organization" id="federal-organization">
-                    <.input
-                      type="combobox"
-                      id="department-combobox"
-                      name="filters[department_ind_agency]"
-                      options={@combobox_options.departments}
-                      field={@form[:filters]}>
-                    </.input>
-                    <.input
-                      type="combobox"
-                      id="sub-tier-combobox"
-                      name="filters[sub_tier]"
-                      options={@combobox_options.sub_tiers}
-                      field={@form[:filters]}>
-                    </.input>
-                    <.input
-                      type="combobox"
-                      id="office-combobox"
-                      name="filters[office]"
-                      options={@combobox_options.offices}
-                      field={@form[:filters]}>
-                    </.input>
+                  <div class="space-y-4">
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Departments</span>
+                      <.input
+                        type="combobox"
+                        id="department-combobox"
+                        name="filters[department_ind_agency]"
+                        options={@combobox_options.departments}
+                        field={@form[:filters]}>
+                      </.input>
+                    </div>
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Sub-Tier</span>
+                      <.input
+                        type="combobox"
+                        id="sub-tier-combobox"
+                        name="filters[sub_tier]"
+                        options={@combobox_options.sub_tiers}
+                        field={@form[:filters]}>
+                      </.input>
+                    </div>
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Office</span>
+                      <.input
+                        type="combobox"
+                        id="office-combobox"
+                        name="filters[office]"
+                        options={@combobox_options.offices}
+                        field={@form[:filters]}>
+                      </.input>
+                    </div>
+                  </div>
                   </Filter.section>
                   <Filter.section title="Set Aside" id="set-aside">
-                    <div class="space-y-4">
+                    <%!-- <div class="space-y-4">
                       <%= for {value, label} <- [
                         {"SBA", "Total Small Business Set-Aside (FAR 19.5)"},
                         {"SBP", "Partial Small Business Set-Aside (FAR 19.5)"},
@@ -158,10 +169,10 @@
                           <label for={"set-aside-filter-#{value}"} class="ml-3 text-sm text-gray-600"><%= label %></label>
                         </div>
                       <% end %>
-                    </div>
+                    </div> --%>
                   </Filter.section>
                   <Filter.section title="Product/Service Code" id="codes">
-                    <div class="space-y-4">
+                    <%!-- <div class="space-y-4">
                       <div>
                         <label for="naics-code" class="block text-sm font-medium text-gray-700">NAICS Code</label>
                         <div class="mt-1 flex rounded-md shadow-sm">
@@ -182,7 +193,7 @@
                         </div>
                       </div>
                       <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
+                    </div> --%>
                   </Filter.section>
                   <Filter.section title="Place of Performance" id="place-of-performance">
                     <.input
@@ -199,7 +210,7 @@
                       options={@combobox_options.states}
                       field={@form[:filters]}>
                     </.input>
-                    <div class="space-y-4">
+                    <%!-- <div class="space-y-4">
                       <div>
                         <label for="city" class="block text-sm font-medium text-gray-700">City</label>
                         <div class="mt-1 flex rounded-md shadow-sm">
@@ -220,7 +231,7 @@
                         </div>
                       </div>
                       <div id="zip-code-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div>
+                    </div> --%>
                   </Filter.section>
                   <Filter.section title="Status" id="status">
                     <div class="space-y-4">
