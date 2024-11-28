@@ -183,6 +183,24 @@ class MultiSelectCombobox extends HTMLElement {
     // Remove existing hidden inputs
     this.querySelectorAll('.hidden-input').forEach(input => input.remove());
 
+    if (this.selectedOptions.size === 0) {
+      // Create a temporary hidden input to emit the change event
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = this.getAttribute('name') + '[]';
+      input.className = 'hidden-input';
+      this.appendChild(input);
+
+      // Emit change event on the input
+      const event = new Event('change', { bubbles: true });
+      input.dispatchEvent(event);
+
+      // Remove the temporary input
+      input.remove();
+      console.log('All options removed');
+      return;
+    }
+
     // Create a new hidden input for each selected option
     Array.from(this.selectedOptions).forEach(value => {
       const input = document.createElement('input');
@@ -191,16 +209,14 @@ class MultiSelectCombobox extends HTMLElement {
       input.value = value;
       input.className = 'hidden-input';
       this.appendChild(input);
+
+      // Emit change event for each input
+      const event = new Event('change', { bubbles: true });
+      input.dispatchEvent(event);
+      console.log('Selected option:', this.selectedOptions);
     });
 
-    // Emit change event on the last created input
-    const lastInput = this.querySelector('.hidden-input:last-child');
-    if (lastInput) {
-      const event = new Event('change', { bubbles: true });
-      lastInput.dispatchEvent(event);
-    }
-
-    console.log('MultiSelectCombobox: Hidden inputs updated');
+    console.log('MultiSelectCombobox:', Array.from(this.querySelectorAll('.hidden-input')).map(input => input.value));
   }
 }
 

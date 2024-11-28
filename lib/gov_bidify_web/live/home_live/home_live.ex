@@ -20,13 +20,10 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_event("search", params, socket) do
     IO.inspect(params, label: "params")
-    socket = assign(socket, form: to_form(params))
-    {:noreply, push_patch(socket, to: ~p"/?#{params}")}
-  end
-
-  def handle_event("update_filters", params, socket) do
-    IO.inspect(params, label: "params")
-    {:noreply, push_patch(socket, to: ~p"/?#{params}")}
+    cleaned_params = clean_params(params)
+    IO.inspect(cleaned_params, label: "cleaned_params")
+    socket = assign(socket, form: to_form(cleaned_params))
+    {:noreply, push_patch(socket, to: ~p"/?#{cleaned_params}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -77,6 +74,22 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  defp clean_params(params) do
+    params
+    |> Map.delete("_target")
+    |> Map.update("filters", %{}, fn filters ->
+      filters
+      |> Enum.reject(fn {_key, value} ->
+        value == [""] || value == [] || is_nil(value)
+      end)
+      |> Enum.into(%{})
+    end)
+    |> Enum.reject(fn {_key, value} ->
+      value == "" || value == %{} || is_nil(value)
+    end)
+    |> Enum.into(%{})
   end
 
   defp default_flop do
