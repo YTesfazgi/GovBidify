@@ -1,6 +1,5 @@
 defmodule GovBidifyWeb.HomeLive do
   use GovBidifyWeb, :live_view
-  import Phoenix.VerifiedRoutes
   alias GovBidifyWeb.Filter
   alias GovBidify.Opportunities
 
@@ -29,17 +28,6 @@ defmodule GovBidifyWeb.HomeLive do
     IO.inspect(params, label: "params")
     {:noreply, push_patch(socket, to: ~p"/?#{params}")}
   end
-
-  # def handle_event("update_filters", %{"filter_key" => key, "selected_options" => values} = params, socket) do
-  #   IO.inspect(params, label: "params")
-  #   form_params = Map.put(socket.assigns.form.params, "filters", Map.put(socket.assigns.form.params["filters"], key, values))
-  #   form = to_form(form_params)
-
-  #   {:noreply,
-  #     socket
-  #     |> assign(:form, form)
-  #     |> push_patch(to: ~p"/?#{form.params}")}
-  # end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
     selected_opportunity = Opportunities.get_opportunity_by_notice_id!(notice_id)
@@ -73,7 +61,6 @@ defmodule GovBidifyWeb.HomeLive do
     end
 
     {results, meta} = Opportunities.search(query, flop)
-    # IO.inspect(meta, label: "meta")
 
     {:noreply,
       assign(socket,
@@ -110,18 +97,6 @@ defmodule GovBidifyWeb.HomeLive do
       previous_page: nil
     }
   end
-
-  # defp default_filters do
-  #   %{
-  #     "type" => [],
-  #     "department_ind_agency" => [],
-  #     "sub_tier" => [],
-  #     "office" => [],
-  #     "pop_country" => [],
-  #     "pop_state" => [],
-  #     "pop_city" => []
-  #   }
-  # end
 
   defp default_selected_opportunity do
     %{
