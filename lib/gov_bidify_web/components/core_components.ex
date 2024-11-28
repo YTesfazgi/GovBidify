@@ -363,8 +363,10 @@ defmodule GovBidifyWeb.CoreComponents do
     <div phx-feedback-for={@name} class="block h-full w-full">
       <.label for={@id}><%= @label %></.label>
       <input
+        type="text"
         id={@id}
         name={@name}
+        value={Phoenix.HTML.Form.normalize_value("text", @value)}
         class={[
           "block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 sm:text-sm",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
