@@ -358,6 +358,36 @@ defmodule GovBidifyWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "searchbar"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class="block h-full w-full">
+      <.label for={@id}><%= @label %></.label>
+      <input
+        id={@id}
+        name={@name}
+        class={[
+          "block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 sm:text-sm",
+          @errors == [] && "border-zinc-300 focus:border-zinc-400",
+          @errors != [] && "border-rose-400 focus:border-rose-400"
+        ]}
+        {@rest}
+      />
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "combobox"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <.label for={@id}><%= @label %></.label>
+      <multi-select-combobox options={Jason.encode!(@options)} name={@name} id={@id}>
+      </multi-select-combobox>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""

@@ -1,16 +1,16 @@
 defmodule GovBidifyWeb.HomeLive do
   use GovBidifyWeb, :live_view
-
+  import Phoenix.VerifiedRoutes
   alias GovBidifyWeb.Filter
   alias GovBidify.Opportunities
 
   def mount(_params, _session, socket) do
+    form = to_form(
+      default_meta()
+    )
+
     {:ok, assign(socket,
-      order_by: ["response_deadline"],
-      order_directions: ["asc"],
-      page_size: 10,
-      filters: default_filters(),
-      query: nil,
+      form: form,
       results: [],
       meta: default_meta(),
       selected_opportunity: default_selected_opportunity(),
@@ -19,19 +19,30 @@ defmodule GovBidifyWeb.HomeLive do
     )}
   end
 
-  def handle_event("update_filters", %{"filter_key" => key, "selected_options" => values}, socket) do
-    filters = Map.put(socket.assigns.filters, key, values)
-
-    {:noreply,
-      socket
-      |> assign(:filters, filters)
-      |> push_patch(to: ~p"/?#{build_query_params(socket, filters)}")
-    }
+  def handle_event("search", params, socket) do
+    IO.inspect(params, label: "params")
+    socket = assign(socket, form: to_form(params))
+    {:noreply, push_patch(socket, to: ~p"/?#{params}")}
   end
+
+  def handle_event("update_filters", params, socket) do
+    IO.inspect(params, label: "params")
+    {:noreply, push_patch(socket, to: ~p"/?#{params}")}
+  end
+
+  # def handle_event("update_filters", %{"filter_key" => key, "selected_options" => values} = params, socket) do
+  #   IO.inspect(params, label: "params")
+  #   form_params = Map.put(socket.assigns.form.params, "filters", Map.put(socket.assigns.form.params["filters"], key, values))
+  #   form = to_form(form_params)
+
+  #   {:noreply,
+  #     socket
+  #     |> assign(:form, form)
+  #     |> push_patch(to: ~p"/?#{form.params}")}
+  # end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
     selected_opportunity = Opportunities.get_opportunity_by_notice_id!(notice_id)
-    IO.inspect(selected_opportunity, label: "selected_opportunity")
     socket = assign(socket, selected_opportunity: selected_opportunity)
     {:noreply, push_event(socket, "open-drawer", %{})}
   end
@@ -41,6 +52,7 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_params(%{"query" => query} = params, _uri, socket) do
+    IO.inspect(params, label: "params")
     flop = case params do
       %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
         %{
@@ -61,6 +73,7 @@ defmodule GovBidifyWeb.HomeLive do
     end
 
     {results, meta} = Opportunities.search(query, flop)
+    # IO.inspect(meta, label: "meta")
 
     {:noreply,
       assign(socket,
@@ -98,17 +111,17 @@ defmodule GovBidifyWeb.HomeLive do
     }
   end
 
-  defp default_filters do
-    %{
-      "type" => [],
-      "department_ind_agency" => [],
-      "sub_tier" => [],
-      "office" => [],
-      "pop_country" => [],
-      "pop_state" => [],
-      "pop_city" => []
-    }
-  end
+  # defp default_filters do
+  #   %{
+  #     "type" => [],
+  #     "department_ind_agency" => [],
+  #     "sub_tier" => [],
+  #     "office" => [],
+  #     "pop_country" => [],
+  #     "pop_state" => [],
+  #     "pop_city" => []
+  #   }
+  # end
 
   defp default_selected_opportunity do
     %{
@@ -158,16 +171,5 @@ defmodule GovBidifyWeb.HomeLive do
     end)
 
     options
-  end
-
-  # Helper function to build query parameters
-  defp build_query_params(socket, filters) do
-    %{
-      "query" => socket.assigns.query,
-      "order_by" => socket.assigns.order_by,
-      "order_directions" => socket.assigns.order_directions,
-      "page_size" => socket.assigns.page_size,
-      "filters" => filters
-    }
   end
 end

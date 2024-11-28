@@ -33,7 +33,7 @@ defmodule GovBidifyWeb.Filter do
       </h3>
       <div
         id={"filter-section-#{@id}"}
-        class="hidden pt-6 w-full"
+        class="hidden pt-4 w-full"
         phx-update="ignore"
       >
         <%= render_slot(@inner_block) %>

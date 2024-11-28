@@ -22,6 +22,9 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+// Import the MultiSelectCombobox web component
+import "./components/multi-select-combobox"
+
 let Hooks = {}
 
 Hooks.DrawerHook = {
@@ -37,35 +40,6 @@ Hooks.DrawerHook = {
 		});
 	}
 };
-
-Hooks.ComboboxHook = {
-	mounted() {
-		const filterKey = this.el.dataset.filterKey;
-		const selectedOptionsContainer = document.querySelector(`[data-selected-options="${filterKey}"]`);
-
-		if (!selectedOptionsContainer) {
-			console.error(`Could not find selected options container for ${filterKey}`);
-			return;
-		}
-
-		// Watch for changes to the selected options
-		const observer = new MutationObserver(() => {
-			const selectedOptions = Array.from(selectedOptionsContainer.children)
-				.map(child => child.textContent.trim());
-
-			// Push the event to the server with the updated filters
-			this.pushEvent("update_filters", {
-				filter_key: filterKey,
-				selected_options: selectedOptions
-			});
-		});
-
-		observer.observe(selectedOptionsContainer, {
-			childList: true,
-			subtree: true
-		});
-	}
-}
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
@@ -176,169 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 });
 
-// Combobox functionality (multi-select)
-document.addEventListener('DOMContentLoaded', () => {
-  function setupCombobox(comboboxId, optionsId, selectedOptionsId) {
-    const combobox = document.getElementById(comboboxId);
-    const optionsList = document.getElementById(optionsId);
-    const toggleButton = combobox.nextElementSibling;
-    const selectedOptionsContainer = document.getElementById(selectedOptionsId);
-    const selectedOptions = new Set();
-    const allOptions = Array.from(optionsList.querySelectorAll('li'));
-
-    function openCombobox() {
-      combobox.setAttribute('aria-expanded', 'true');
-      optionsList.classList.remove('hidden');
-    }
-
-    function closeCombobox() {
-      combobox.setAttribute('aria-expanded', 'false');
-      optionsList.classList.add('hidden');
-      resetFilter();
-      combobox.value = ''; // Clear the input when closing
-    }
-
-    function toggleCombobox() {
-      if (combobox.getAttribute('aria-expanded') === 'true') {
-        closeCombobox();
-      } else {
-        openCombobox();
-      }
-    }
-
-    function updateSelectedOptions() {
-      selectedOptionsContainer.innerHTML = '';
-      selectedOptions.forEach(value => {
-        const optionElement = document.createElement('span');
-        optionElement.className = 'inline-flex items-center px-2 py-1 rounded-md text-sm font-medium bg-green-100 text-green-800';
-        optionElement.innerHTML = `
-          ${value}
-          <button type="button" class="ml-1 inline-flex items-center p-0.5 text-green-400 hover:bg-green-200 hover:text-green-500 rounded-sm">
-            <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </button>
-        `;
-        optionElement.querySelector('button').addEventListener('click', () => removeOption(value));
-        selectedOptionsContainer.appendChild(optionElement);
-      });
-    }
-
-    function toggleOption(option) {
-      const value = option.querySelector('.block').textContent.trim();
-      if (selectedOptions.has(value)) {
-        removeOption(value);
-      } else {
-        selectedOptions.add(value);
-        option.classList.add('bg-brand', 'text-white');
-        option.classList.remove('text-gray-900');
-        option.querySelector('.checkmark').classList.remove('hidden');
-      }
-      updateSelectedOptions();
-
-      // Manually trigger the input event to notify changes
-      const event = new Event('input', { bubbles: true });
-      combobox.dispatchEvent(event);
-    }
-
-    function removeOption(value) {
-      selectedOptions.delete(value);
-      const option = Array.from(optionsList.querySelectorAll('li')).find(li => li.querySelector('.block').textContent.trim() === value);
-      if (option) {
-        option.classList.remove('bg-brand', 'text-white');
-        option.classList.add('text-gray-900');
-        option.querySelector('.checkmark').classList.add('hidden');
-      }
-      updateSelectedOptions();
-    }
-
-    function resetFilter() {
-      allOptions.forEach(option => option.classList.remove('hidden'));
-    }
-
-    function filterOptions(query) {
-      const lowercaseQuery = query.toLowerCase();
-      allOptions.forEach(option => {
-        const text = option.textContent.trim().toLowerCase();
-        if (text.includes(lowercaseQuery)) {
-          option.classList.remove('hidden');
-        } else {
-          option.classList.add('hidden');
-        }
-      });
-    }
-
-    // Toggle combobox when the input or button is clicked
-    combobox.addEventListener('click', (event) => {
-      event.stopPropagation();
-      if (combobox.getAttribute('aria-expanded') === 'false') {
-        openCombobox();
-      }
-    });
-
-    toggleButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-      toggleCombobox();
-    });
-
-    // Close combobox when clicking outside
-    document.addEventListener('click', (event) => {
-      if (!combobox.contains(event.target) && !toggleButton.contains(event.target)) {
-        closeCombobox();
-      }
-    });
-
-    // Handle keyboard navigation
-    combobox.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        openCombobox();
-        optionsList.querySelector('li').focus();
-      } else if (event.key === 'Escape') {
-        closeCombobox();
-      }
-    });
-
-    // Handle option selection
-    optionsList.addEventListener('click', (event) => {
-      const option = event.target.closest('li');
-      if (option) {
-        toggleOption(option);
-      }
-    });
-
-    // Handle keyboard selection
-    optionsList.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        const option = event.target.closest('li');
-        if (option) {
-          toggleOption(option);
-        }
-      }
-    });
-
-    // Handle input for filtering
-    combobox.addEventListener('input', (event) => {
-      const query = event.target.value;
-      filterOptions(query);
-      openCombobox();
-    });
-  }
-
-  // Setup all comboboxes
-  setupCombobox('type-combobox', 'type-options', 'type-selected-options');
-  setupCombobox('department_ind_agency-combobox', 'department_ind_agency-options', 'department_ind_agency-selected-options');
-  setupCombobox('sub_tier-combobox', 'sub_tier-options', 'sub_tier-selected-options');
-  setupCombobox('office-combobox', 'office-options', 'office-selected-options');
-  setupCombobox('pop_country-combobox', 'pop_country-options', 'pop_country-selected-options');
-  setupCombobox('pop_state-combobox', 'pop_state-options', 'pop_state-selected-options');
-});
-
 // Add this to your existing DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', () => {
-  // ... (rest of the code)
-
   // Setup code input fields
   setupCodeInput('naics-code', 'add-naics-code', 'naics-selected-options');
   setupCodeInput('psc-code', 'add-psc-code', 'psc-selected-options');

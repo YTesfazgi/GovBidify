@@ -1,22 +1,18 @@
 <div>
   <div class="hidden lg:sticky lg:top-0 lg:z-40 lg:flex lg:h-16 lg:shrink-0 lg:items-center lg:gap-x-4 lg:border-b lg:border-gray-200 lg:bg-white lg:shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-      <form class="relative flex flex-1">
+      <.form for={@form} phx-submit="search" class="relative flex flex-1">
         <label for="search-field" class="sr-only">Search</label>
         <svg class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
         </svg>
-        <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." value={@query} type="search" name="query">
+        <.input id="search-field" type="searchbar" placeholder="Search..." phx-value-query={@form.params["query"]} field={@form[:query]} />
         <!-- Hidden inputs for Flop parameters -->
-        <input type="hidden" name="order_by[]" value={@order_by} />
-        <input type="hidden" name="order_directions[]" value={@order_directions} />
-        <input type="hidden" name="page_size" value={@page_size} />
-        <%= for {key, values} <- @filters do %>
-          <%= for value <- List.wrap(values) do %>
-            <input type="hidden" name={"filters[#{key}][]"} value={value} />
-          <% end %>
-        <% end %>
-      </form>
+        <.input type="hidden" name="order_by[]" field={@form[:order_by]} />
+        <.input type="hidden" name="order_directions[]" field={@form[:order_directions]} />
+        <.input type="hidden" name="page_size" field={@form[:page_size]} />
+        <%!-- <.input type="hidden" name="filters[]" field={@form[:filters]} /> --%>
+      </.form>
     </div>
   </div>
 
@@ -25,10 +21,6 @@
   <% end %>
 
   <div>
-    <%!-- <div>
-      <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="asc">Sort by Title (Asc)</button>
-      <button phx-click="search" phx-value-flop-order_by="title" phx-value-flop-order_directions="desc">Sort by Title (Desc)</button>
-    </div> --%>
     <div class="grid grid-cols-4">
       <%!-- Opportunity Search Results --%>
       <div role="list" class="col-span-2">
@@ -102,43 +94,42 @@
               <h2 id="filters-heading" class="sr-only">Filters</h2>
               <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
                 <!-- Filters -->
-                <form class="col-span-3">
+                <.form for={@form} phx-change="search" class="col-span-3">
+                  <.input type="hidden" name="query" field={@form[:query]} />
+                  <.input type="hidden" name="order_by[]" field={@form[:order_by]} />
+                  <.input type="hidden" name="order_directions[]" field={@form[:order_directions]} />
+                  <.input type="hidden" name="page_size" field={@form[:page_size]} />
                   <h3 class="sr-only">Filter Categories</h3>
-                  <Filter.section title="Notice Type" id="type">
-                    <.live_component module={GovBidifyWeb.Combobox}
-                      id="type"
-                      label="Type"
-                      placeholder="Search types..."
-                      options={@combobox_options.types}
-                      selected_options_id="type-selected-options"
-                      value={@filters["type"]}
-                    />
+                   <Filter.section title="Notice Type" id="type">
+                    <.input type="combobox"
+                    id="type-combobox"
+                    name="filters[type]"
+                    options={@combobox_options.types}
+                    field={@form[:filters]}>
+                    </.input>
                   </Filter.section>
-                  <Filter.section title="Federal Organization" id="federal-organization">
-                    <.live_component module={GovBidifyWeb.Combobox}
-                      id="department_ind_agency"
-                      label="Department"
-                      placeholder="Search departments..."
+                 <Filter.section title="Federal Organization" id="federal-organization">
+                    <.input
+                      type="combobox"
+                      id="department-combobox"
+                      name="filters[department_ind_agency]"
                       options={@combobox_options.departments}
-                      selected_options_id="department-ind-agency-selected-options"
-                      value={@filters["department_ind_agency"]}
-                    />
-                    <.live_component module={GovBidifyWeb.Combobox}
-                      id="sub_tier"
-                      label="Sub-tier"
-                      placeholder="Search sub-tiers..."
+                      field={@form[:filters]}>
+                    </.input>
+                    <.input
+                      type="combobox"
+                      id="sub-tier-combobox"
+                      name="filters[sub_tier]"
                       options={@combobox_options.sub_tiers}
-                      selected_options_id="subtier-selected-options"
-                      value={@filters["sub_tier"]}
-                    />
-                    <.live_component module={GovBidifyWeb.Combobox}
-                      id="office"
-                      label="Office"
-                      placeholder="Search offices..."
+                      field={@form[:filters]}>
+                    </.input>
+                    <.input
+                      type="combobox"
+                      id="office-combobox"
+                      name="filters[office]"
                       options={@combobox_options.offices}
-                      selected_options_id="office-selected-options"
-                      value={@filters["office"]}
-                    />
+                      field={@form[:filters]}>
+                    </.input>
                   </Filter.section>
                   <Filter.section title="Set Aside" id="set-aside">
                     <div class="space-y-4">
@@ -194,22 +185,20 @@
                     </div>
                   </Filter.section>
                   <Filter.section title="Place of Performance" id="place-of-performance">
-                    <.live_component module={GovBidifyWeb.Combobox}
-                      id="pop_country"
-                      label="Country"
-                      placeholder="Search countries..."
+                    <.input
+                      type="combobox"
+                      id="pop-country-combobox"
+                      name="filters[pop_country]"
                       options={@combobox_options.countries}
-                      selected_options_id="pop_country-selected-options"
-                      value={@filters["pop_country"]}
-                    />
-                    <.live_component module={GovBidifyWeb.Combobox}
-                      id="pop_state"
-                      label="State"
-                      placeholder="Search states..."
+                      field={@form[:filters]}>
+                    </.input>
+                    <.input
+                      type="combobox"
+                      id="pop-state-combobox"
+                      name="filters[pop_state]"
                       options={@combobox_options.states}
-                      selected_options_id="pop_state-selected-options"
-                      value={@filters["pop_state"]}
-                    />
+                      field={@form[:filters]}>
+                    </.input>
                     <div class="space-y-4">
                       <div>
                         <label for="city" class="block text-sm font-medium text-gray-700">City</label>
@@ -243,7 +232,7 @@
                       <% end %>
                     </div>
                   </Filter.section>
-                </form>
+                </.form>
               </div>
             </section>
           </main>
