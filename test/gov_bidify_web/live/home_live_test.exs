@@ -15,7 +15,7 @@ defmodule GovBidifyWeb.HomeLiveTest do
 
     assert GovBidify.Repo.aggregate(Opportunity, :count) == 2
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=response_deadline&order_directions[]=asc&page_size=10&filters[type][]=Sources+Sought")
+    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=response_deadline&order_directions[]=asc&page_size=10&type=Sources+Sought")
     assert render(view) =~ "Test Opportunity 1"
     refute render(view) =~ "Test Opportunity 2"
 
@@ -25,21 +25,21 @@ defmodule GovBidifyWeb.HomeLiveTest do
   end
 
   test "pagination works", %{conn: conn} do
-    insert_list(5, :opportunity, title: "Test Opportunity 1")
-    insert_list(15, :opportunity, title: "Test Opportunity 2")
+    insert_list(5, :opportunity, title: "Test Opportunity A")
+    insert_list(15, :opportunity, title: "Test Opportunity B")
 
     assert GovBidify.Repo.aggregate(Opportunity, :count) == 20
 
     {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=title&order_directions[]=asc&page_size=10&page=1")
-    assert render(view) =~ "Test Opportunity 1"
-    assert render(view) =~ "Test Opportunity 2"
+    assert render(view) =~ "Test Opportunity A"
+    assert render(view) =~ "Test Opportunity B"
 
     {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=title&order_directions[]=asc&page_size=10&page=2")
-    refute render(view) =~ "Test Opportunity 1"
-    assert render(view) =~ "Test Opportunity 2"
+    refute render(view) =~ "Test Opportunity A"
+    assert render(view) =~ "Test Opportunity B"
 
     {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=title&order_directions[]=asc&page_size=10&page=3")
-    refute render(view) =~ "Test Opportunity 1"
-    refute render(view) =~ "Test Opportunity 2"
+    refute render(view) =~ "Test Opportunity A"
+    refute render(view) =~ "Test Opportunity B"
   end
 end

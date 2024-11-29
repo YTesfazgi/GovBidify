@@ -90,12 +90,19 @@ defmodule GovBidifyWeb.HomeLive do
     |> Map.update("filters", %{}, fn filters ->
       filters
       |> Enum.reject(fn {_key, value} ->
-        value == [""] || value == [] || is_nil(value)
+        value == [""] || value == [] || is_nil(value) || value == ""
       end)
       |> Enum.into(%{})
     end)
     |> Enum.reject(fn {_key, value} ->
-      value == "" || value == %{} || is_nil(value)
+      case value do
+        "" -> true
+        %{} -> Enum.empty?(value)
+        nil -> true
+        [""] -> true
+        [] -> true
+        _ -> false
+      end
     end)
     |> Enum.into(%{})
   end
