@@ -4,9 +4,7 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
 
   def mount(_params, _session, socket) do
-    form = to_form(
-      default_meta()
-    )
+    form = to_form(default_meta())
 
     {:ok, assign(socket,
       form: form,
@@ -19,9 +17,7 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_event("search", params, socket) do
-    IO.inspect(params, label: "params")
     cleaned_params = clean_params(params)
-    IO.inspect(cleaned_params, label: "cleaned_params")
     socket = assign(socket, form: to_form(cleaned_params))
     {:noreply, push_patch(socket, to: ~p"/?#{cleaned_params}")}
   end
@@ -37,10 +33,28 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_params(%{"query" => query} = params, _uri, socket) do
-    IO.inspect(params, label: "params")
+    params = Flop.nest_filters(params, [:type, :department_ind_agency])
+
     flop = case params do
       %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
-        %{
+        page_size = String.to_integer(page_size)
+
+        filters = Enum.map(filters, fn
+          %{"field" => field, "op" => _op, "value" => values} when is_list(values) ->
+            %Flop.Filter{
+              field: String.to_existing_atom(field),
+              op: :in,
+              value: values
+            }
+          %{"field" => field, "op" => op, "value" => value} ->
+            %Flop.Filter{
+              field: String.to_existing_atom(field),
+              op: op,
+              value: value
+            }
+        end)
+
+        %Flop{
           order_by: order_by,
           order_directions: order_directions,
           page_size: page_size,
@@ -48,13 +62,7 @@ defmodule GovBidifyWeb.HomeLive do
           page: params["page"] || 1
         }
       _ ->
-        %{
-          order_by: ["response_deadline"],
-          order_directions: ["asc"],
-          page_size: 10,
-          filters: %{},
-          page: params["page"] || 1
-        }
+        default_flop()
     end
 
     {results, meta} = Opportunities.search(query, flop)

@@ -103,7 +103,7 @@
                    <Filter.section title="Notice Type" id="type">
                     <.input type="combobox"
                     id="type-combobox"
-                    name="filters[type]"
+                    name="type"
                     options={@combobox_options.types}
                     field={@form[:filters]}>
                     </.input>
@@ -115,7 +115,7 @@
                       <.input
                         type="combobox"
                         id="department-combobox"
-                        name="filters[department_ind_agency]"
+                        name="department_ind_agency"
                         options={@combobox_options.departments}
                         field={@form[:filters]}>
                       </.input>
@@ -125,7 +125,7 @@
                       <.input
                         type="combobox"
                         id="sub-tier-combobox"
-                        name="filters[sub_tier]"
+                        name="sub_tier"
                         options={@combobox_options.sub_tiers}
                         field={@form[:filters]}>
                       </.input>
@@ -135,7 +135,7 @@
                       <.input
                         type="combobox"
                         id="office-combobox"
-                        name="filters[office]"
+                        name="office"
                         options={@combobox_options.offices}
                         field={@form[:filters]}>
                       </.input>
@@ -199,14 +199,14 @@
                     <.input
                       type="combobox"
                       id="pop-country-combobox"
-                      name="filters[pop_country]"
+                      name="pop_country"
                       options={@combobox_options.countries}
                       field={@form[:filters]}>
                     </.input>
                     <.input
                       type="combobox"
                       id="pop-state-combobox"
-                      name="filters[pop_state]"
+                      name="pop_state"
                       options={@combobox_options.states}
                       field={@form[:filters]}>
                     </.input>

@@ -166,18 +166,6 @@ defmodule GovBidify.Opportunities do
   end
 
   def search(search_term, flop) do
-    # Remove any empty list filters
-    cleaned_filters = Enum.reduce(flop.filters, %{}, fn {key, value}, acc ->
-      case value do
-        [] -> acc
-        val -> Map.put(acc, key, val)
-      end
-    end)
-
-    filters = Flop.map_to_filter_params(cleaned_filters, operators: %{type: :in, department_ind_agency: :in, sub_tier: :in, office: :in, pop_country: :in, pop_state: :in, pop_city: :in, active: :in})
-    flop = Map.put(flop, :filters, filters)
-    flop = Flop.validate!(flop, for: Opportunity)
-
     query =
       from(o in Opportunity,
         where:
@@ -194,7 +182,7 @@ defmodule GovBidify.Opportunities do
         }
       )
 
-    {results, meta} = Flop.run(query, flop, for: Opportunity)
+    {:ok, {results, meta}} = Flop.validate_and_run(query, flop, for: Opportunity)
 
     {results, meta}
   end
