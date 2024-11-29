@@ -53,9 +53,10 @@ defmodule GovBidifyWeb.DrawerComponent do
                               <p class="w-1/2 text-sm font-medium">Place of Performance</p>
                               <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_opportunity.set_aside %></p>
                               <div class="w-1/2 text-sm font-normal text-gray-600">
-                                <p><%= @selected_opportunity.pop_street_address %></p>
-                                <p><%= @selected_opportunity.pop_city %>, <%= @selected_opportunity.pop_state %></p>
-                                <p><%= @selected_opportunity.pop_zip %>, <%= @selected_opportunity.pop_country %></p>
+                              <p><%= @selected_opportunity.pop_street_address %></p>
+                              <p>
+                                <%= GovBidifyWeb.HomeLiveHTML.pop_handler(@selected_opportunity.pop_city, @selected_opportunity.pop_state, @selected_opportunity.pop_zip, @selected_opportunity.pop_country) %>
+                              </p>
                               </div>
                             </div>
                           </div>

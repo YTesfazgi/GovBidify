@@ -36,6 +36,12 @@ defmodule GovBidifyWeb.HomeLiveHTML do
     """
   end
 
+  def pop_handler(city, state, zip, country) do
+    [city, state, zip, country]
+    |> Enum.filter(&(&1 != ""))
+    |> Enum.join(", ")
+  end
+
   def date_formatter(date) when is_nil(date), do: ""
 
   def date_formatter(date) do
