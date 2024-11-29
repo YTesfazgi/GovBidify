@@ -28,10 +28,18 @@ import "./components/multi-select-combobox"
 let Hooks = {}
 
 Hooks.DrawerHook = {
+	mounted() {
+		// Ensure drawer starts closed
+		this.el.classList.add('translate-x-full');
+		this.el.classList.remove('translate-x-0');
+	},
 	updated() {
 		this.handleEvent("open-drawer", () => {
-			this.el.classList.remove('translate-x-full');
-			this.el.classList.add('translate-x-0');
+			// Small delay to ensure proper transition
+			requestAnimationFrame(() => {
+				this.el.classList.remove('translate-x-full');
+				this.el.classList.add('translate-x-0');
+			});
 		});
 
 		this.handleEvent("close-drawer", () => {

@@ -33,11 +33,7 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_event("close_opportunity", _session, socket) do
-    {:noreply,
-      socket
-      |> assign(selected_opportunity: default_selected_opportunity())
-      |> push_event("close-drawer", %{})
-    }
+    {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
   def handle_params(%{"query" => query} = params, _uri, socket) do
@@ -45,8 +41,6 @@ defmodule GovBidifyWeb.HomeLive do
 
     flop = case params do
       %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
-        page_size = String.to_integer(page_size)
-
         filters = Enum.map(filters, fn
           %{"field" => field, "op" => _op, "value" => values} when is_list(values) ->
             %Flop.Filter{
