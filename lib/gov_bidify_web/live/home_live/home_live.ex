@@ -18,22 +18,30 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_event("search", params, socket) do
     cleaned_params = clean_params(params)
-    socket = assign(socket, form: to_form(cleaned_params))
-    {:noreply, push_patch(socket, to: ~p"/?#{cleaned_params}")}
+    form = to_form(cleaned_params)
+    updated_socket = assign(socket, form: form)
+
+    {:noreply, push_patch(updated_socket, to: ~p"/?#{cleaned_params}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
-    selected_opportunity = Opportunities.get_opportunity_by_notice_id!(notice_id)
-    socket = assign(socket, selected_opportunity: selected_opportunity)
-    {:noreply, push_event(socket, "open-drawer", %{})}
+    {:noreply,
+      socket
+      |> assign(selected_opportunity: Opportunities.get_opportunity_by_notice_id!(notice_id))
+      |> push_event("open-drawer", %{})
+    }
   end
 
   def handle_event("close_opportunity", _session, socket) do
-    {:noreply, push_event(socket, "close-drawer", %{})}
+    {:noreply,
+      socket
+      |> assign(selected_opportunity: default_selected_opportunity())
+      |> push_event("close-drawer", %{})
+    }
   end
 
   def handle_params(%{"query" => query} = params, _uri, socket) do
-    params = Flop.nest_filters(params, [:type, :department_ind_agency])
+    params = Flop.nest_filters(params, [:type, :department_ind_agency, :sub_tier, :office, :pop_country, :pop_state])
 
     flop = case params do
       %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
