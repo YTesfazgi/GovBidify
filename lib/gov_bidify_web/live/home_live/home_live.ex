@@ -73,10 +73,6 @@ defmodule GovBidifyWeb.HomeLive do
       assign(socket,
         results: results,
         meta: meta,
-        order_by: flop.order_by,
-        order_directions: flop.order_directions,
-        page_size: flop.page_size,
-        filters: flop.filters,
         query: query
       )
     }
