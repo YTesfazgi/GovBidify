@@ -3,17 +3,17 @@
 // import "./user_socket.js"
 
 // You can include dependencies in two ways.
-//
+
 // The simplest option is to put them in assets/vendor and
 // import them using relative paths:
-//
-//     import "../vendor/some-package.js"
-//
+
+//   import "../vendor/some-package.js"
+
 // Alternatively, you can `npm install some-package --prefix assets` and import
 // them using a path starting with the package name:
-//
-//     import "some-package"
-//
+
+//   import "some-package"
+
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
@@ -24,6 +24,7 @@ import topbar from "../vendor/topbar"
 
 import "./components/multi-select-combobox"
 import { initializeSortMenu } from './components/sort-menu.js';
+import { initializeMobileNavSidebar } from './components/mobile-nav-sidebar.js';
 
 let Hooks = {}
 
@@ -70,63 +71,13 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializeSortMenu();
-});
+  initializeSortMenu();
+  initializeMobileNavSidebar();
 
-// mobile nav menu
-document.addEventListener('DOMContentLoaded', () => {
-	const menuSidebar = document.getElementById("mobile-nav-sidebar");
-	const menuContainer = document.getElementById("mobile-nav-menu-container");
-	const backdrop = document.getElementById("mobile-nav-menu-backdrop");
-	const openButton = document.getElementById("mobile-nav-menu-open-button");
-	const closeButton = document.getElementById("mobile-nav-menu-close-button");
-
-	function openMenu() {
-		menuContainer.classList.remove("hidden");
-
-		// this timeout is necessary for the browser to register the initial css values
-		setTimeout(() => {
-			menuContainer.classList.remove("opacity-0");
-			menuContainer.classList.add("opacity-100");
-
-			menuSidebar.classList.remove("-translate-x-full");
-			menuSidebar.classList.add("translate-x-0");
-
-			backdrop.classList.remove("opacity-0");
-			backdrop.classList.add("opacity-100");
-
-			closeButton.classList.remove("opacity-0");
-			closeButton.classList.add("opacity-100");
-		}, 0);
-	}
-
-	function closeMenu() {
-		menuSidebar.classList.remove("translate-x-0");
-		menuSidebar.classList.add("-translate-x-full");
-
-		backdrop.classList.remove("opacity-100");
-		backdrop.classList.add("opacity-0");
-
-		closeButton.classList.remove("opacity-100");
-		closeButton.classList.add("opacity-0");
-
-		setTimeout(() => {
-			menuContainer.classList.add("hidden");
-		}, 300); // matches duration of CSS transition
-	}
-
-	backdrop.addEventListener("click", closeMenu);
-	closeButton.addEventListener("click", closeMenu);
-	openButton.addEventListener("click", openMenu);
-});
-
-// Add this to your existing DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', () => {
-  // Setup code input fields
-  setupCodeInput('naics-code', 'add-naics-code', 'naics-selected-options');
-  setupCodeInput('psc-code', 'add-psc-code', 'psc-selected-options');
-  setupCodeInput('city', 'add-city', 'city-selected-options');
-  setupCodeInput('zip-code', 'add-zip-code', 'zip-code-selected-options');
+	setupCodeInput('naics-code', 'add-naics-code', 'naics-selected-options');
+	setupCodeInput('psc-code', 'add-psc-code', 'psc-selected-options');
+	setupCodeInput('city', 'add-city', 'city-selected-options');
+	setupCodeInput('zip-code', 'add-zip-code', 'zip-code-selected-options');
 });
 
 // Add this function to your JavaScript file
