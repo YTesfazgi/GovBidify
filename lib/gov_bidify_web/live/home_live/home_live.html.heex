@@ -235,9 +235,9 @@
                   </Filter.section>
                   <Filter.section title="Status" id="status">
                     <div class="space-y-4">
-                      <%= for {value, label} <- [{"active", "Active"}, {"inactive", "Inactive"}] do %>
+                      <%= for {value, label} <- [{"Yes", "Active"}, {"No", "Inactive"}] do %>
                         <div class="flex items-center">
-                          <input id={"status-filter-#{value}"} name="status[]" value={value} type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
+                          <input id={"status-filter-#{value}"} name="active[]" value={value} type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
                           <label for={"status-filter-#{value}"} class="ml-3 text-sm text-gray-600"><%= label %></label>
                         </div>
                       <% end %>

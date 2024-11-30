@@ -37,7 +37,7 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_params(%{"query" => query} = params, _uri, socket) do
-    params = Flop.nest_filters(params, [:type, :department_ind_agency, :sub_tier, :office, :pop_country, :pop_state])
+    params = Flop.nest_filters(params, [:type, :department_ind_agency, :sub_tier, :office, :pop_country, :pop_state, :active])
 
     flop = case params do
       %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
