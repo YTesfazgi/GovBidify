@@ -1,7 +1,6 @@
 class MultiSelectCombobox extends HTMLElement {
   constructor() {
     super();
-    console.info('MultiSelectCombobox: Constructed');
 
     // Initialize selected options
     this.selectedOptions = new Set();
@@ -15,7 +14,6 @@ class MultiSelectCombobox extends HTMLElement {
   }
 
   connectedCallback() {
-    console.info('MultiSelectCombobox: Connected to the DOM');
     let options = [];
     try {
       const optionsAttr = this.getAttribute('options');
@@ -86,7 +84,6 @@ class MultiSelectCombobox extends HTMLElement {
     this.dropdown.setAttribute('aria-expanded', !isOpen);
     if (!isOpen) {
         this.filterInput.focus();
-        console.log('MultiSelectCombobox: Dropdown opened');
     } else {
         this.closeDropdown();
     }
@@ -97,7 +94,6 @@ class MultiSelectCombobox extends HTMLElement {
     this.filterInput.value = '';
     this.filterOptions('');
     this.selectedOptionsContainer.setAttribute('aria-expanded', 'false');
-    console.log('MultiSelectCombobox: Dropdown closed');
   }
 
   handleOptionClick(event) {
@@ -114,6 +110,11 @@ class MultiSelectCombobox extends HTMLElement {
 
     this.updateSelectedOptions();
     this.updateHiddenInput();
+
+    // Prevent the click from removing focus
+    event.preventDefault();
+    // Restore focus to the filter input
+    this.filterInput.focus();
   }
 
   handleInput(event) {
@@ -197,7 +198,6 @@ class MultiSelectCombobox extends HTMLElement {
 
       // Remove the temporary input
       input.remove();
-      console.log('All options removed');
       return;
     }
 
@@ -213,10 +213,7 @@ class MultiSelectCombobox extends HTMLElement {
       // Emit change event for each input
       const event = new Event('change', { bubbles: true });
       input.dispatchEvent(event);
-      console.log('Selected option:', this.selectedOptions);
     });
-
-    console.log('MultiSelectCombobox:', Array.from(this.querySelectorAll('.hidden-input')).map(input => input.value));
   }
 }
 
