@@ -22,8 +22,8 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
-// Import the MultiSelectCombobox web component
 import "./components/multi-select-combobox"
+import { initializeSortMenu } from './components/sortMenu.js';
 
 let Hooks = {}
 
@@ -68,6 +68,10 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeSortMenu();
+});
 
 // mobile nav menu
 document.addEventListener('DOMContentLoaded', () => {
@@ -114,48 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	backdrop.addEventListener("click", closeMenu);
 	closeButton.addEventListener("click", closeMenu);
 	openButton.addEventListener("click", openMenu);
-});
-
-// sort dropdown menu
-document.addEventListener('DOMContentLoaded', () => {
-	const sortMenuButton = document.getElementById('sort-menu-button');
-	const sortMenu = document.getElementById('sort-menu');
-
-	function toggleSortMenu() {
-		const isExpanded = sortMenuButton.getAttribute('aria-expanded') === 'true';
-		sortMenuButton.setAttribute('aria-expanded', !isExpanded);
-
-		if (!isExpanded) {
-			sortMenu.classList.remove("hidden", "opacity-0", "scale-95");
-			sortMenu.classList.add("opacity-100", "scale-100");
-		} else {
-			sortMenu.classList.remove("opacity-100", "scale-100");
-			sortMenu.classList.add("opacity-0", "scale-95");
-			// Add a small delay before adding the 'hidden' class to allow for the transition
-			setTimeout(() => {
-				sortMenu.classList.add("hidden");
-			}, 150); // Adjust this value to match your transition duration
-		}
-	}
-
-	// toggle sort menu when button is clicked
-	sortMenuButton.addEventListener('click', (event) => {
-		event.stopPropagation();
-		toggleSortMenu();
-	});
-
-	// close sort menu if clicking outside of it
-	document.addEventListener('click', (event) => {
-		if (!sortMenuButton.contains(event.target) && !sortMenu.contains(event.target)) {
-			sortMenuButton.setAttribute('aria-expanded', 'false');
-			sortMenu.classList.remove("opacity-100", "scale-100");
-			sortMenu.classList.add("opacity-0", "scale-95");
-			// Add a small delay before adding the 'hidden' class to allow for the transition
-			setTimeout(() => {
-				sortMenu.classList.add("hidden");
-			}, 150); // Adjust this value to match your transition duration
-		}
-	});
 });
 
 // Add this to your existing DOMContentLoaded event listener
