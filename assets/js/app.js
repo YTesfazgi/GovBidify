@@ -23,7 +23,7 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 import "./components/multi-select-combobox"
-import { initializeSortMenu } from './components/sortMenu.js';
+import { initializeSortMenu } from './components/sort-menu.js';
 
 let Hooks = {}
 
