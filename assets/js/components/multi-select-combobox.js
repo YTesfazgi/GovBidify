@@ -64,7 +64,7 @@ class MultiSelectCombobox extends HTMLElement {
     // Event listeners
     this.filterInput.addEventListener('click', this.toggleDropdown);
     this.filterInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === 'Enter') {
         e.preventDefault();
         this.toggleDropdown(e);
       }
