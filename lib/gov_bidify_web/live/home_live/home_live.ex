@@ -17,11 +17,13 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_event("search", params, socket) do
-    cleaned_params = clean_params(params)
-    form = to_form(cleaned_params)
+    form = params
+    |> clean_params()
+    |> to_form()
+
     updated_socket = assign(socket, form: form)
 
-    {:noreply, push_patch(updated_socket, to: ~p"/?#{cleaned_params}")}
+    {:noreply, push_patch(updated_socket, to: ~p"/?#{clean_params(params)}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
