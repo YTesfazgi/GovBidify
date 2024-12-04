@@ -234,13 +234,23 @@
                     </div> --%>
                   </Filter.section>
                   <Filter.section title="Status" id="status">
-                    <div class="space-y-4">
-                      <%= for {value, label} <- [{"Yes", "Active"}, {"No", "Inactive"}] do %>
-                        <div class="flex items-center">
-                          <input id={"status-filter-#{value}"} name="active[]" value={value} type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                          <label for={"status-filter-#{value}"} class="ml-3 text-sm text-gray-600"><%= label %></label>
-                        </div>
-                      <% end %>
+                    <div class="space-y-1">
+                      <.input
+                        type="checkbox"
+                        id="active-yes"
+                        name="active[]"
+                        label="Active"
+                        value="Yes"
+                        field={@form[:filters]}>
+                      </.input>
+                      <.input
+                        type="checkbox"
+                        id="active-no"
+                        name="active[]"
+                        label="Inactive"
+                        value="No"
+                        field={@form[:filters]}>
+                      </.input>
                     </div>
                   </Filter.section>
                 </.form>
