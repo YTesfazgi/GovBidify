@@ -143,33 +143,13 @@
                   </div>
                   </Filter.section>
                   <Filter.section title="Set Aside" id="set-aside">
-                    <%!-- <div class="space-y-4">
-                      <%= for {value, label} <- [
-                        {"SBA", "Total Small Business Set-Aside (FAR 19.5)"},
-                        {"SBP", "Partial Small Business Set-Aside (FAR 19.5)"},
-                        {"8A", "8(a) Set-Aside (FAR 19.8)"},
-                        {"8AN", "8(a) Sole Source (FAR 19.8)"},
-                        {"HZC", "Historically Underutilized Business (HUBZone) Set-Aside (FAR 19.13)"},
-                        {"HZS", "Historically Underutilized Business (HUBZone) Sole Source (FAR 19.13)"},
-                        {"SDVOSBC", "Service-Disabled Veteran-Owned Small Business (SDVOSB) Set-Aside (FAR 19.14)"},
-                        {"SDVOSBS", "Service-Disabled Veteran-Owned Small Business (SDVOSB) Sole Source (FAR 19.14)"},
-                        {"WOSB", "Women-Owned Small Business (WOSB) Program Set-Aside (FAR 19.15)"},
-                        {"WOSBSS", "Women-Owned Small Business (WOSB) Program Sole Source (FAR 19.15)"},
-                        {"EDWOSB", "Economically Disadvantaged WOSB (EDWOSB) Program Set-Aside (FAR 19.15)"},
-                        {"EDWOSBSS", "Economically Disadvantaged WOSB (EDWOSB) Program Sole Source (FAR 19.15)"},
-                        {"LAS", "Local Area Set-Aside (FAR 26.2)"},
-                        {"IEE", "Indian Economic Enterprise (IEE) Set-Aside"},
-                        {"ISBEE", "Indian Small Business Economic Enterprise (ISBEE) Set-Aside"},
-                        {"BICiv", "Buy Indian Set-Aside"},
-                        {"VSA", "Veteran-Owned Small Business Set-Aside"},
-                        {"VSS", "Veteran-Owned Small Business Sole source"}
-                      ] do %>
-                        <div class="flex items-center">
-                          <input id={"set-aside-filter-#{value}"} name="set_aside[]" value={value} type="checkbox" class="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand">
-                          <label for={"set-aside-filter-#{value}"} class="ml-3 text-sm text-gray-600"><%= label %></label>
-                        </div>
-                      <% end %>
-                    </div> --%>
+                    <.input
+                        type="combobox"
+                        id="set-aside-combobox"
+                        name="set_aside"
+                        options={@combobox_options.set_asides}
+                        field={@form[:filters]}>
+                      </.input>
                   </Filter.section>
                   <Filter.section title="Product/Service Code" id="codes">
                     <%!-- <div class="space-y-4">

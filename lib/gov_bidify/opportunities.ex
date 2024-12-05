@@ -44,6 +44,12 @@ defmodule GovBidify.Opportunities do
     |> Enum.sort()
   end
 
+  def list_set_asides do
+    Repo.all(from o in Opportunity, distinct: [:set_aside], select: o.set_aside)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
+  end
+
   def list_countries do
     Repo.all(from o in Opportunity, distinct: [:pop_country], select: o.pop_country)
     |> Enum.reject(&(&1 == "" or is_nil(&1)))
