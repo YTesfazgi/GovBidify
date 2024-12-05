@@ -152,28 +152,28 @@
                       </.input>
                   </Filter.section>
                   <Filter.section title="Product/Service Code" id="codes">
-                    <%!-- <div class="space-y-4">
+                    <div class="space-y-4">
                       <div>
-                        <label for="naics-code" class="block text-sm font-medium text-gray-700">NAICS Code</label>
-                        <div class="mt-1 flex rounded-md shadow-sm">
+                        <label for="naics-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">NAICS Code</label>
+                        <div class="flex rounded-md shadow-sm">
                           <input type="text" name="naics_code" id="naics-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter NAICS Code">
                           <button type="button" id="add-naics-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             Add
                           </button>
                         </div>
+                        <div id="naics-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                       </div>
-                      <div id="naics-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                       <div>
-                        <label for="psc-code" class="block text-sm font-medium text-gray-700">PSC Code</label>
-                        <div class="mt-1 flex rounded-md shadow-sm">
+                        <label for="psc-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">PSC Code</label>
+                        <div class="flex rounded-md shadow-sm">
                           <input type="text" name="psc_code" id="psc-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter PSC Code">
                           <button type="button" id="add-psc-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             Add
                           </button>
                         </div>
+                        <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                       </div>
-                      <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div> --%>
+                    </div>
                   </Filter.section>
                   <Filter.section title="Place of Performance" id="place-of-performance">
                     <div class="space-y-4">
@@ -197,29 +197,27 @@
                           field={@form[:filters]}>
                         </.input>
                       </div>
-                    </div>
-                    <%!-- <div class="space-y-4">
                       <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                        <label for="city" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">City</label>
                         <div class="mt-1 flex rounded-md shadow-sm">
                           <input type="text" name="city" id="city" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter City">
                           <button type="button" id="add-city" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             Add
                           </button>
                         </div>
+                        <div id="city-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                       </div>
-                      <div id="city-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                       <div>
-                        <label for="zip-code" class="block text-sm font-medium text-gray-700">Zip Code</label>
+                        <label for="zip-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Zip Code</label>
                         <div class="mt-1 flex rounded-md shadow-sm">
                           <input type="text" name="zip_code" id="zip-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter Zip Code">
                           <button type="button" id="add-zip-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             Add
                           </button>
                         </div>
+                        <div id="zip-code-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
                       </div>
-                      <div id="zip-code-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
-                    </div> --%>
+                    </div>
                   </Filter.section>
                   <Filter.section title="Status" id="status">
                     <div class="space-y-1">
