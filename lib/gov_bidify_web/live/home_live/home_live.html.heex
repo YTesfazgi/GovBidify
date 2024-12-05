@@ -196,20 +196,28 @@
                     </div> --%>
                   </Filter.section>
                   <Filter.section title="Place of Performance" id="place-of-performance">
-                    <.input
-                      type="combobox"
-                      id="pop-country-combobox"
-                      name="pop_country"
-                      options={@combobox_options.countries}
-                      field={@form[:filters]}>
-                    </.input>
-                    <.input
-                      type="combobox"
-                      id="pop-state-combobox"
-                      name="pop_state"
-                      options={@combobox_options.states}
-                      field={@form[:filters]}>
-                    </.input>
+                    <div class="space-y-4">
+                      <div>
+                        <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Country</span>
+                        <.input
+                          type="combobox"
+                          id="pop-country-combobox"
+                          name="pop_country"
+                          options={@combobox_options.countries}
+                          field={@form[:filters]}>
+                        </.input>
+                      </div>
+                      <div>
+                        <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">State</span>
+                        <.input
+                          type="combobox"
+                          id="pop-state-combobox"
+                          name="pop_state"
+                          options={@combobox_options.states}
+                          field={@form[:filters]}>
+                        </.input>
+                      </div>
+                    </div>
                     <%!-- <div class="space-y-4">
                       <div>
                         <label for="city" class="block text-sm font-medium text-gray-700">City</label>
