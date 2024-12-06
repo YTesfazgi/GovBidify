@@ -13,7 +13,7 @@ defmodule GovBidifyWeb.Filter do
         <button
           type="button"
           id={"#{@id}-filter-section-button"}
-          phx-click={JS.toggle(to: "#filter-section-#{@id}")
+          phx-click={JS.toggle(to: "#filter-section-#{@id}", in: {"ease-out duration-100", "opacity-0 scale-95", "opacity-100 scale-100"}, out: {"ease-in duration-100", "opacity-100 scale-100", "opacity-0 scale-95"})
             |> JS.toggle(to: "#expand-icon-#{@id}")
             |> JS.toggle(to: "#collapse-icon-#{@id}")}
           class="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
