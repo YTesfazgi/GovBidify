@@ -43,7 +43,7 @@ defmodule GovBidifyWeb.HomeLive do
       |> clean_params()
       |> to_form()
 
-    params = Flop.nest_filters(params, [:type, :department_ind_agency, :sub_tier, :office, :set_aside, :pop_country, :pop_state, :active])
+    params = Flop.nest_filters(params, [:type, :department_ind_agency, :sub_tier, :office, :set_aside, :naics_code, :pop_country, :pop_state, :active])
 
     flop = case params do
       %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
@@ -173,6 +173,7 @@ defmodule GovBidifyWeb.HomeLive do
         sub_tiers: Opportunities.list_sub_tiers(),
         offices: Opportunities.list_offices(),
         set_asides: Opportunities.list_set_asides(),
+        naics_codes: Opportunities.list_naics_codes(),
         countries: Opportunities.list_countries(),
         states: Opportunities.list_states()
       }

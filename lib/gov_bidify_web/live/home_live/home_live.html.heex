@@ -155,13 +155,13 @@
                     <div class="space-y-4">
                       <div>
                         <label for="naics-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">NAICS Code</label>
-                        <div class="flex rounded-md shadow-sm">
-                          <input type="text" name="naics_code" id="naics-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter NAICS Code">
-                          <button type="button" id="add-naics-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                            Add
-                          </button>
-                        </div>
-                        <div id="naics-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                        <.input
+                          type="combobox"
+                          id="naics-code-combobox"
+                          name="naics_code"
+                          options={@combobox_options.naics_codes}
+                          field={@form[:filters]}>
+                      </.input>
                       </div>
                       <div>
                         <label for="psc-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">PSC Code</label>

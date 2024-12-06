@@ -50,6 +50,12 @@ defmodule GovBidify.Opportunities do
     |> Enum.sort()
   end
 
+  def list_naics_codes do
+    Repo.all(from o in Opportunity, distinct: [:naics_code], select: o.naics_code)
+    |> Enum.reject(&(&1 == "" or is_nil(&1)))
+    |> Enum.sort()
+  end
+
   def list_countries do
     Repo.all(from o in Opportunity, distinct: [:pop_country], select: o.pop_country)
     |> Enum.reject(&(&1 == "" or is_nil(&1)))
