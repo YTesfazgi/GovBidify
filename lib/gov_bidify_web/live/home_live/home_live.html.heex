@@ -16,9 +16,7 @@
     </div>
   </div>
 
-  <%= if @selected_opportunity do %>
-    <.live_component module={GovBidifyWeb.DrawerComponent} id="drawer-component" selected_opportunity={@selected_opportunity}/>
-  <% end %>
+  <.live_component module={GovBidifyWeb.DrawerComponent} id="drawer-component" selected_opportunity={@selected_opportunity}/>
 
   <div>
     <div class="grid grid-cols-4">
