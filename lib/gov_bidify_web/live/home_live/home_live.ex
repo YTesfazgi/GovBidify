@@ -43,37 +43,7 @@ defmodule GovBidifyWeb.HomeLive do
       |> clean_params()
       |> to_form()
 
-    params = Flop.nest_filters(params, [:type, :department_ind_agency, :sub_tier, :office, :set_aside, :naics_code, :pop_country, :pop_state, :active])
-
-    flop = case params do
-      %{"order_by" => order_by, "order_directions" => order_directions, "page_size" => page_size, "filters" => filters} ->
-        filters = Enum.map(filters, fn
-          %{"field" => field, "op" => _op, "value" => values} when is_list(values) ->
-            %Flop.Filter{
-              field: String.to_existing_atom(field),
-              op: :in,
-              value: values
-            }
-          %{"field" => field, "op" => op, "value" => value} ->
-            %Flop.Filter{
-              field: String.to_existing_atom(field),
-              op: op,
-              value: value
-            }
-        end)
-
-        %Flop{
-          order_by: order_by,
-          order_directions: order_directions,
-          page_size: page_size,
-          filters: filters,
-          page: params["page"] || 1
-        }
-      _ ->
-        default_flop()
-    end
-
-    {results, meta} = Opportunities.search(query, flop)
+    {results, meta} = Opportunities.search(query, params)
 
     {:noreply,
       assign(socket,
@@ -116,7 +86,7 @@ defmodule GovBidifyWeb.HomeLive do
       page_size: 10,
       order_by: ["response_deadline"],
       order_directions: ["asc"],
-      filters: %{}
+      filters: []
     }
   end
 

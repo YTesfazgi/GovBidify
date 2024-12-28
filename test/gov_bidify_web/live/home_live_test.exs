@@ -15,7 +15,7 @@ defmodule GovBidifyWeb.HomeLiveTest do
 
     assert GovBidify.Repo.aggregate(Opportunity, :count) == 2
 
-    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=response_deadline&order_directions[]=asc&page_size=10&type=Sources+Sought")
+    {:ok, view, _html} = live(conn, ~p"/?query=Test+Opportunity&order_by[]=response_deadline&order_directions[]=asc&page_size=10&type[]=Sources+Sought")
     assert render(view) =~ "Test Opportunity 1"
     refute render(view) =~ "Test Opportunity 2"
 
