@@ -104,7 +104,7 @@
                       id="type-combobox"
                       name="type"
                       options={@combobox_options.types}
-                      field={f[:filters]}>
+                      field={f[:type]}>
                     </.input>
                   </Filter.section>
                  <Filter.section title="Federal Organization" id="federal-organization">
@@ -116,7 +116,7 @@
                         id="department-combobox"
                         name="department_ind_agency"
                         options={@combobox_options.departments}
-                        field={f[:filters]}>
+                        field={f[:department_ind_agency]}>
                       </.input>
                     </div>
                     <div>
@@ -126,7 +126,7 @@
                         id="sub-tier-combobox"
                         name="sub_tier"
                         options={@combobox_options.sub_tiers}
-                        field={f[:filters]}>
+                        field={f[:sub_tier]}>
                       </.input>
                     </div>
                     <div>
@@ -136,7 +136,7 @@
                         id="office-combobox"
                         name="office"
                         options={@combobox_options.offices}
-                        field={f[:filters]}>
+                        field={f[:office]}>
                       </.input>
                     </div>
                   </div>
@@ -147,7 +147,7 @@
                         id="set-aside-combobox"
                         name="set_aside"
                         options={@combobox_options.set_asides}
-                        field={f[:filters]}>
+                        field={f[:set_aside]}>
                       </.input>
                   </Filter.section>
                   <Filter.section title="Product/Service Code" id="codes">
@@ -159,7 +159,7 @@
                           id="naics-code-combobox"
                           name="naics_code"
                           options={@combobox_options.naics_codes}
-                          field={f[:filters]}>
+                          field={f[:naics_code]}>
                       </.input>
                       </div>
                       <div>
@@ -183,7 +183,7 @@
                           id="pop-country-combobox"
                           name="pop_country"
                           options={@combobox_options.countries}
-                          field={f[:filters]}>
+                          field={f[:pop_country]}>
                         </.input>
                       </div>
                       <div>
@@ -193,7 +193,7 @@
                           id="pop-state-combobox"
                           name="pop_state"
                           options={@combobox_options.states}
-                          field={f[:filters]}>
+                          field={f[:pop_state]}>
                         </.input>
                       </div>
                       <div>
@@ -220,22 +220,17 @@
                   </Filter.section>
                   <Filter.section title="Status" id="status">
                     <div class="space-y-1">
-                      <.input
-                        type="checkbox"
-                        id="active-yes"
-                        name="active[]"
-                        label="Active"
-                        value="Yes"
-                        field={f[:filters]}>
-                      </.input>
-                      <.input
-                        type="checkbox"
-                        id="active-no"
-                        name="active[]"
-                        label="Inactive"
-                        value="No"
-                        field={f[:filters]}>
-                      </.input>
+                      <%= for active <- ["Yes", "No"] do %>
+                        <.input
+                          type="checkbox"
+                          id={"active-#{active}"}
+                          name="active[]"
+                          label={active}
+                          value={active}
+                          field={f[:active]}
+                          checked={active in (f[:active].value || [])}
+                        />
+                      <% end %>
                     </div>
                   </Filter.section>
                 </.form>
