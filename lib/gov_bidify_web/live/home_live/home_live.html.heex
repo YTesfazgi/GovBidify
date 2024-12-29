@@ -11,7 +11,34 @@
         <.input type="hidden" name="order_by[]" id="search-order-by" field={f[:order_by]} />
         <.input type="hidden" name="order_directions[]" id="search-order-directions" field={f[:order_directions]} />
         <.input type="hidden" name="page_size" id="search-page-size" field={f[:page_size]} />
-        <%!-- <.input type="hidden" name="filters[]" field={@form[:filters]} /> --%>
+        <!-- Hidden inputs for filters parameters -->
+        <%= for value <- (f[:type].value || []) do %>
+          <input type="hidden" name="type[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:department_ind_agency].value || []) do %>
+          <input type="hidden" name="department_ind_agency[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:sub_tier].value || []) do %>
+          <input type="hidden" name="sub_tier[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:office].value || []) do %>
+          <input type="hidden" name="office[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:set_aside].value || []) do %>
+          <input type="hidden" name="set_aside[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:naics_code].value || []) do %>
+          <input type="hidden" name="naics_code[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:pop_country].value || []) do %>
+          <input type="hidden" name="pop_country[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:pop_state].value || []) do %>
+          <input type="hidden" name="pop_state[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:active].value || []) do %>
+          <input type="hidden" name="active[]" value={value} />
+        <% end %>
       </.form>
     </div>
   </div>
