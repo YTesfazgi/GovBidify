@@ -15,18 +15,37 @@ class MultiSelectCombobox extends HTMLElement {
 
   connectedCallback() {
     let options = [];
+    let selectedValues = [];
+
     try {
       const optionsAttr = this.getAttribute('options');
+      const valueAttr = this.getAttribute('value');
       options = optionsAttr ? JSON.parse(optionsAttr) : [];
+      selectedValues = valueAttr ? JSON.parse(valueAttr) : [];
+
+      // Initialize selectedOptions with the selectedValues
+      this.selectedOptions = new Set(selectedValues);
+
       if (!Array.isArray(options)) {
-        throw new Error('Options should be an array, got ' + optionsAttr);
+        throw new Error('Options should be an array');
       }
     } catch (error) {
-      console.error('MultiSelectCombobox: Error parsing options', error);
+      console.error('MultiSelectCombobox: Error parsing attributes', error);
     }
 
     const name = this.getAttribute('name') || 'combobox';
     this.render(options, name);
+
+    // After rendering, update the UI to show selected options
+    this.updateSelectedOptions();
+
+    // Update the data-selected attribute on pre-selected options
+    this.querySelectorAll('.option').forEach(option => {
+      const value = option.getAttribute('data-value');
+      if (this.selectedOptions.has(value)) {
+        option.setAttribute('data-selected', 'true');
+      }
+    });
   }
 
   render(options, name) {

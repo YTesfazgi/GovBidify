@@ -132,6 +132,7 @@
                       name="type"
                       options={@combobox_options.types}
                       field={f[:type]}>
+                      value={f[:type].value || []}
                     </.input>
                   </Filter.section>
                  <Filter.section title="Federal Organization" id="federal-organization">
@@ -144,6 +145,7 @@
                         name="department_ind_agency"
                         options={@combobox_options.departments}
                         field={f[:department_ind_agency]}>
+                        value={f[:department_ind_agency].value || []}
                       </.input>
                     </div>
                     <div>
@@ -154,6 +156,7 @@
                         name="sub_tier"
                         options={@combobox_options.sub_tiers}
                         field={f[:sub_tier]}>
+                        value={f[:sub_tier].value || []}
                       </.input>
                     </div>
                     <div>
@@ -164,18 +167,20 @@
                         name="office"
                         options={@combobox_options.offices}
                         field={f[:office]}>
+                        value={f[:office].value || []}
                       </.input>
                     </div>
                   </div>
                   </Filter.section>
                   <Filter.section title="Set Aside" id="set-aside">
                     <.input
-                        type="combobox"
-                        id="set-aside-combobox"
-                        name="set_aside"
-                        options={@combobox_options.set_asides}
-                        field={f[:set_aside]}>
-                      </.input>
+                      type="combobox"
+                      id="set-aside-combobox"
+                      name="set_aside"
+                      options={@combobox_options.set_asides}
+                      field={f[:set_aside]}>
+                      value={f[:set_aside].value || []}
+                    </.input>
                   </Filter.section>
                   <Filter.section title="Product/Service Code" id="codes">
                     <div class="space-y-4">
@@ -187,7 +192,8 @@
                           name="naics_code"
                           options={@combobox_options.naics_codes}
                           field={f[:naics_code]}>
-                      </.input>
+                          value={f[:naics_code].value || []}
+                        </.input>
                       </div>
                       <div>
                         <label for="psc-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">PSC Code</label>
@@ -211,6 +217,7 @@
                           name="pop_country"
                           options={@combobox_options.countries}
                           field={f[:pop_country]}>
+                          value={f[:pop_country].value || []}
                         </.input>
                       </div>
                       <div>
@@ -221,6 +228,7 @@
                           name="pop_state"
                           options={@combobox_options.states}
                           field={f[:pop_state]}>
+                          value={f[:pop_state].value || []}
                         </.input>
                       </div>
                       <div>

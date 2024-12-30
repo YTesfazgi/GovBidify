@@ -382,7 +382,12 @@ defmodule GovBidifyWeb.CoreComponents do
     ~H"""
     <div phx-feedback-for={@name}>
       <.label for={@id}><%= @label %></.label>
-      <multi-select-combobox options={Jason.encode!(@options)} name={@name} id={@id}>
+      <multi-select-combobox
+        options={Jason.encode!(@options)}
+        name={@name}
+        id={@id}
+        value={Jason.encode!(@value || [])}
+      >
       </multi-select-combobox>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
