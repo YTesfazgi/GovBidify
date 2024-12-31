@@ -20,15 +20,17 @@ class MultiSelectCombobox extends HTMLElement {
     try {
       const optionsAttr = this.getAttribute('options');
       const valueAttr = this.getAttribute('value');
-      options = optionsAttr ? JSON.parse(optionsAttr) : [];
-      selectedValues = valueAttr ? JSON.parse(valueAttr) : [];
 
-      // Initialize selectedOptions with the selectedValues
-      this.selectedOptions = new Set(selectedValues);
-
-      if (!Array.isArray(options)) {
-        throw new Error('Options should be an array');
+      // Parse options and handle both array and object formats
+      if (optionsAttr) {
+        const parsedOptions = JSON.parse(optionsAttr);
+        options = Array.isArray(parsedOptions)
+          ? parsedOptions.map(opt => ({ value: opt, label: opt }))
+          : Object.entries(parsedOptions).map(([value, label]) => ({ value, label }));
       }
+
+      selectedValues = valueAttr ? JSON.parse(valueAttr) : [];
+      this.selectedOptions = new Set(selectedValues);
     } catch (error) {
       console.error('MultiSelectCombobox: Error parsing attributes', error);
     }
@@ -62,9 +64,10 @@ class MultiSelectCombobox extends HTMLElement {
           <div class="w-full">
             ${options.map(option => `
               <div class="option p-2 cursor-pointer w-full box-border text-sm hover:bg-gray-100 data-[selected=true]:bg-green-100"
-                   data-value="${option}"
+                   data-value="${option.value}"
+                   data-label="${option.label}"
                    role="option">
-                ${option}
+                ${option.label}
               </div>
             `).join('')}
           </div>
@@ -118,6 +121,7 @@ class MultiSelectCombobox extends HTMLElement {
   handleOptionClick(event) {
     const option = event.currentTarget;
     const value = option.getAttribute('data-value');
+    const label = option.getAttribute('data-label');
 
     if (this.selectedOptions.has(value)) {
       this.selectedOptions.delete(value);
@@ -126,6 +130,9 @@ class MultiSelectCombobox extends HTMLElement {
       this.selectedOptions.add(value);
       option.setAttribute('data-selected', 'true');
     }
+
+    // Store both value and label
+    option.dataset.selectedLabel = label;
 
     this.updateSelectedOptions();
     this.updateHiddenInput();
@@ -170,32 +177,35 @@ class MultiSelectCombobox extends HTMLElement {
     }
 
     this.selectedOptions.forEach(value => {
-        const span = document.createElement('span');
-        span.className = 'bg-gray-200 rounded px-2 py-1 flex items-center text-sm';
-        span.textContent = value;
+      const option = this.querySelector(`.option[data-value="${value}"]`);
+      const label = option ? option.getAttribute('data-label') : value;
 
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.setAttribute('aria-label', `Remove ${value}`);
-        button.className = 'ml-2 bg-transparent border-none cursor-pointer text-base leading-none hover:text-gray-700';
-        button.innerHTML = '&times;';
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.selectedOptions.delete(value);
-            this.updateSelectedOptions();
-            this.updateHiddenInput();
-            const correspondingOption = this.querySelector(`.option[data-value="${value}"]`);
-            if (correspondingOption) {
-                correspondingOption.setAttribute('data-selected', 'false');
-            }
-        });
+      const span = document.createElement('span');
+      span.className = 'bg-gray-200 rounded px-2 py-1 flex items-center text-sm';
+      span.textContent = label;
 
-        span.appendChild(button);
-        this.selectedOptionsContainer.appendChild(span);
-        this.filterInput.value = '';
-        this.querySelectorAll('.option').forEach(option => {
-          option.classList.remove('hidden');
-        });
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-label', `Remove ${label}`);
+      button.className = 'ml-2 bg-transparent border-none cursor-pointer text-base leading-none hover:text-gray-700';
+      button.innerHTML = '&times;';
+      button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.selectedOptions.delete(value);
+          this.updateSelectedOptions();
+          this.updateHiddenInput();
+          const correspondingOption = this.querySelector(`.option[data-value="${value}"]`);
+          if (correspondingOption) {
+              correspondingOption.setAttribute('data-selected', 'false');
+          }
+      });
+
+      span.appendChild(button);
+      this.selectedOptionsContainer.appendChild(span);
+      this.filterInput.value = '';
+      this.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('hidden');
+      });
     });
   }
 
