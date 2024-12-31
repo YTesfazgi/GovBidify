@@ -50,7 +50,7 @@
       <%!-- Opportunity Search Results --%>
       <div role="list" class="col-span-2">
         <%= for result <- @results do %>
-          <li phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 bg-white cursor-pointer hover:bg-gray-50 hover:shadow-lg">
+          <ul phx-click="select_opportunity" phx-value-id={result.notice_id} class="col-span-1 divide-y divide-gray-200 bg-white cursor-pointer hover:bg-gray-50 hover:shadow-lg">
             <div class="flex w-full items-center justify-between space-x-6 p-6">
               <div class="flex-1 truncate">
                 <div class="flex items-center space-x-3">
@@ -62,7 +62,7 @@
                 <p class="mt-1 text-sm font-light text-gray-900"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(result.response_deadline, "Respond by ", " at ") %></p>
               </div>
             </div>
-          </li>
+          </ul>
         <% end %>
         <%!-- Pagination component --%>
         <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
