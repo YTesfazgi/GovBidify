@@ -57,7 +57,8 @@ defmodule GovBidify.MixProject do
       {:tzdata, "~> 1.1"},
       {:flop_phoenix, "~> 0.23.0"},
       {:wallaby, "~> 0.30", runtime: false, only: :test},
-      {:cachex, "~> 4.0"}
+      {:cachex, "~> 4.0"},
+      {:xlsxir, "~> 1.6.4"}
     ]
   end
 
