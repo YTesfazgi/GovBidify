@@ -2,6 +2,7 @@ defmodule GovBidifyWeb.HomeLive do
   use GovBidifyWeb, :live_view
   alias GovBidifyWeb.Filter
   alias GovBidify.Opportunities
+  alias GovBidify.NAICSCodes
 
   def mount(_params, _session, socket) do
     form = to_form(default_meta())
@@ -143,7 +144,7 @@ defmodule GovBidifyWeb.HomeLive do
         sub_tiers: Opportunities.list_sub_tiers(),
         offices: Opportunities.list_offices(),
         set_asides: Opportunities.list_set_asides(),
-        naics_codes: Opportunities.list_naics_codes(),
+        naics_codes: NAICSCodes.list_naics_codes(),
         countries: Opportunities.list_countries(),
         states: Opportunities.list_states()
       }
