@@ -1,7 +1,7 @@
 defmodule GovBidify.NAICSParser do
   use GenServer
   alias GovBidify.Repo
-  alias GovBidify.NAICSCodes
+  alias GovBidify.NAICSCode
   require Logger
 
   @xlsx_file_path "priv/static/files/2-6 Digit 2022 NAICS Codes.xlsx"
@@ -20,7 +20,7 @@ defmodule GovBidify.NAICSParser do
 
   @impl true
   def handle_info(:parse_and_insert, state) do
-    case Repo.aggregate(NAICSCodes, :count) do
+    case Repo.aggregate(NAICSCode, :count) do
       0 ->
         # Table is empty, proceed with parsing and inserting
         case parse_xlsx(@xlsx_file_path) do
@@ -64,8 +64,8 @@ defmodule GovBidify.NAICSParser do
             to_string(other)
         end
 
-        case %NAICSCodes{}
-             |> NAICSCodes.changeset(%{
+        case %NAICSCode{}
+             |> NAICSCode.changeset(%{
                code: code,
                description: Enum.at(row, 1)
              })
@@ -79,7 +79,7 @@ defmodule GovBidify.NAICSParser do
 
     case failed do
       [] ->
-        Logger.info("Successfully inserted all #{successful} NAICS codes")
+        Logger.info("Successfully inserted all #{successful} NAICS codes.")
       failed_entries ->
         Logger.info("Inserted #{successful} NAICS codes with #{length(failed_entries)} failures")
         Logger.error("Failed entries: #{inspect(failed_entries)}")

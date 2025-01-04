@@ -1,4 +1,4 @@
-defmodule GovBidify.NAICSCodes do
+defmodule GovBidify.NAICSCode do
   use Ecto.Schema
   import Ecto.Changeset
 
