@@ -1,12 +1,10 @@
-defmodule GovBidify.NAICSCode do
+defmodule GovBidify.NAICS_Code do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "naics_codes" do
     field :code, :string
     field :description, :string
-
-    timestamps()
   end
 
   @doc false

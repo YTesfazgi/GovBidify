@@ -5,8 +5,6 @@ defmodule GovBidify.Repo.Migrations.CreateNaicsCodes do
     create table(:naics_codes) do
       add :code, :string
       add :description, :string
-
-      timestamps()
     end
   end
 end

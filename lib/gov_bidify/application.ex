@@ -21,7 +21,9 @@ defmodule GovBidify.Application do
       # Start Cachex
       {Cachex, name: :combobox_cache},
       # Start the NAICS parser
-      {GovBidify.NAICSParser, []}
+      {GovBidify.NAICS_Parser, []},
+      # Start the PSC parser
+      {GovBidify.PSC_Parser, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

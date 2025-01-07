@@ -1,7 +1,7 @@
-defmodule GovBidify.NAICSParser do
+defmodule GovBidify.NAICS_Parser do
   use GenServer
   alias GovBidify.Repo
-  alias GovBidify.NAICSCode
+  alias GovBidify.NAICS_Code
   require Logger
 
   @xlsx_file_path "priv/static/files/2-6 Digit 2022 NAICS Codes.xlsx"
@@ -20,7 +20,7 @@ defmodule GovBidify.NAICSParser do
 
   @impl true
   def handle_info(:parse_and_insert, state) do
-    case Repo.aggregate(NAICSCode, :count) do
+    case Repo.aggregate(NAICS_Code, :count) do
       0 ->
         # Table is empty, proceed with parsing and inserting
         case parse_xlsx(@xlsx_file_path) do
@@ -33,7 +33,7 @@ defmodule GovBidify.NAICSParser do
             {:noreply, state}
         end
       count ->
-        Logger.info("NAICSCodes table already contains #{count} records. Skipping import.")
+        Logger.info("NAICS_Codes table contains #{count}/2125 records. Skipping import.")
         {:noreply, state}
     end
   end
@@ -64,8 +64,8 @@ defmodule GovBidify.NAICSParser do
             to_string(other)
         end
 
-        case %NAICSCode{}
-             |> NAICSCode.changeset(%{
+        case %NAICS_Code{}
+             |> NAICS_Code.changeset(%{
                code: code,
                description: Enum.at(row, 1)
              })
