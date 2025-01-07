@@ -661,7 +661,7 @@ defmodule GovBidify.Opportunities do
         }
       )
 
-    flop = Flop.nest_filters(flop, [:type, :department_ind_agency, :sub_tier, :office, :set_aside, :naics_code, :pop_country, :pop_state, :active], operators: %{type: :in, department_ind_agency: :in, sub_tier: :in, office: :in, set_aside: :in, naics_code: :in, pop_country: :in, pop_state: :in, active: :in})
+    flop = Flop.nest_filters(flop, [:type, :department_ind_agency, :sub_tier, :office, :set_aside, :naics_code, :psc_code, :pop_country, :pop_state, :active], operators: %{type: :in, department_ind_agency: :in, sub_tier: :in, office: :in, set_aside: :in, naics_code: :in, psc_code: :in, pop_country: :in, pop_state: :in, active: :in})
 
     {:ok, {results, meta}} = Flop.validate_and_run(query, flop, for: Opportunity)
 

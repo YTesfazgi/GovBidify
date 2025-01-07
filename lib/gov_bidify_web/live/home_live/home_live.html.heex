@@ -197,13 +197,14 @@
                       </div>
                       <div>
                         <label for="psc-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">PSC Code</label>
-                        <div class="flex rounded-md shadow-sm">
-                          <input type="text" name="psc_code" id="psc-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter PSC Code">
-                          <button type="button" id="add-psc-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                            Add
-                          </button>
-                        </div>
-                        <div id="psc-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                        <.input
+                          type="combobox"
+                          id="psc-code-combobox"
+                          name="psc_code"
+                          options={@combobox_options.psc_codes}
+                          field={f[:psc_code]}>
+                          value={f[:psc_code].value || []}
+                        </.input>
                       </div>
                     </div>
                   </Filter.section>
