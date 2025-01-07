@@ -1,9 +1,9 @@
-defmodule GovBidify.NAICSCodes do
+defmodule GovBidify.NAICS_Codes do
   alias GovBidify.Repo
-  alias GovBidify.NAICSCode
+  alias GovBidify.NAICS_Code
 
   def list_naics_codes do
-    Repo.all(NAICSCode)
+    Repo.all(NAICS_Code)
     |> Enum.reduce(%{}, fn naics, acc ->
       Map.put(acc, naics.code, "#{naics.code} #{naics.description}")
     end)
