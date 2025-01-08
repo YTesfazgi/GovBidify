@@ -1,25 +1,52 @@
-export function initializeMultiInput(inputId, buttonId, selectedOptionsId) {
-  const input = document.getElementById(inputId);
-  const addButton = document.getElementById(buttonId);
-  const selectedOptionsContainer = document.getElementById(selectedOptionsId);
-  const selectedOptions = new Set();
+class MultiInput extends HTMLElement {
+  constructor() {
+    super();
 
-  function addCode(code) {
-    if (code && !selectedOptions.has(code)) {
-      selectedOptions.add(code);
-      updateSelectedOptions();
-      input.value = ''; // Clear the input after adding
+    // Initialize selected options
+    this.selectedOptions = new Set();
+  }
+
+  connectedCallback() {
+    this.innerHTML = `
+      <div class="multi-input-container mt-1 flex rounded-md shadow-sm">
+        <input
+          type="text"
+          class="input block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm placeholder:text-gray-500"
+          placeholder="Search...">
+        <button type="button" class="add-button inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">Add</button>
+      </div>
+      <div class="selected-options mt-2 flex flex-wrap gap-2"></div>
+    `;
+
+    this.input = this.querySelector('.input');
+    this.addButton = this.querySelector('.add-button');
+    this.selectedOptionsContainer = this.querySelector('.selected-options');
+
+    this.addButton.addEventListener('click', () => this.addCode(this.input.value.trim()));
+    this.input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        this.addCode(this.input.value.trim());
+      }
+    });
+  }
+
+  addCode(code) {
+    if (code && !this.selectedOptions.has(code)) {
+      this.selectedOptions.add(code);
+      this.updateSelectedOptions();
+      this.input.value = '';
     }
   }
 
-  function removeCode(code) {
-    selectedOptions.delete(code);
-    updateSelectedOptions();
+  removeCode(code) {
+    this.selectedOptions.delete(code);
+    this.updateSelectedOptions();
   }
 
-  function updateSelectedOptions() {
-    selectedOptionsContainer.innerHTML = '';
-    selectedOptions.forEach(code => {
+  updateSelectedOptions() {
+    this.selectedOptionsContainer.innerHTML = '';
+    this.selectedOptions.forEach(code => {
       const optionElement = document.createElement('span');
       optionElement.className = 'inline-flex items-center px-2 py-1 rounded-md text-sm font-medium bg-green-100 text-green-800';
       optionElement.innerHTML = `
@@ -30,17 +57,11 @@ export function initializeMultiInput(inputId, buttonId, selectedOptionsId) {
           </svg>
         </button>
       `;
-      optionElement.querySelector('button').addEventListener('click', () => removeCode(code));
-      selectedOptionsContainer.appendChild(optionElement);
+      optionElement.querySelector('button').addEventListener('click', () => this.removeCode(code));
+      this.selectedOptionsContainer.appendChild(optionElement);
     });
   }
-
-  addButton.addEventListener('click', () => addCode(input.value.trim()));
-
-  input.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      addCode(input.value.trim());
-    }
-  });
 }
+
+// Register the custom element
+customElements.define('multi-input', MultiInput);

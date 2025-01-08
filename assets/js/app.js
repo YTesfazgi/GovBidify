@@ -25,7 +25,7 @@ import topbar from "../vendor/topbar"
 import "./components/multi-select-combobox"
 import { initializeSortMenu } from './components/sort-menu.js';
 import { initializeMobileNavSidebar } from './components/mobile-nav-sidebar.js';
-import { initializeMultiInput } from './components/multi-input.js';
+import "./components/multi-input.js";
 
 let Hooks = {}
 
@@ -74,9 +74,4 @@ window.liveSocket = liveSocket
 document.addEventListener('DOMContentLoaded', () => {
   initializeSortMenu();
   initializeMobileNavSidebar();
-
-  initializeMultiInput('naics-code', 'add-naics-code', 'naics-selected-options');
-  initializeMultiInput('psc-code', 'add-psc-code', 'psc-selected-options');
-  initializeMultiInput('city', 'add-city', 'city-selected-options');
-  initializeMultiInput('zip-code', 'add-zip-code', 'zip-code-selected-options');
 });

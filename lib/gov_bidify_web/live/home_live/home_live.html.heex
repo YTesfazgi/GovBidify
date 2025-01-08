@@ -234,17 +234,11 @@
                       </div>
                       <div>
                         <label for="city" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">City</label>
-                        <div class="mt-1 flex rounded-md shadow-sm">
-                          <input type="text" name="city" id="city" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter City">
-                          <button type="button" id="add-city" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                            Add
-                          </button>
-                        </div>
-                        <div id="city-selected-options" class="mt-2 flex flex-wrap gap-2"></div>
+                        <multi-input id="city"></multi-input>
                       </div>
                       <div>
                         <label for="zip-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Zip Code</label>
-                        <div class="mt-1 flex rounded-md shadow-sm">
+                        <div>
                           <input type="text" name="zip_code" id="zip-code" class="block w-full rounded-l-md border-gray-300 focus:border-brand focus:ring-brand sm:text-sm" placeholder="Enter Zip Code">
                           <button type="button" id="add-zip-code" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
                             Add
