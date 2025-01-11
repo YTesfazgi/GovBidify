@@ -96,15 +96,49 @@
                     </button>
                   </div>
                   <!-- Dropdown menu, show/hide based on menu state. -->
-                  <div id="sort-menu" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform transition-all ease-out duration-150 opacity-0 scale-95 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                    <div class="py-1" role="none">
-                      <a href="#" class="block px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-0">Relevance</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-1">Proximity</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-2">Alphabetical</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-3">Deadline</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="menu-item-4">Type</a>
+                  <.form :let={f} for={@form} phx-submit="search">
+                    <div id="sort-menu" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform transition-all ease-out duration-150 opacity-0 scale-95 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                      <div class="py-1" role="none">
+                        <button name="order_by[]" value="relevance" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Relevance</button>
+                        <button name="order_by[]" value="proximity" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Proximity</button>
+                        <button name="order_by[]" value="title" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Alphabetical</button>
+                        <button name="order_by[]" value="response_deadline" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Deadline</button>
+                        <button name="order_by[]" value="type" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Type</button>
+                      </div>
                     </div>
-                  </div>
+                    <!-- Hidden inputs for Flop parameters -->
+                    <.input type="hidden" name="query" id="filter-query" field={f[:query]} />
+                    <.input type="hidden" name="order_directions[]" id="filter-order-directions" field={f[:order_directions]} />
+                    <.input type="hidden" name="page_size" id="filter-page-size" field={f[:page_size]} />
+                    <!-- Hidden inputs for filters parameters -->
+                    <%= for value <- (f[:type].value || []) do %>
+                      <input type="hidden" name="type[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:department_ind_agency].value || []) do %>
+                      <input type="hidden" name="department_ind_agency[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:sub_tier].value || []) do %>
+                      <input type="hidden" name="sub_tier[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:office].value || []) do %>
+                      <input type="hidden" name="office[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:set_aside].value || []) do %>
+                      <input type="hidden" name="set_aside[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:naics_code].value || []) do %>
+                      <input type="hidden" name="naics_code[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:pop_country].value || []) do %>
+                      <input type="hidden" name="pop_country[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:pop_state].value || []) do %>
+                      <input type="hidden" name="pop_state[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:active].value || []) do %>
+                      <input type="hidden" name="active[]" value={value} />
+                    <% end %>
+                  </.form>
                 </div>
               </div>
             </div>

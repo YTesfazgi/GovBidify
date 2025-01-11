@@ -23,9 +23,9 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 import "./components/multi-select-combobox"
+import "./components/multi-input.js";
 import { initializeSortMenu } from './components/sort-menu.js';
 import { initializeMobileNavSidebar } from './components/mobile-nav-sidebar.js';
-import "./components/multi-input.js";
 
 let Hooks = {}
 
