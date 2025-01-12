@@ -259,12 +259,24 @@
                         </.input>
                       </div>
                       <div>
-                        <label for="city" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">City</label>
-                        <multi-input id="pop-city-multi-input" name="pop_city"></multi-input>
+                        <.input
+                          type="multi-input"
+                          id="pop-city-multi-input"
+                          name="pop_city"
+                          label="City"
+                          field={f[:pop_city]}
+                          value={f[:pop_city].value || []}
+                        />
                       </div>
                       <div>
-                        <label for="zip-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Zip Code</label>
-                        <multi-input id="pop-zip-multi-input" name="pop_zip"></multi-input>
+                        <.input
+                          type="multi-input"
+                          id="pop-zip-multi-input"
+                          name="pop_zip"
+                          label="Zip Code"
+                          field={f[:pop_zip]}
+                          value={f[:pop_zip].value || []}
+                        />
                       </div>
                     </div>
                   </Filter.section>

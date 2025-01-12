@@ -268,7 +268,7 @@ defmodule GovBidifyWeb.CoreComponents do
 
   attr :type, :string,
     default: "text",
-    values: ~w(checkbox combobox color date datetime-local email file hidden month number password
+    values: ~w(checkbox combobox color date datetime-local email file hidden month multi-input number password
                range radio search searchbar select tel text textarea time url week)
 
   attr :field, Phoenix.HTML.FormField,
@@ -389,6 +389,21 @@ defmodule GovBidifyWeb.CoreComponents do
         value={Jason.encode!(@value || [])}
       >
       </multi-select-combobox>
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "multi-input"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name}>
+      <label class="block pb-2 text-sm font-semibold leading-6 text-zinc-800" for={@id}><%= @label %></label>
+      <multi-input
+        id={@id}
+        name={@name}
+        value={Jason.encode!(@value || [])}
+      >
+      </multi-input>
       <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
