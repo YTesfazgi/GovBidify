@@ -1,10 +1,10 @@
 defmodule GovBidifyWeb.SortMenu do
-  use GovBidifyWeb, :live_component
+  use Phoenix.Component
 
-  # You can add a type spec for better documentation
   @type button :: {String.t(), String.t()}
 
-  def render(assigns) do
+  attr :buttons, :list, required: true
+  def sort_menu(assigns) do
     ~H"""
     <div id="sort-menu"
          class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform transition-all ease-out duration-150 opacity-0 scale-95 hidden"

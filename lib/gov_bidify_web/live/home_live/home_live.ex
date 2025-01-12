@@ -1,6 +1,7 @@
 defmodule GovBidifyWeb.HomeLive do
   use GovBidifyWeb, :live_view
   alias GovBidifyWeb.Filter
+  alias GovBidifyWeb.SortMenu
   alias GovBidify.Opportunities
   alias GovBidify.NAICS_Codes
   alias GovBidify.PSC_Codes
