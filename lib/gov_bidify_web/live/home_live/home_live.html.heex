@@ -97,15 +97,13 @@
                   </div>
                   <!-- Dropdown menu, show/hide based on menu state. -->
                   <.form :let={f} for={@form} phx-submit="search">
-                    <div id="sort-menu" class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform transition-all ease-out duration-150 opacity-0 scale-95 hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                      <div class="py-1" role="none">
-                        <button name="order_by[]" value="relevance" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Relevance</button>
-                        <button name="order_by[]" value="proximity" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Proximity</button>
-                        <button name="order_by[]" value="title" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Alphabetical</button>
-                        <button name="order_by[]" value="response_deadline" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Deadline</button>
-                        <button name="order_by[]" value="type" class="block w-full text-left px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1">Type</button>
-                      </div>
-                    </div>
+                    <.live_component module={GovBidifyWeb.SortMenu} id="sort-menu"
+                        buttons={[
+                        {"Alphabetical", "title"},
+                        {"Deadline", "response_deadline"},
+                        {"Type", "type"}
+                      ]}
+                    />
                     <!-- Hidden inputs for Flop parameters -->
                     <.input type="hidden" name="query" id="filter-query" field={f[:query]} />
                     <.input type="hidden" name="order_directions[]" id="filter-order-directions" field={f[:order_directions]} />
