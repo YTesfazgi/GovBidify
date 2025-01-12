@@ -1,4 +1,4 @@
-defmodule GovBidifyWeb.DrawerComponent do
+defmodule GovBidifyWeb.Drawer do
   use GovBidifyWeb, :live_component
 
   def render(assigns) do
