@@ -35,8 +35,7 @@ class MultiSelectCombobox extends HTMLElement {
       console.error('MultiSelectCombobox: Error parsing attributes', error);
     }
 
-    const name = this.getAttribute('name') || 'combobox';
-    this.render(options, name);
+    this.render(options);
 
     // After rendering, update the UI to show selected options
     this.updateSelectedOptions();
@@ -50,7 +49,7 @@ class MultiSelectCombobox extends HTMLElement {
     });
   }
 
-  render(options, name) {
+  render(options) {
     const html = `
       <div class="relative w-full font-sans">
         <div class="selected-options flex flex-wrap gap-2 py-2 rounded-t min-h-[40px] items-center hidden">
