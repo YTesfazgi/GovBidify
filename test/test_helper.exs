@@ -1,3 +1,5 @@
+System.cmd("npm", ["test"], cd: "assets") # runs JavaScript tests
+
 {:ok, _} = Application.ensure_all_started(:ex_machina)
 {:ok, _} = Application.ensure_all_started(:wallaby)
 
