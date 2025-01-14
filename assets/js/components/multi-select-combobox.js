@@ -91,7 +91,11 @@ class MultiSelectCombobox extends HTMLElement {
       }
     });
 
-    this.querySelectorAll('.option').forEach(option => {
+    // Store all commonly accessed elements as properties
+    this.optionElements = this.querySelectorAll('.option');
+
+    // Update event listeners to use stored elements
+    this.optionElements.forEach(option => {
       option.addEventListener('click', this.handleOptionClick);
     });
 
@@ -156,13 +160,12 @@ class MultiSelectCombobox extends HTMLElement {
   }
 
   filterOptions(query) {
-    this.querySelectorAll('.option').forEach(option => {
-      const text = option.textContent.toLowerCase();
-      if (text.includes(query)) {
-        option.classList.remove('hidden');
-      } else {
-        option.classList.add('hidden');
-      }
+    // Use stored elements instead of querying
+    this.optionElements.forEach(option => {
+      // Cache the lowercase text in data attribute during render
+      const text = option.dataset.searchText ||
+        (option.dataset.searchText = option.textContent.toLowerCase());
+      option.classList.toggle('hidden', !text.includes(query));
     });
   }
 
