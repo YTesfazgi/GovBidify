@@ -213,19 +213,8 @@ class MultiSelectCombobox extends HTMLElement {
     this.querySelectorAll('.hidden-input').forEach(input => input.remove());
 
     if (this.selectedOptions.size === 0) {
-      // Create a temporary hidden input to emit the change event
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = this.getAttribute('name') + '[]';
-      input.className = 'hidden-input';
-      this.appendChild(input);
-
-      // Emit change event on the input
       const event = new Event('change', { bubbles: true });
-      input.dispatchEvent(event);
-
-      // Remove the temporary input
-      input.remove();
+      this.dispatchEvent(event);
       return;
     }
 
