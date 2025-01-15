@@ -110,6 +110,26 @@ describe('MultiSelectCombobox', () => {
       expect(hiddenInputs[0].value).toBe('one');
       expect(hiddenInputs[0].name).toBe('test-select[]');
     });
+
+    it('should emit change event and create empty hidden input when last option is deselected', () => {
+      // Set up change event spy
+      const changeSpy = jest.fn();
+      component.addEventListener('change', changeSpy);
+
+      // Select and then deselect an option
+      const firstOption = component.querySelector('.option');
+      firstOption.click(); // select
+      firstOption.click(); // deselect
+
+      // Check change event was fired
+      expect(changeSpy).toHaveBeenCalled();
+
+      // Check hidden input state
+      const hiddenInputs = component.querySelectorAll('.hidden-input');
+      expect(hiddenInputs.length).toBe(1);
+      expect(hiddenInputs[0].value).toBe('');
+      expect(hiddenInputs[0].name).toBe('test-select[]');
+    });
   });
 
   describe('accessibility', () => {

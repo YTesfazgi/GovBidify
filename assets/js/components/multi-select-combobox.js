@@ -201,16 +201,11 @@ class MultiSelectCombobox extends HTMLElement {
 
   updateSelectedOptions() {
     this.selectedOptionsContainer.innerHTML = '';
-
-    if (this.selectedOptions.size === 0) {
-      this.selectedOptionsContainer.classList.add('hidden');
-    } else {
-      this.selectedOptionsContainer.classList.remove('hidden');
-    }
+    this.selectedOptionsContainer.classList.toggle('hidden', this.selectedOptions.size === 0);
 
     this.selectedOptions.forEach(value => {
       const option = this.querySelector(`.option[data-value="${value}"]`);
-      const label = option ? option.getAttribute('data-label') : value;
+      const label = option?.getAttribute('data-label') ?? value;
 
       const span = document.createElement('span');
       span.className = 'bg-gray-200 rounded px-2 py-1 flex items-center text-sm';
@@ -222,23 +217,20 @@ class MultiSelectCombobox extends HTMLElement {
       button.className = 'ml-2 bg-transparent border-none cursor-pointer text-base leading-none hover:text-gray-700';
       button.innerHTML = '&times;';
       button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          this.selectedOptions.delete(value);
-          this.updateSelectedOptions();
-          this.updateHiddenInput();
-          const correspondingOption = this.querySelector(`.option[data-value="${value}"]`);
-          if (correspondingOption) {
-              correspondingOption.setAttribute('data-selected', 'false');
-          }
+        e.stopPropagation();
+        this.selectedOptions.delete(value);
+        this.updateSelectedOptions();
+        this.updateHiddenInput();
+        this.querySelector(`.option[data-value="${value}"]`)?.setAttribute('data-selected', 'false');
       });
 
       span.appendChild(button);
       this.selectedOptionsContainer.appendChild(span);
-      this.filterInput.value = '';
-      this.querySelectorAll('.option').forEach(option => {
-        option.classList.remove('hidden');
-      });
     });
+
+    // Reset filter state
+    this.filterInput.value = '';
+    this.optionElements.forEach(option => option.classList.remove('hidden'));
   }
 
   updateHiddenInput() {
@@ -246,24 +238,31 @@ class MultiSelectCombobox extends HTMLElement {
     this.querySelectorAll('.hidden-input').forEach(input => input.remove());
 
     if (this.selectedOptions.size === 0) {
-      const event = new Event('change', { bubbles: true });
-      this.dispatchEvent(event);
-      return;
-    }
-
-    // Create a new hidden input for each selected option
-    Array.from(this.selectedOptions).forEach(value => {
+      // Create a single empty input when no options are selected
       const input = document.createElement('input');
       input.type = 'hidden';
       input.name = this.getAttribute('name') + '[]';
-      input.value = value;
+      input.value = '';
       input.className = 'hidden-input';
       this.appendChild(input);
+    } else {
+      // Create a new hidden input for each selected option
+      Array.from(this.selectedOptions).forEach(value => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = this.getAttribute('name') + '[]';
+        input.value = value;
+        input.className = 'hidden-input';
+        this.appendChild(input);
+      });
+    }
 
-      // Emit change event for each input
+    // Dispatch change event on the last input
+    const lastInput = this.querySelector('.hidden-input:last-child');
+    if (lastInput) {
       const event = new Event('change', { bubbles: true });
-      input.dispatchEvent(event);
-    });
+      lastInput.dispatchEvent(event);
+    }
   }
 
   handleKeydown(event) {
