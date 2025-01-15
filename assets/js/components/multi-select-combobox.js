@@ -11,6 +11,7 @@ class MultiSelectCombobox extends HTMLElement {
     this.handleOptionClick = this.handleOptionClick.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
   connectedCallback() {
@@ -49,6 +50,33 @@ class MultiSelectCombobox extends HTMLElement {
     });
   }
 
+  disconnectedCallback() {
+    // Remove global listener
+    document.removeEventListener('click', this.handleOutsideClick);
+
+    // Remove input listeners
+    if (this.filterInput) {
+      this.filterInput.removeEventListener('click', this.toggleDropdown);
+      this.filterInput.removeEventListener('keydown', this.handleKeydown);
+      this.filterInput.removeEventListener('input', this.handleInput);
+    }
+
+    // Remove option listeners
+    this.querySelectorAll('.option').forEach(option => {
+      option.removeEventListener('click', this.handleOptionClick);
+    });
+
+    // Remove selected option remove button listeners
+    this.querySelectorAll('.selected-options button').forEach(button => {
+      button.removeEventListener('click', this.handleRemoveOption);
+    });
+
+    // Remove option keydown listeners
+    this.querySelectorAll('.option').forEach(option => {
+      option.removeEventListener('keydown', this.handleKeydown);
+    });
+  }
+
   render(options) {
     const html = `
       <div class="relative w-full font-sans">
@@ -65,7 +93,8 @@ class MultiSelectCombobox extends HTMLElement {
               <div class="option p-2 cursor-pointer w-full box-border text-sm hover:bg-gray-100 data-[selected=true]:bg-green-100"
                    data-value="${option.value}"
                    data-label="${option.label}"
-                   role="option">
+                   role="option"
+                   tabindex="0">
                 ${option.label}
               </div>
             `).join('')}
@@ -84,12 +113,8 @@ class MultiSelectCombobox extends HTMLElement {
 
     // Event listeners
     this.filterInput.addEventListener('click', this.toggleDropdown);
-    this.filterInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.toggleDropdown(e);
-      }
-    });
+    this.filterInput.addEventListener('keydown', this.handleKeydown);
+    this.filterInput.addEventListener('input', this.handleInput);
 
     // Store all commonly accessed elements as properties
     this.optionElements = this.querySelectorAll('.option');
@@ -97,6 +122,9 @@ class MultiSelectCombobox extends HTMLElement {
     // Update event listeners to use stored elements
     this.optionElements.forEach(option => {
       option.addEventListener('click', this.handleOptionClick);
+      option.addEventListener('keydown', this.handleKeydown);
+      // Make sure options can receive focus
+      option.setAttribute('tabindex', '0');
     });
 
     this.filterInput.addEventListener('input', this.handleInput);
@@ -105,20 +133,22 @@ class MultiSelectCombobox extends HTMLElement {
 
   toggleDropdown(event) {
     event.stopPropagation();
-    const isOpen = this.dropdown.classList.toggle('hidden');
-    this.dropdown.setAttribute('aria-expanded', !isOpen);
-    if (!isOpen) {
-        this.filterInput.focus();
+    const isHidden = this.dropdown.classList.contains('hidden');
+
+    if (isHidden) {
+      this.dropdown.classList.remove('hidden');
+      this.dropdown.setAttribute('aria-expanded', 'true');
+      this.filterInput.focus();
     } else {
-        this.closeDropdown();
+      this.closeDropdown();
     }
   }
 
   closeDropdown() {
     this.dropdown.classList.add('hidden');
+    this.dropdown.setAttribute('aria-expanded', 'false');
     this.filterInput.value = '';
     this.filterOptions('');
-    this.selectedOptionsContainer.setAttribute('aria-expanded', 'false');
   }
 
   handleOptionClick(event) {
@@ -234,6 +264,51 @@ class MultiSelectCombobox extends HTMLElement {
       const event = new Event('change', { bubbles: true });
       input.dispatchEvent(event);
     });
+  }
+
+  handleKeydown(event) {
+    const options = Array.from(this.querySelectorAll('.option:not(.hidden)'));
+    const currentIndex = options.findIndex(option => option === document.activeElement);
+
+    switch (event.key) {
+      case 'Enter':
+        event.preventDefault();
+        if (document.activeElement === this.filterInput) {
+          // Toggle dropdown when Enter is pressed on input
+          this.toggleDropdown(event);
+        } else if (document.activeElement.classList.contains('option')) {
+          // Select option when Enter is pressed on an option
+          this.handleOptionClick({
+            currentTarget: document.activeElement,
+            preventDefault: () => {}
+          });
+        }
+        break;
+
+      case 'ArrowDown':
+        event.preventDefault();
+        if (this.dropdown.classList.contains('hidden')) {
+          this.toggleDropdown(event);
+        } else {
+          const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % options.length;
+          options[nextIndex].focus();
+        }
+        break;
+
+      case 'ArrowUp':
+        event.preventDefault();
+        if (!this.dropdown.classList.contains('hidden')) {
+          const nextIndex = currentIndex < 0 ? options.length - 1 :
+            (currentIndex - 1 + options.length) % options.length;
+          options[nextIndex].focus();
+        }
+        break;
+
+      case 'Escape':
+        event.preventDefault();
+        this.closeDropdown();
+        break;
+    }
   }
 }
 

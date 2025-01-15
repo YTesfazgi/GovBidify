@@ -114,14 +114,40 @@ describe('MultiSelectCombobox', () => {
 
   describe('accessibility', () => {
     it('should handle keyboard navigation', () => {
-      const input = component.querySelector('.filter-input');
+      const component = document.createElement('multi-select-combobox');
+      document.body.appendChild(component);
 
-      // Test Enter key
-      const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-      input.dispatchEvent(enterEvent);
+      const options = ['one', 'two', 'three'];
+      component.setAttribute('options', JSON.stringify(options));
+      component.connectedCallback();
 
+      const filterInput = component.querySelector('.filter-input');
       const dropdown = component.querySelector('.dropdown');
+
+      // Create a proper keyboard event
+      const enterEvent = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        cancelable: true,
+        preventDefault: () => {}
+      });
+
+      filterInput.focus();
+
+      // Simulate Enter key press
+      filterInput.dispatchEvent(enterEvent);
+
+      // Check if dropdown is visible
       expect(dropdown.classList.contains('hidden')).toBeFalsy();
+
+      // Simulate Enter key press again to close
+      filterInput.dispatchEvent(enterEvent);
+
+      // Check if dropdown is hidden
+      expect(dropdown.classList.contains('hidden')).toBeTruthy();
+
+      // Clean up
+      document.body.removeChild(component);
     });
 
     it('should have proper ARIA attributes', () => {
@@ -132,6 +158,47 @@ describe('MultiSelectCombobox', () => {
       options.forEach(option => {
         expect(option.getAttribute('role')).toBe('option');
       });
+    });
+  });
+
+  describe('cleanup', () => {
+    beforeEach(() => {
+      const options = ['one', 'two', 'three'];
+      component.setAttribute('options', JSON.stringify(options));
+      component.connectedCallback();
+    });
+
+    it('should remove all event listeners when disconnected', () => {
+      // Set up spies
+      const removeEventListenerSpy = jest.spyOn(document, 'removeEventListener');
+      const inputRemoveEventListenerSpy = jest.spyOn(component.filterInput, 'removeEventListener');
+
+      // Add some selected options to test cleanup
+      const firstOption = component.querySelector('.option');
+      firstOption.click();
+
+      // Trigger disconnectedCallback
+      component.remove();
+
+      // Check document listener cleanup
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
+
+      // Check input listener cleanup
+      expect(inputRemoveEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
+      expect(inputRemoveEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
+      expect(inputRemoveEventListenerSpy).toHaveBeenCalledWith('input', expect.any(Function));
+
+      // Check option listener cleanup
+      const optionElements = component.querySelectorAll('.option');
+      expect(optionElements[0].onclick).toBeNull();
+
+      // Check remove button listener cleanup
+      const removeButtons = component.querySelectorAll('.selected-options button');
+      expect(removeButtons[0].onclick).toBeNull();
+
+      // Clean up spies
+      removeEventListenerSpy.mockRestore();
+      inputRemoveEventListenerSpy.mockRestore();
     });
   });
 });
