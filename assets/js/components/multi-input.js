@@ -14,17 +14,24 @@ class MultiInput extends HTMLElement {
   connectedCallback() {
     try {
       const valueAttr = this.getAttribute('value');
-      selectedValues = valueAttr ? JSON.parse(valueAttr) : [];
+      const selectedValues = valueAttr ? JSON.parse(valueAttr) : [];
       this.selectedOptions = new Set(selectedValues);
     } catch (error) {
       console.error('MultiInput: Error parsing attributes', error);
     }
 
-    const name = this.getAttribute('name') || 'multi-input';
-    this.render(name);
+    this.render();
 
     // After rendering, update the UI to show selected options
     this.updateSelectedOptions();
+
+    // Update the data-selected attribute on pre-selected options
+    this.querySelectorAll('.option').forEach(option => {
+      const value = option.getAttribute('data-value');
+      if (this.selectedOptions.has(value)) {
+        option.setAttribute('data-selected', 'true');
+      }
+    });
 
     this.addButton.addEventListener('click', () => this.addCode(this.input.value.trim()));
     this.input.addEventListener('keydown', (event) => {
@@ -35,7 +42,7 @@ class MultiInput extends HTMLElement {
     });
   }
 
-  render(name) {
+  render() {
     const html = `
       <div class="multi-input-container mt-1 flex rounded-md shadow-sm">
         <input
@@ -106,6 +113,9 @@ class MultiInput extends HTMLElement {
 
       span.appendChild(button);
       this.selectedOptionsContainer.appendChild(span);
+      this.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('hidden');
+      });
     });
   }
 
@@ -124,10 +134,6 @@ class MultiInput extends HTMLElement {
       // Emit change event on the input
       const event = new Event('change', { bubbles: true });
       input.dispatchEvent(event);
-
-      // Remove the temporary input
-      input.remove();
-      return;
     }
 
     // Create a new hidden input for each selected option
