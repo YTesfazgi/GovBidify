@@ -10,6 +10,7 @@ defmodule GovBidifyWeb.HomeLive do
     form = to_form(default_meta())
 
     {:ok, assign(socket,
+      page_title: "Opportunities",
       form: form,
       results: [],
       meta: default_meta(),
