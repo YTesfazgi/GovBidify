@@ -105,9 +105,9 @@
                       ]}
                     />
                     <!-- Hidden inputs for Flop parameters -->
-                    <.input type="hidden" name="query" id="filter-query" field={f[:query]} />
-                    <.input type="hidden" name="order_directions[]" id="filter-order-directions" field={f[:order_directions]} />
-                    <.input type="hidden" name="page_size" id="filter-page-size" field={f[:page_size]} />
+                    <.input type="hidden" name="query" id="sort-query" field={f[:query]} />
+                    <.input type="hidden" name="order_directions[]" id="sort-order-directions" field={f[:order_directions]} />
+                    <.input type="hidden" name="page_size" id="sort-page-size" field={f[:page_size]} />
                     <!-- Hidden inputs for filters parameters -->
                     <%= for value <- (f[:type].value || []) do %>
                       <input type="hidden" name="type[]" value={value} />
