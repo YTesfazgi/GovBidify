@@ -91,10 +91,9 @@ defmodule GovBidifyWeb.HomeLive do
 
   defp default_flop do
     %{
-      page_size: 10,
-      order_by: ["response_deadline"],
-      order_directions: ["asc"],
-      filters: []
+      "page_size" => 10,
+      "order_by" => ["response_deadline"],
+      "order_directions" => ["asc"],
     }
   end
 
