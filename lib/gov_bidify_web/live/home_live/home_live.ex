@@ -7,7 +7,7 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.PSC_Codes
 
   def mount(_params, _session, socket) do
-    form = to_form(default_meta())
+    form = to_form(default_flop())
 
     {:ok, assign(socket,
       page_title: "Opportunities",
@@ -21,13 +21,17 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   def handle_event("search", params, socket) do
-    form = params
+    # Merge new params with existing form data for mobile search
+    current_form_data = socket.assigns.form.source
+    merged_params = Map.merge(current_form_data, params)
+
+    form = merged_params
     |> clean_params()
     |> to_form()
 
     updated_socket = assign(socket, form: form)
 
-    {:noreply, push_patch(updated_socket, to: ~p"/?#{clean_params(params)}")}
+    {:noreply, push_patch(updated_socket, to: ~p"/?#{clean_params(merged_params)}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
@@ -86,7 +90,7 @@ defmodule GovBidifyWeb.HomeLive do
   end
 
   defp default_flop do
-    %Flop{
+    %{
       page_size: 10,
       order_by: ["response_deadline"],
       order_directions: ["asc"],
