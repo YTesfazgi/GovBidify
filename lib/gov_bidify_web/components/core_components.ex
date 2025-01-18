@@ -268,8 +268,8 @@ defmodule GovBidifyWeb.CoreComponents do
 
   attr :type, :string,
     default: "text",
-    values: ~w(checkbox combobox color date datetime-local email file hidden month multi-input number password
-               range radio search searchbar select tel text textarea time url week)
+    values: ~w(checkbox combobox color date datetime-local email file hidden mobile-search-bar month multi-input number password
+               range radio search search-bar select tel text textarea time url week)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -357,7 +357,7 @@ defmodule GovBidifyWeb.CoreComponents do
     """
   end
 
-  def input(%{type: "searchbar"} = assigns) do
+  def input(%{type: "search-bar"} = assigns) do
     ~H"""
     <div phx-feedback-for={@name} class="block h-full w-full">
       <.label for={@id}><%= @label %></.label>
@@ -368,6 +368,27 @@ defmodule GovBidifyWeb.CoreComponents do
         value={Phoenix.HTML.Form.normalize_value("text", @value)}
         class={[
           "block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 sm:text-sm",
+          @errors == [] && "border-zinc-300 focus:border-zinc-400",
+          @errors != [] && "border-rose-400 focus:border-rose-400"
+        ]}
+        {@rest}
+      />
+      <.error :for={msg <- @errors}><%= msg %></.error>
+    </div>
+    """
+  end
+
+  def input(%{type: "mobile-search-bar"} = assigns) do
+    ~H"""
+    <div phx-feedback-for={@name} class="block h-full w-full">
+      <.label for={@id}><%= @label %></.label>
+      <input
+        type="text"
+        id={@id}
+        name={@name}
+        value={Phoenix.HTML.Form.normalize_value("text", @value)}
+        class={[
+          "block h-full w-full border-0 py-0 pl-11 pr-0 text-gray-900 rounded-2xl placeholder:text-gray-400 focus:ring-0 sm:text-sm",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
