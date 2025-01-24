@@ -16,7 +16,8 @@ defmodule GovBidifyWeb.HomeLive do
       meta: default_meta(),
       selected_opportunity: default_selected_opportunity(),
       combobox_options: combobox_options(),
-      mobile_search_bar: true
+      mobile_search_bar: true,
+      show_filter_modal: false
     )}
   end
 
@@ -44,6 +45,14 @@ defmodule GovBidifyWeb.HomeLive do
 
   def handle_event("close_opportunity", _session, socket) do
     {:noreply, push_event(socket, "close-drawer", %{})}
+  end
+
+  def handle_event("open_filter_modal", _params, socket) do
+    {:noreply, assign(socket, show_filter_modal: true)}
+  end
+
+  def handle_event("close_filter_modal", _params, socket) do
+    {:noreply, assign(socket, show_filter_modal: false)}
   end
 
   def handle_params(%{"query" => query} = params, _uri, socket) do

@@ -45,6 +45,198 @@
 
   <.live_component module={GovBidifyWeb.Drawer} id="drawer" selected_opportunity={@selected_opportunity}/>
 
+  <button
+    phx-click="open_filter_modal"
+    class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+  >
+    Filters
+  </button>
+
+  <div class={[
+    "relative z-50",
+    @show_filter_modal && "modal-open" || "hidden"
+  ]}>
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+    <div class="fixed inset-0 z-50 overflow-y-auto">
+      <div class="flex min-h-full justify-center p-4 text-center sm:items-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+          <div class="absolute right-0 top-0 pr-4 pt-4">
+            <button
+              type="button"
+              phx-click="close_filter_modal"
+              class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <span class="sr-only">Close</span>
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+              <h3 class="text-base font-semibold leading-6 text-gray-900">Filters</h3>
+              <div class="mt-4">
+                <.form :let={f} for={@form} phx-change="search" class="col-span-3">
+                  <.input type="hidden" name="query" id="filter-query" field={f[:query]} />
+                  <.input type="hidden" name="order_by[]" id="filter-order-by" field={f[:order_by]} />
+                  <.input type="hidden" name="order_directions[]" id="filter-order-directions" field={f[:order_directions]} />
+                  <.input type="hidden" name="page_size" id="filter-page-size" field={f[:page_size]} />
+                  <h3 class="sr-only">Filter Categories</h3>
+                   <Filter.section title="Notice Type" id="type">
+                    <.input
+                      type="combobox"
+                      id="type-combobox"
+                      name="type"
+                      options={@combobox_options.types}
+                      field={f[:type]}>
+                      value={f[:type].value || []}
+                    </.input>
+                  </Filter.section>
+                 <Filter.section title="Federal Organization" id="federal-organization">
+                  <div class="space-y-4">
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Departments</span>
+                      <.input
+                        type="combobox"
+                        id="department-combobox"
+                        name="department_ind_agency"
+                        options={@combobox_options.departments}
+                        field={f[:department_ind_agency]}>
+                        value={f[:department_ind_agency].value || []}
+                      </.input>
+                    </div>
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Sub-Tier</span>
+                      <.input
+                        type="combobox"
+                        id="sub-tier-combobox"
+                        name="sub_tier"
+                        options={@combobox_options.sub_tiers}
+                        field={f[:sub_tier]}>
+                        value={f[:sub_tier].value || []}
+                      </.input>
+                    </div>
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Office</span>
+                      <.input
+                        type="combobox"
+                        id="office-combobox"
+                        name="office"
+                        options={@combobox_options.offices}
+                        field={f[:office]}>
+                        value={f[:office].value || []}
+                      </.input>
+                    </div>
+                  </div>
+                  </Filter.section>
+                  <Filter.section title="Set Aside" id="set-aside">
+                    <.input
+                      type="combobox"
+                      id="set-aside-combobox"
+                      name="set_aside"
+                      options={@combobox_options.set_asides}
+                      field={f[:set_aside]}>
+                      value={f[:set_aside].value || []}
+                    </.input>
+                  </Filter.section>
+                  <Filter.section title="Product/Service Code" id="codes">
+                    <div class="space-y-4">
+                      <div>
+                        <label for="naics-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">NAICS Code</label>
+                        <.input
+                          type="combobox"
+                          id="naics-code-combobox"
+                          name="naics_code"
+                          options={@combobox_options.naics_codes}
+                          field={f[:naics_code]}>
+                          value={f[:naics_code].value || []}
+                        </.input>
+                      </div>
+                      <div>
+                        <label for="psc-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">PSC Code</label>
+                        <.input
+                          type="combobox"
+                          id="psc-code-combobox"
+                          name="psc_code"
+                          options={@combobox_options.psc_codes}
+                          field={f[:psc_code]}>
+                          value={f[:psc_code].value || []}
+                        </.input>
+                      </div>
+                    </div>
+                  </Filter.section>
+                  <Filter.section title="Place of Performance" id="place-of-performance">
+                    <div class="space-y-4">
+                      <div>
+                        <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Country</span>
+                        <.input
+                          type="combobox"
+                          id="pop-country-combobox"
+                          name="pop_country"
+                          options={@combobox_options.countries}
+                          field={f[:pop_country]}>
+                          value={f[:pop_country].value || []}
+                        </.input>
+                      </div>
+                      <div>
+                        <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">State</span>
+                        <.input
+                          type="combobox"
+                          id="pop-state-combobox"
+                          name="pop_state"
+                          options={@combobox_options.states}
+                          field={f[:pop_state]}>
+                          value={f[:pop_state].value || []}
+                        </.input>
+                      </div>
+                      <div>
+                        <.input
+                          type="multi-input"
+                          id="pop-city-multi-input"
+                          name="pop_city"
+                          label="City"
+                          field={f[:pop_city]}
+                          value={f[:pop_city].value || []}
+                        />
+                      </div>
+                      <div>
+                        <.input
+                          type="multi-input"
+                          id="pop-zip-multi-input"
+                          name="pop_zip"
+                          label="Zip Code"
+                          field={f[:pop_zip]}
+                          value={f[:pop_zip].value || []}
+                        />
+                      </div>
+                    </div>
+                  </Filter.section>
+                  <Filter.section title="Status" id="status">
+                    <div class="space-y-1">
+                      <%= for active <- ["Yes", "No"] do %>
+                        <.input
+                          type="checkbox"
+                          id={"active-#{active}"}
+                          name="active[]"
+                          label={active}
+                          value={active}
+                          field={f[:active]}
+                          checked={active in (f[:active].value || [])}
+                        />
+                      <% end %>
+                    </div>
+                  </Filter.section>
+                </.form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div>
     <div class="grid grid-cols-4">
       <%!-- Opportunity Search Results --%>
