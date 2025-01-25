@@ -42,4 +42,87 @@ defmodule GovBidifyWeb.HomeLiveTest do
     refute render(view) =~ "Test Opportunity A"
     refute render(view) =~ "Test Opportunity B"
   end
+
+  describe "filters" do
+    test "filter modal can be opened and closed", %{conn: conn} do
+      {:ok, view, _html} = live(conn, ~p"/")
+
+      refute render(view) =~ "modal-open"
+
+      view
+      |> element("button", "Filters")
+      |> render_click()
+
+      assert render(view) =~ "modal-open"
+
+      view
+      |> element("button[phx-click='close_filter_modal']")
+      |> render_click()
+
+      refute render(view) =~ "modal-open"
+    end
+
+    test "multiple filters can be applied together", %{conn: conn} do
+      insert(:opportunity,
+        title: "Defense Contract",
+        type: "Sources Sought",
+        department_ind_agency: "Department of Defense",
+        set_aside: "Small Business"
+      )
+      insert(:opportunity,
+        title: "Agriculture Contract",
+        type: "Sources Sought",
+        department_ind_agency: "Department of Agriculture",
+        set_aside: "None"
+      )
+
+      {:ok, _view, _html} = live(conn, ~p"/")
+
+      # Apply multiple filters
+      {:ok, view, _html} = live(conn, ~p"/?type[]=Sources+Sought&department_ind_agency[]=Department+of+Defense&set_aside[]=Small+Business")
+
+      assert render(view) =~ "Defense Contract"
+      refute render(view) =~ "Agriculture Contract"
+    end
+  end
+
+  describe "sorting" do
+    test "results can be sorted by different fields", %{conn: conn} do
+      insert(:opportunity, title: "A Contract", response_deadline: ~N[2024-03-01 00:00:00])
+      insert(:opportunity, title: "B Contract", response_deadline: ~N[2024-02-01 00:00:00])
+
+      # Test sorting by title ascending
+      {:ok, view, _html} = live(conn, ~p"/?query=Contract&order_by[]=title&order_directions[]=asc")
+      html = render(view)
+      assert html =~ ~r/A Contract.*B Contract/s
+
+      # Test sorting by deadline descending
+      {:ok, view, _html} = live(conn, ~p"/?query=Contract&order_by[]=response_deadline&order_directions[]=desc")
+      html = render(view)
+      assert html =~ ~r/A Contract.*B Contract/s
+    end
+  end
+
+  describe "search functionality" do
+    test "search is case insensitive", %{conn: conn} do
+      insert(:opportunity, title: "TEST Opportunity")
+
+      {:ok, view, _html} = live(conn, ~p"/?query=test")
+      assert render(view) =~ "TEST Opportunity"
+    end
+
+    test "search works with partial matches", %{conn: conn} do
+      insert(:opportunity, title: "Complex Project Opportunity")
+
+      {:ok, view, _html} = live(conn, ~p"/?query=complex")
+      assert render(view) =~ "Complex Project Opportunity"
+    end
+
+    test "search returns empty results for non-matching query", %{conn: conn} do
+      insert(:opportunity, title: "Test Opportunity")
+
+      {:ok, view, _html} = live(conn, ~p"/?query=nonexistent")
+      refute render(view) =~ "Test Opportunity"
+    end
+  end
 end
