@@ -5,15 +5,16 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidify.Opportunities
   alias GovBidify.NAICS_Codes
   alias GovBidify.PSC_Codes
+  alias GovBidifyWeb.FlopDefaults
 
   def mount(_params, _session, socket) do
-    form = to_form(default_flop())
+    form = to_form(FlopDefaults.default_flop())
 
     {:ok, assign(socket,
       page_title: "Opportunities",
       form: form,
       results: [],
-      meta: default_meta(),
+      meta: FlopDefaults.default_meta(),
       selected_opportunity: default_selected_opportunity(),
       combobox_options: combobox_options(),
       mobile_search_bar: true,
@@ -96,24 +97,6 @@ defmodule GovBidifyWeb.HomeLive do
       end
     end)
     |> Enum.into(%{})
-  end
-
-  defp default_flop do
-    %{
-      "page_size" => 10,
-      "order_by" => ["response_deadline"],
-      "order_directions" => ["asc"],
-    }
-  end
-
-  defp default_meta do
-    %Flop.Meta{
-      flop: default_flop(),
-      has_next_page?: false,
-      has_previous_page?: false,
-      next_page: nil,
-      previous_page: nil
-    }
   end
 
   defp default_selected_opportunity do
