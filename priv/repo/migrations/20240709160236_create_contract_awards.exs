@@ -1,7 +1,7 @@
 defmodule GovBidify.Repo.Migrations.CreateContractAwards do
   use Ecto.Migration
 
-  def change do
+  def up do
     create table(:contract_awards, primary_key: false) do
       add :contract_transaction_unique_key, :string, primary_key: true
       add :contract_award_unique_key, :string
@@ -299,5 +299,21 @@ defmodule GovBidify.Repo.Migrations.CreateContractAwards do
       add :initial_report_date, :string
       add :last_modified_date, :string
     end
+
+    execute """
+    ALTER TABLE contract_awards
+      ADD COLUMN searchable tsvector
+      GENERATED ALWAYS AS (
+        to_tsvector('english', coalesce(transaction_description, ''))
+      ) STORED;
+    """
+
+    execute """
+      CREATE INDEX contract_awards_searchable_idx ON contract_awards USING gin(searchable);
+    """
+  end
+
+  def down do
+    drop table(:contract_awards)
   end
 end
