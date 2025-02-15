@@ -8,13 +8,13 @@ defmodule GovBidifyWeb.HomeLive do
   alias GovBidifyWeb.FlopDefaults
 
   def mount(_params, _session, socket) do
-    form = to_form(FlopDefaults.default_flop())
+    form = to_form(FlopDefaults.opportunity_flop())
 
     {:ok, assign(socket,
       page_title: "Opportunities",
       form: form,
       results: [],
-      meta: FlopDefaults.default_meta(),
+      meta: FlopDefaults.opportunity_meta(),
       selected_opportunity: default_selected_opportunity(),
       combobox_options: combobox_options(),
       mobile_search_bar: true,
