@@ -108,19 +108,50 @@ defmodule GovBidify.ContractAwards do
 
   ## Examples
 
-      iex> search_contract_awards_by_title_and_description(search_term)
-      [%Opportunity{}, ...]
+      iex> search(search_term)
+      [%ContractAward{}, ...]
   """
-  def search_contract_awards_by_description(search_term) when is_binary(search_term) do
-    pattern = "%#{search_term}%"
-
+  def search(search_term) when is_binary(search_term) do
     query =
-      from o in ContractAward,
+      from(o in ContractAward,
         where:
-          ilike(o.transaction_description, ^pattern) or
-            ilike(o.prime_award_base_transaction_description, ^pattern),
-        select: o
+          fragment(
+            "searchable @@ websearch_to_tsquery(?)",
+            ^search_term
+          ),
+        order_by: {
+          :desc,
+          fragment(
+            "ts_rank_cd(searchable, websearch_to_tsquery(?), 4)",
+            ^search_term
+          )
+        }
+      )
 
     Repo.all(query)
+  end
+
+  def search(search_term, flop) do
+    query =
+      from(o in ContractAward,
+        where:
+          fragment(
+            "searchable @@ websearch_to_tsquery(?)",
+            ^search_term
+          ),
+        order_by: {
+          :desc,
+          fragment(
+            "ts_rank_cd(searchable, websearch_to_tsquery(?), 4)",
+            ^search_term
+          )
+        }
+      )
+
+    # flop = Flop.nest_filters(flop, [])
+
+    {:ok, {results, meta}} = Flop.validate_and_run(query, flop, for: ContractAward)
+
+    {results, meta}
   end
 end

@@ -24,13 +24,13 @@ defmodule GovBidify.Repo.Migrations.CreateContractAwards do
       add :"obligated_amount_from_COVID-19_supplementals_for_overall_award", :string
       add :outlayed_amount_from_IIJA_supplemental_for_overall_award, :string
       add :obligated_amount_from_IIJA_supplemental_for_overall_award, :string
-      add :action_date, :string
-      add :action_date_fiscal_year, :string
-      add :period_of_performance_start_date, :string
-      add :period_of_performance_current_end_date, :string
-      add :period_of_performance_potential_end_date, :string
-      add :ordering_period_end_date, :string
-      add :solicitation_date, :string
+      add :action_date, :date
+      add :action_date_fiscal_year, :integer
+      add :period_of_performance_start_date, :date
+      add :period_of_performance_current_end_date, :date
+      add :period_of_performance_potential_end_date, :naive_datetime
+      add :ordering_period_end_date, :date
+      add :solicitation_date, :date
       add :awarding_agency_code, :string
       add :awarding_agency_name, :string
       add :awarding_sub_agency_code, :string
@@ -271,6 +271,9 @@ defmodule GovBidify.Repo.Migrations.CreateContractAwards do
       add :the_ability_one_program, :string
       add :private_university_or_college, :string
       add :state_controlled_institution_of_higher_learning, :string
+      add :"1862_land_grant_college", :boolean
+      add :"1890_land_grant_college", :boolean
+      add :"1994_land_grant_college", :boolean
       add :land_grant_college, :string
       add :minority_institution, :string
       add :historically_black_college, :string
@@ -296,8 +299,8 @@ defmodule GovBidify.Repo.Migrations.CreateContractAwards do
       add :highly_compensated_officer_5_name, :string
       add :highly_compensated_officer_5_amount, :string
       add :usaspending_permalink, :string
-      add :initial_report_date, :string
-      add :last_modified_date, :string
+      add :initial_report_date, :date
+      add :last_modified_date, :date
     end
 
     execute """
