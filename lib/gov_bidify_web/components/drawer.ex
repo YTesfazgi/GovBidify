@@ -1,7 +1,7 @@
 defmodule GovBidifyWeb.Drawer do
   use GovBidifyWeb, :live_component
 
-  def render(assigns) do
+  def render(%{resource: "opportunity"} = assigns) do
     ~H"""
       <div class="relative z-10" role="dialog" aria-modal="true">
       <!-- Background backdrop, show/hide based on slide-over state. -->
