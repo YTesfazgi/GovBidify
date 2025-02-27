@@ -1,129 +1,340 @@
 <div>
-  <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-    <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
-      <span class="sr-only">Open sidebar</span>
-      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-    </button>
-
-    <!-- Separator -->
-    <div class="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true"></div>
-
+  <div class="hidden lg:sticky lg:top-0 lg:z-40 lg:flex lg:h-16 lg:shrink-0 lg:items-center lg:gap-x-4 lg:border-b lg:border-gray-200 lg:bg-white lg:shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-      <form phx-submit="search" class="relative flex flex-1">
+      <.form :let={f} for={@form} phx-submit="search" class="relative flex flex-1">
         <label for="search-field" class="sr-only">Search</label>
         <svg class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
         </svg>
-        <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Search..." value={@query} type="search" name="query">
-      </form>
-      <div class="flex items-center gap-x-4 lg:gap-x-6">
-        <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-          <span class="sr-only">View notifications</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-          </svg>
-        </button>
-
-        <!-- Separator -->
-        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"></div>
-
-        <!-- Profile dropdown -->
-        <div class="relative">
-          <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-            <span class="sr-only">Open user menu</span>
-            <img class="h-8 w-8 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-            <span class="hidden lg:flex lg:items-center">
-              <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">Tom Nook</span>
-              <svg class="ml-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-              </svg>
-            </span>
-          </button>
-
-          <!--
-            Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
-          <div id="dropdown-menu" class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-            <!-- Active: "bg-gray-50", Not Active: "" -->
-            <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-0">Your profile</a>
-            <a href="#" class="block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-200" role="menuitem" tabindex="-1" id="user-menu-item-1">Sign out</a>
-          </div>
-        </div>
-      </div>
+        <.input id="search-field" type="search-bar" placeholder="Search..." field={f[:query]} />
+        <!-- Hidden inputs for Flop parameters -->
+        <.input type="hidden" name="order_by[]" id="search-order-by" field={f[:order_by]} />
+        <.input type="hidden" name="order_directions[]" id="search-order-directions" field={f[:order_directions]} />
+        <.input type="hidden" name="page_size" id="search-page-size" field={f[:page_size]} />
+        <!-- Hidden inputs for filters parameters -->
+        <%= for value <- (f[:type].value || []) do %>
+          <input type="hidden" name="type[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:department_ind_agency].value || []) do %>
+          <input type="hidden" name="department_ind_agency[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:sub_tier].value || []) do %>
+          <input type="hidden" name="sub_tier[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:office].value || []) do %>
+          <input type="hidden" name="office[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:set_aside].value || []) do %>
+          <input type="hidden" name="set_aside[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:naics_code].value || []) do %>
+          <input type="hidden" name="naics_code[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:pop_country].value || []) do %>
+          <input type="hidden" name="pop_country[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:pop_state].value || []) do %>
+          <input type="hidden" name="pop_state[]" value={value} />
+        <% end %>
+        <%= for value <- (f[:active].value || []) do %>
+          <input type="hidden" name="active[]" value={value} />
+        <% end %>
+      </.form>
     </div>
   </div>
 
-  <div class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-    <!-- Background backdrop, show/hide based on slide-over state. -->
-    <div class="fixed"></div>
+  <.live_component module={GovBidifyWeb.Drawer} id="drawer" resource="contract_award" selected_contract_award={@selected_contract_award}/>
 
-    <div class="fixed overflow-hidden">
-      <div class="absolute overflow-hidden">
-        <div class="pointer-events-none fixed h-full right-0 flex max-w-full pl-10 sm:pl-16">
-          <!-- Slide-over panel, show/hide based on slide-over state. -->
-          <div class="pointer-events-auto w-screen max-w-2xl">
-            <%= if @drawer_visible do %>
-              <div id="drawer" class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl transform transition ease-in-out duration-500 sm:duration-700">
-                <div class="px-4 sm:px-6">
-                  <div class="flex items-start justify-between">
-                    <h2 class="text-base font-semibold leading-6 text-gray-900" id="slide-over-title"><%= @selected_contract.award_type %> - <%= @selected_contract.award_id_piid %></h2>
-                    <div class="ml-3 flex h-7 items-center">
-                      <button phx-click="close_contract" id="close-drawer-button" type="button" class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        <span class="absolute -inset-2.5"></span>
-                        <span class="sr-only">Close panel</span>
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
+  <button
+    phx-click="open_filter_modal"
+    class="inline-flex items-center justify-center w-full bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 hover:shadow-lg"
+  >
+    Filters
+  </button>
+
+  <div class={[
+    "relative z-50",
+    @show_filter_modal && "modal-open" || "hidden"
+  ]}>
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+    <div class="fixed inset-0 z-50 overflow-y-auto">
+      <div class="flex min-h-full justify-center p-4 text-center sm:items-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+          <div class="absolute right-0 top-0 pr-4 pt-4">
+            <div class="absolute right-0 top-0 pr-4 pt-4 z-50">
+              <button
+                type="button"
+                phx-click="close_filter_modal"
+                class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                <span class="sr-only">Close</span>
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="sticky top-16 bg-white p-6 overflow-y-auto max-h-[calc(100vh-5rem)]">
+          <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex items-baseline justify-between border-b border-gray-200">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900">Filters</h1>
+              <div class="flex items-center">
+                <div class="relative inline-block text-left">
+                  <div>
+                    <button type="button" id="sort-menu-button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" aria-expanded="false" aria-haspopup="true">
+                      Sort
+                      <svg class="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                  <!-- Dropdown menu, show/hide based on menu state. -->
+                  <.form :let={f} for={@form} phx-submit="search">
+                    <SortMenu.sort_menu
+                        buttons={[
+                        {"Alphabetical", "title"},
+                        {"Deadline", "response_deadline"},
+                        {"Type", "type"}
+                      ]}
+                    />
+                    <!-- Hidden inputs for Flop parameters -->
+                    <.input type="hidden" name="query" id="sort-query" field={f[:query]} />
+                    <.input type="hidden" name="order_directions[]" id="sort-order-directions" field={f[:order_directions]} />
+                    <.input type="hidden" name="page_size" id="sort-page-size" field={f[:page_size]} />
+                    <!-- Hidden inputs for filters parameters -->
+                    <%= for value <- (f[:type].value || []) do %>
+                      <input type="hidden" name="type[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:department_ind_agency].value || []) do %>
+                      <input type="hidden" name="department_ind_agency[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:sub_tier].value || []) do %>
+                      <input type="hidden" name="sub_tier[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:office].value || []) do %>
+                      <input type="hidden" name="office[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:set_aside].value || []) do %>
+                      <input type="hidden" name="set_aside[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:naics_code].value || []) do %>
+                      <input type="hidden" name="naics_code[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:pop_country].value || []) do %>
+                      <input type="hidden" name="pop_country[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:pop_state].value || []) do %>
+                      <input type="hidden" name="pop_state[]" value={value} />
+                    <% end %>
+                    <%= for value <- (f[:active].value || []) do %>
+                      <input type="hidden" name="active[]" value={value} />
+                    <% end %>
+                  </.form>
+                </div>
+              </div>
+            </div>
+
+            <section aria-labelledby="filters-heading">
+              <h2 id="filters-heading" class="sr-only">Filters</h2>
+              <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                <!-- Filters -->
+                <.form :let={f} for={@form} phx-change="search" class="col-span-3">
+                  <.input type="hidden" name="query" id="filter-query" field={f[:query]} />
+                  <.input type="hidden" name="order_by[]" id="filter-order-by" field={f[:order_by]} />
+                  <.input type="hidden" name="order_directions[]" id="filter-order-directions" field={f[:order_directions]} />
+                  <.input type="hidden" name="page_size" id="filter-page-size" field={f[:page_size]} />
+                  <h3 class="sr-only">Filter Categories</h3>
+                   <Filter.section title="Notice Type" id="type">
+                    <.input
+                      type="combobox"
+                      id="type-combobox"
+                      name="type"
+                      options={@combobox_options.types}
+                      field={f[:type]}>
+                      value={f[:type].value || []}
+                    </.input>
+                  </Filter.section>
+                 <Filter.section title="Federal Organization" id="federal-organization">
+                  <div class="space-y-4">
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Departments</span>
+                      <.input
+                        type="combobox"
+                        id="department-combobox"
+                        name="department_ind_agency"
+                        options={@combobox_options.departments}
+                        field={f[:department_ind_agency]}>
+                        value={f[:department_ind_agency].value || []}
+                      </.input>
+                    </div>
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Sub-Tier</span>
+                      <.input
+                        type="combobox"
+                        id="sub-tier-combobox"
+                        name="sub_tier"
+                        options={@combobox_options.sub_tiers}
+                        field={f[:sub_tier]}>
+                        value={f[:sub_tier].value || []}
+                      </.input>
+                    </div>
+                    <div>
+                      <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Office</span>
+                      <.input
+                        type="combobox"
+                        id="office-combobox"
+                        name="office"
+                        options={@combobox_options.offices}
+                        field={f[:office]}>
+                        value={f[:office].value || []}
+                      </.input>
                     </div>
                   </div>
-                </div>
-                <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                  <%= if @selected_contract do %>
-                    <h2><%= @selected_contract.recipient_name %></h2>
-                    <p>$<%= @selected_contract.total_dollars_obligated %></p>
-                    <button phx-click="add_to_cart" phx-value-id={@selected_contract.contract_transaction_unique_key}>Add to Pursuits</button>
-                    <button phx-click="close_item">Close</button>
-                  <% end %>
-                </div>
+                  </Filter.section>
+                  <Filter.section title="Set Aside" id="set-aside">
+                    <.input
+                      type="combobox"
+                      id="set-aside-combobox"
+                      name="set_aside"
+                      options={@combobox_options.set_asides}
+                      field={f[:set_aside]}>
+                      value={f[:set_aside].value || []}
+                    </.input>
+                  </Filter.section>
+                  <Filter.section title="Product/Service Code" id="codes">
+                    <div class="space-y-4">
+                      <div>
+                        <label for="naics-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">NAICS Code</label>
+                        <.input
+                          type="combobox"
+                          id="naics-code-combobox"
+                          name="naics_code"
+                          options={@combobox_options.naics_codes}
+                          field={f[:naics_code]}>
+                          value={f[:naics_code].value || []}
+                        </.input>
+                      </div>
+                      <div>
+                        <label for="psc-code" class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">PSC Code</label>
+                        <.input
+                          type="combobox"
+                          id="psc-code-combobox"
+                          name="psc_code"
+                          options={@combobox_options.psc_codes}
+                          field={f[:psc_code]}>
+                          value={f[:psc_code].value || []}
+                        </.input>
+                      </div>
+                    </div>
+                  </Filter.section>
+                  <Filter.section title="Place of Performance" id="place-of-performance">
+                    <div class="space-y-4">
+                      <div>
+                        <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">Country</span>
+                        <.input
+                          type="combobox"
+                          id="pop-country-combobox"
+                          name="pop_country"
+                          options={@combobox_options.countries}
+                          field={f[:pop_country]}>
+                          value={f[:pop_country].value || []}
+                        </.input>
+                      </div>
+                      <div>
+                        <span class="block pb-2 text-sm font-semibold leading-6 text-zinc-800">State</span>
+                        <.input
+                          type="combobox"
+                          id="pop-state-combobox"
+                          name="pop_state"
+                          options={@combobox_options.states}
+                          field={f[:pop_state]}>
+                          value={f[:pop_state].value || []}
+                        </.input>
+                      </div>
+                      <div>
+                        <.input
+                          type="multi-input"
+                          id="pop-city-multi-input"
+                          name="pop_city"
+                          label="City"
+                          field={f[:pop_city]}
+                          value={f[:pop_city].value || []}
+                        />
+                      </div>
+                      <div>
+                        <.input
+                          type="multi-input"
+                          id="pop-zip-multi-input"
+                          name="pop_zip"
+                          label="Zip Code"
+                          field={f[:pop_zip]}
+                          value={f[:pop_zip].value || []}
+                        />
+                      </div>
+                    </div>
+                  </Filter.section>
+                  <Filter.section title="Status" id="status">
+                    <div class="space-y-1">
+                      <%= for active <- ["Yes", "No"] do %>
+                        <.input
+                          type="checkbox"
+                          id={"active-#{active}"}
+                          name="active[]"
+                          label={active}
+                          value={active}
+                          field={f[:active]}
+                          checked={active in (f[:active].value || [])}
+                        />
+                      <% end %>
+                    </div>
+                  </Filter.section>
+                </.form>
               </div>
-            <% end %>
-          </div>
+            </section>
+          </main>
+        </div>
         </div>
       </div>
     </div>
   </div>
 
-  <main>
-    <div class="p-4 sm:p-6 lg:p-8">
-      <div>
-        <%= if @results != [] do %>
-          <div class="grid grid-cols-1 gap-6">
-            <%= for result <- @results do %>
-              <div id={"contract-#{result.contract_transaction_unique_key}"}>
-                <div 
-                  phx-click="select_contract" 
-                  phx-value-id={result.contract_transaction_unique_key}
-                  class="border rounded-lg p-4 shadow hover:bg-gray-100 cursor-pointer"
-                >
-                  <div class="font-bold text-lg mb-2"><%= result.contract_transaction_unique_key %></div>
-                  <div class="text-gray-600 mb-2">$<%= result.total_dollars_obligated %></div>
-                  <div class="text-gray-800"><%= result.recipient_name %></div>
+  <div>
+    <div class="grid grid-cols-4">
+      <%!-- Opportunity Search Results --%>
+      <div role="list" class="col-span-4">
+        <%= for result <- @results do %>
+          <ul phx-click="select_contract_award" phx-value-id={result.contract_transaction_unique_key} class="col-span-1 divide-y divide-gray-200 bg-white cursor-pointer hover:bg-gray-50 hover:shadow-lg">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+              <div class="flex-1 truncate">
+                <div class="flex items-center space-x-3">
+                  <h3 class="truncate text-sm font-medium text-gray-900"><%= result.recipient_name %></h3>
+                  <%!-- <span class="inline-flex flex-shrink-0 items-center rounded-full shadow-sm bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"><%= GovBidifyWeb.HomeLiveHTML.active_status(result.active) %></span> --%>
                 </div>
+                <p class="mt-1 truncate text-sm text-gray-500"><%= result.award_type%></p>
+                <p class="mt-1 truncate text-sm font-light text-gray-900"><%= result.awarding_sub_agency_name %></p>
+                <%!-- <p class="mt-1 text-sm font-light text-gray-900"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(result.action_date, "Awarded on ", " at ") %></p> --%>
               </div>
-            <% end %>
-          </div>
+            </div>
+          </ul>
+        <% end %>
+        <%!-- Pagination component --%>
+        <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
+          <Flop.Phoenix.pagination
+            meta={@meta}
+            path={~p"/?query=#{@form[:query].value}"}
+            opts={[
+              page_links: {:ellipsis, 3},
+              previous_link_attrs: [class: "hidden"],
+              next_link_attrs: [class: "hidden"],
+              current_link_attrs: [class: "text-black font-bold cursor-not-allowed", aria: [current: "page"], role: "presentation"],
+              pagination_list_attrs: [class: "text-brand p-4 rounded-lg flex justify-center mt-5"],
+              pagination_list_item_attrs: [class: "mx-2"]
+            ]}
+          />
         <% end %>
       </div>
     </div>
-  </main>
+  </div>
 </div>
