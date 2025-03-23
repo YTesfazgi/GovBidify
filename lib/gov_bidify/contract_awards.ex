@@ -154,4 +154,38 @@ defmodule GovBidify.ContractAwards do
 
     {results, meta}
   end
+
+  def get_related_contract_awards(opportunity) do
+    %{
+      exact_matches: get_exact_matches(opportunity),
+      strong_matches: get_strong_matches(opportunity)
+    }
+  end
+
+  # Direct identifier matches (solicitation ID or award number)
+  defp get_exact_matches(opportunity) do
+    # Skip if these fields are empty
+    case {opportunity.sol, opportunity.award_number} do
+      {"", ""} -> []
+      {nil, nil} -> []
+      _ ->
+        query = from ca in ContractAward,
+          where: (ca.solicitation_identifier == ^opportunity.sol and ^opportunity.sol != "")
+                 or (ca.award_id_piid == ^opportunity.award_number and ^opportunity.award_number != ""),
+          order_by: [desc: ca.action_date],
+          limit: 20
+
+        Repo.all(query)
+    end
+  end
+
+  # Same agency + NAICS code
+  defp get_strong_matches(opportunity) do
+    query = from ca in ContractAward,
+      where: (ca.awarding_agency_code == ^opportunity.cgac and ca.naics_code == ^opportunity.naics_code),
+      order_by: [desc: ca.action_date],
+      limit: 20
+
+    Repo.all(query)
+  end
 end

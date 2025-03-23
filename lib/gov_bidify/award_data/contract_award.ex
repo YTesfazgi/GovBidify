@@ -30,7 +30,7 @@ defmodule GovBidify.ContractAwards.ContractAward do
     field :labor_surplus_area_firm, :string
     field :interagency_contracting_authority, :string
     field :evaluated_preference, :string
-    field :funding_agency_code, :string
+    field :funding_agency_code, :string #CGAC
     field :recipient_state_name, :string
     field :number_of_actions, :string
     field :subcontinent_asian_asian_indian_american_owned_business, :string
@@ -220,7 +220,7 @@ defmodule GovBidify.ContractAwards.ContractAward do
     field :economically_disadvantaged_women_owned_small_business, :string
     field :primary_place_of_performance_state_code, :string
     field :cost_accounting_standards_clause, :string
-    field :funding_sub_agency_code, :string
+    field :funding_sub_agency_code, :string #CGAC
     field :sole_proprietorship, :string
     field :other_than_full_and_open_competition_code, :string
     field :epa_designated_product_code, :string
@@ -267,7 +267,7 @@ defmodule GovBidify.ContractAwards.ContractAward do
     field :domestic_or_foreign_entity_code, :string
     field :purchase_card_as_payment_method_code, :string
     field :highly_compensated_officer_1_name, :string
-    field :awarding_sub_agency_code, :string
+    field :awarding_sub_agency_code, :string #CGAC
     field :idv_type, :string
     field :extent_competed, :string
     field :cage_code, :string
@@ -300,7 +300,7 @@ defmodule GovBidify.ContractAwards.ContractAward do
     field :indian_tribe_federally_recognized, :string
     field :recipient_name, :string
     field :foreign_government, :string
-    field :awarding_agency_code, :string
+    field :awarding_agency_code, :string #CGAC
     field :recipient_phone_number, :string
     field :program_activities_funding_this_award, :string
     field :epa_designated_product, :string
