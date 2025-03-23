@@ -156,9 +156,30 @@ defmodule GovBidify.ContractAwards do
   end
 
   def get_related_contract_awards(opportunity) do
+    # Collect awards in priority order
+    exact_matches = get_exact_matches(opportunity)
+    strong_matches = get_strong_matches(opportunity)
+    moderate_matches = get_moderate_matches(opportunity)
+
+    # Combine results in priority order, removing duplicates and limiting to 20
+    combined_results =
+      exact_matches ++
+      Enum.filter(strong_matches, fn match -> match.contract_transaction_unique_key not in Enum.map(exact_matches, & &1.contract_transaction_unique_key) end) ++
+      Enum.filter(moderate_matches, fn match ->
+        match.contract_transaction_unique_key not in (
+          Enum.map(exact_matches, & &1.contract_transaction_unique_key) ++
+          Enum.map(strong_matches, & &1.contract_transaction_unique_key)
+        )
+      end)
+
+    # Return top 20
+    top_results = Enum.take(combined_results, 20)
+
     %{
-      exact_matches: get_exact_matches(opportunity),
-      strong_matches: get_strong_matches(opportunity)
+      results: top_results,
+      exact_matches: exact_matches,
+      strong_matches: strong_matches,
+      moderate_matches: moderate_matches
     }
   end
 
@@ -185,6 +206,17 @@ defmodule GovBidify.ContractAwards do
       where: (ca.awarding_agency_code == ^opportunity.cgac and ca.naics_code == ^opportunity.naics_code),
       order_by: [desc: ca.action_date],
       limit: 20
+
+    Repo.all(query)
+  end
+
+  # Adding a new function for moderate matches (PSC code, place of performance)
+  defp get_moderate_matches(opportunity) do
+    query = from ca in ContractAward,
+      where: (ca.product_or_service_code == ^opportunity.classification_code and ^opportunity.classification_code != "") or
+             (ca.primary_place_of_performance_state_code == ^opportunity.pop_state and ^opportunity.pop_state != ""),
+      order_by: [desc: ca.action_date],
+      limit: 40  # Get more than needed since we'll filter some out
 
     Repo.all(query)
   end
