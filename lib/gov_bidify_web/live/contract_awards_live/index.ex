@@ -49,6 +49,14 @@ defmodule GovBidifyWeb.ContractAwardsLive.Index do
     {:noreply, push_event(socket, "close-drawer", %{})}
   end
 
+  def handle_event("open_filter_modal", _params, socket) do
+    {:noreply, assign(socket, show_filter_modal: true)}
+  end
+
+  def handle_event("close_filter_modal", _params, socket) do
+    {:noreply, assign(socket, show_filter_modal: false)}
+  end
+
   def handle_params(%{"query" => query} = params, _uri, socket) do
     IO.inspect(query, label: "query")
     IO.inspect(params, label: "params")
