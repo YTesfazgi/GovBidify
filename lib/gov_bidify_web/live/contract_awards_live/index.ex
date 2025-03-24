@@ -101,8 +101,19 @@ defmodule GovBidifyWeb.ContractAwardsLive.Index do
       solicitation_identifier: nil,
       award_type: nil,
       usaspending_permalink: nil,
+      transaction_description: "No description available",
+      awarding_agency_name: "No agency available",
+      awarding_sub_agency_name: "No sub-agency available",
+      awarding_office_name: "No office available",
+      type_of_set_aside: "No set-aside available",
+      naics_code: "No NAICS code available",
+      naics_description: "No NAICS description available",
+      type_of_set_aside_code: "No set-aside code available",
+      action_date: nil,
+      last_modified_date: nil
     }
   end
+
   defp combobox_options do
     {_, options} = Cachex.fetch(:combobox_cache, :combobox_options, fn ->
       %{

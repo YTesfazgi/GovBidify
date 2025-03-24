@@ -190,10 +190,10 @@ defmodule GovBidifyWeb.Drawer do
                           <div>
                             <div class="mt-2">
                               <div class="flex flex-wrap gap-0">
-                                <p class="w-1/2 text-sm font-medium">Posted Date</p>
-                                <p class="w-1/2 text-sm font-medium">Response Deadline</p>
-                                <%!-- <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_contract_award.posted_date) %></p>
-                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(@selected_contract_award.response_deadline, "", ", ") %></p> --%>
+                                <p class="w-1/2 text-sm font-medium">Action Date</p>
+                                <p class="w-1/2 text-sm font-medium">Last Modified Date</p>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_contract_award.action_date) %></p>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_contract_award.last_modified_date) %></p>
                               </div>
                             </div>
                           </div>
@@ -201,7 +201,9 @@ defmodule GovBidifyWeb.Drawer do
                             <div class="flex flex-wrap gap-0">
                               <p class="w-1/2 text-sm font-medium">Set Aside</p>
                               <p class="w-1/2 text-sm font-medium">Place of Performance</p>
-                              <%!-- <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_contract_award.set_aside %></p> --%>
+                              <%!-- <% if @selected_contract_award.type_of_set_aside_code do %> --%>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= @selected_contract_award.type_of_set_aside %></p>
+                              <%!-- <% end %> --%>
                               <div class="w-1/2 text-sm font-normal text-gray-600">
                               <%!-- <p><%= @selected_contract_award.pop_street_address %></p> --%>
                               <p>
@@ -215,12 +217,12 @@ defmodule GovBidifyWeb.Drawer do
                           <label for="classification" class="block text-base font-medium leading-6 text-gray-900">Classification</label>
                           <div class="mt-2">
                             <div class="flex flex-wrap gap-0">
-                              <p class="w-1/3 text-sm font-medium">Department/Ind. Agency</p>
-                              <p class="w-1/3 text-sm font-medium">Sub-tier</p>
-                              <p class="w-1/3 text-sm font-medium">Office</p>
-                              <%!-- <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.department_ind_agency %></p>
-                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.sub_tier %></p>
-                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.office %></p> --%>
+                              <p class="w-1/3 text-sm font-medium">Awarding Agency</p>
+                              <p class="w-1/3 text-sm font-medium">Awarding Sub-Agency</p>
+                              <p class="w-1/3 text-sm font-medium">Awarding Office</p>
+                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.awarding_agency_name %></p>
+                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.awarding_sub_agency_name %></p>
+                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.awarding_office_name %></p>
                             </div>
                           </div>
                         </div>
@@ -230,16 +232,16 @@ defmodule GovBidifyWeb.Drawer do
                               <p class="w-1/3 text-sm font-medium">Solicitation</p>
                               <p class="w-1/3 text-sm font-medium">Classification Code</p>
                               <p class="w-1/3 text-sm font-medium">NAICS</p>
-                              <%!-- <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.sol %></p>
-                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.classification_code %></p>
-                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.naics_code %></p> --%>
+                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.solicitation_identifier %></p>
+                              <p class="w-1/3 text-sm font-normal text-gray-600">classification code goes here</p>
+                              <p class="w-1/3 text-sm font-normal text-gray-600"><%= @selected_contract_award.naics_code %> - <%= @selected_contract_award.naics_description %></p>
                             </div>
                           </div>
                         </div>
                         <div>
                           <label for="description" class="block text-base font-medium leading-6 text-gray-900">Description</label>
                           <div class="mt-2">
-                            <%!-- <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_contract_award.description) %></p> --%>
+                            <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_contract_award.transaction_description) %></p>
                           </div>
                         </div>
                         <div>
