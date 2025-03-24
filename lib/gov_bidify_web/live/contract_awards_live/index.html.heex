@@ -323,7 +323,7 @@
         <%= if @meta.has_next_page? || @meta.has_previous_page? do %>
           <Flop.Phoenix.pagination
             meta={@meta}
-            path={~p"/?query=#{@form[:query].value}"}
+            path={~p"/contract_awards/?query=#{@form[:query].value}"}
             opts={[
               page_links: {:ellipsis, 3},
               previous_link_attrs: [class: "hidden"],
