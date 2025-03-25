@@ -1,7 +1,7 @@
-defmodule GovBidifyWeb.HomeLiveHTML do
+defmodule GovBidifyWeb.OpportunitiesLive.IndexHTML do
   use GovBidifyWeb, :html
 
-  embed_templates "home_live/*"
+  embed_templates "index/*"
 
   def remove_replacement_symbol(string) do
     String.replace(string, "� ", " ")

@@ -1,4 +1,4 @@
-defmodule GovBidifyWeb.HomeLive do
+defmodule GovBidifyWeb.OpportunitiesLive.Index do
   use GovBidifyWeb, :live_view
   alias GovBidifyWeb.Filter
   alias GovBidifyWeb.SortMenu
@@ -33,10 +33,18 @@ defmodule GovBidifyWeb.HomeLive do
 
     updated_socket = assign(socket, form: form)
 
-    {:noreply, push_patch(updated_socket, to: ~p"/?#{clean_params(merged_params)}")}
+    {:noreply, push_patch(updated_socket, to: ~p"/opportunities/?#{clean_params(merged_params)}")}
   end
 
   def handle_event("select_opportunity", %{"id" => notice_id}, socket) do
+    opportunity = Opportunities.get_opportunity_by_notice_id!(notice_id)
+
+    # IO.inspect(opportunity, label: "opportunity")
+
+    related_contract_awards = GovBidify.ContractAwards.get_related_contract_awards(opportunity)
+
+    IO.inspect(related_contract_awards, label: "related_contract_awards")
+
     {:noreply,
       socket
       |> assign(selected_opportunity: Opportunities.get_opportunity_by_notice_id!(notice_id))

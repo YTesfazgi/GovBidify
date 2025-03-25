@@ -42,8 +42,8 @@ defmodule GovBidifyWeb.Drawer do
                               <div class="flex flex-wrap gap-0">
                                 <p class="w-1/2 text-sm font-medium">Posted Date</p>
                                 <p class="w-1/2 text-sm font-medium">Response Deadline</p>
-                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_opportunity.posted_date) %></p>
-                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.datetime_handler(@selected_opportunity.response_deadline, "", ", ") %></p>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.OpportunitiesLive.IndexHTML.date_formatter(@selected_opportunity.posted_date) %></p>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.OpportunitiesLive.IndexHTML.datetime_handler(@selected_opportunity.response_deadline, "", ", ") %></p>
                               </div>
                             </div>
                           </div>
@@ -55,7 +55,7 @@ defmodule GovBidifyWeb.Drawer do
                               <div class="w-1/2 text-sm font-normal text-gray-600">
                               <p><%= @selected_opportunity.pop_street_address %></p>
                               <p>
-                                <%= GovBidifyWeb.HomeLiveHTML.pop_handler(@selected_opportunity.pop_city, @selected_opportunity.pop_state, @selected_opportunity.pop_zip, @selected_opportunity.pop_country) %>
+                                <%= GovBidifyWeb.OpportunitiesLive.IndexHTML.pop_handler(@selected_opportunity.pop_city, @selected_opportunity.pop_state, @selected_opportunity.pop_zip, @selected_opportunity.pop_country) %>
                               </p>
                               </div>
                             </div>
@@ -89,7 +89,7 @@ defmodule GovBidifyWeb.Drawer do
                         <div>
                           <label for="description" class="block text-base font-medium leading-6 text-gray-900">Description</label>
                           <div class="mt-2">
-                            <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_opportunity.description) %></p>
+                            <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.OpportunitiesLive.IndexHTML.remove_replacement_symbol(@selected_opportunity.description) %></p>
                           </div>
                         </div>
                         <div>
@@ -192,8 +192,8 @@ defmodule GovBidifyWeb.Drawer do
                               <div class="flex flex-wrap gap-0">
                                 <p class="w-1/2 text-sm font-medium">Action Date</p>
                                 <p class="w-1/2 text-sm font-medium">Last Modified Date</p>
-                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_contract_award.action_date) %></p>
-                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.date_formatter(@selected_contract_award.last_modified_date) %></p>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.OpportunitiesLive.IndexHTML.date_formatter(@selected_contract_award.action_date) %></p>
+                                <p class="w-1/2 text-sm font-normal text-gray-600"><%= GovBidifyWeb.OpportunitiesLive.IndexHTML.date_formatter(@selected_contract_award.last_modified_date) %></p>
                               </div>
                             </div>
                           </div>
@@ -207,7 +207,7 @@ defmodule GovBidifyWeb.Drawer do
                               <div class="w-1/2 text-sm font-normal text-gray-600">
                               <%!-- <p><%= @selected_contract_award.pop_street_address %></p> --%>
                               <p>
-                                <%!-- <%= GovBidifyWeb.HomeLiveHTML.pop_handler(@selected_contract_award.pop_city, @selected_contract_award.pop_state, @selected_contract_award.pop_zip, @selected_contract_award.pop_country) %> --%>
+                                <%!-- <%= GovBidifyWeb.OpportunitiesLive.IndexHTML.pop_handler(@selected_contract_award.pop_city, @selected_contract_award.pop_state, @selected_contract_award.pop_zip, @selected_contract_award.pop_country) %> --%>
                               </p>
                               </div>
                             </div>
@@ -241,7 +241,7 @@ defmodule GovBidifyWeb.Drawer do
                         <div>
                           <label for="description" class="block text-base font-medium leading-6 text-gray-900">Description</label>
                           <div class="mt-2">
-                            <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.HomeLiveHTML.remove_replacement_symbol(@selected_contract_award.transaction_description) %></p>
+                            <p class="text-sm font-normal break-words text-gray-600"><%= GovBidifyWeb.OpportunitiesLive.IndexHTML.remove_replacement_symbol(@selected_contract_award.transaction_description) %></p>
                           </div>
                         </div>
                         <div>

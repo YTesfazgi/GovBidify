@@ -104,6 +104,11 @@ defmodule GovBidifyWeb do
     end
   end
 
+  # Add a helper function for default assigns
+  def default_assigns(socket) do
+    Phoenix.Component.assign_new(socket, :mobile_search_bar, fn -> false end)
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

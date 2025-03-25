@@ -19,11 +19,11 @@ defmodule GovBidify.Application do
       # Start the Endpoint (http/https)
       GovBidifyWeb.Endpoint,
       # Start Cachex
-      {Cachex, name: :combobox_cache},
+      {Cachex, name: :combobox_cache}
       # Start the NAICS parser
-      {GovBidify.NAICS_Parser, []},
+      # {GovBidify.NAICS_Parser, []},
       # Start the PSC parser
-      {GovBidify.PSC_Parser, []}
+      # {GovBidify.PSC_Parser, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
