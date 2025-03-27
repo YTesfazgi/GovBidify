@@ -58,6 +58,15 @@ defmodule GovBidifyWeb do
     end
   end
 
+  def landing_live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {GovBidifyWeb.Layouts, :landing}
+
+      unquote(html_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent

@@ -1,5 +1,5 @@
 defmodule GovBidifyWeb.UserLoginLive do
-  use GovBidifyWeb, :live_view
+  use GovBidifyWeb, :landing_live_view
 
   def render(assigns) do
     ~H"""

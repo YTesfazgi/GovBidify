@@ -1,5 +1,5 @@
 defmodule GovBidifyWeb.UserRegistrationLive do
-  use GovBidifyWeb, :live_view
+  use GovBidifyWeb, :landing_live_view
 
   alias GovBidify.Accounts
   alias GovBidify.Accounts.User
