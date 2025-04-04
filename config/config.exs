@@ -31,6 +31,9 @@ config :gov_bidify, GovBidify.Mailer, adapter: Swoosh.Adapters.Local
 
 config :gov_bidify, sam_api_key: "OHeWlE35lxgbbYlXgkVVHesZ7GkJw8aruymLAatT"
 
+# Default entity data file path (can be overridden in secrets.exs)
+config :gov_bidify, entity_data_file_path: "priv/data/entities.dat"
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
@@ -70,3 +73,8 @@ config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 # Configures flop
 config :flop, repo: GovBidify.Repo
+
+# Import secrets file if it exists
+if File.exists?("config/secrets.exs") do
+  import_config "secrets.exs"
+end

@@ -19,7 +19,9 @@ defmodule GovBidify.Application do
       # Start the Endpoint (http/https)
       GovBidifyWeb.Endpoint,
       # Start Cachex
-      {Cachex, name: :combobox_cache}
+      {Cachex, name: :combobox_cache},
+      # Start the Entity parser
+      {GovBidify.EntityParser, []}
       # Start the NAICS parser
       # {GovBidify.NAICS_Parser, []},
       # Start the PSC parser

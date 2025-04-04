@@ -36,3 +36,12 @@ npm-debug.log
 /assets/node_modules/
 
 **/.DS_Store
+
+# Ignore entity data files
+priv/data/entities.dat
+/priv/data/*.dat
+
+# Ignore secrets file
+/config/secrets.exs
+
+
